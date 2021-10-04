@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ILoveBaku.API</name>
+    </assembly>
+    <members>
+        <member name="M:ILoveBaku.API.Controllers.AccountController.Login(ILoveBaku.Application.CQRS.User.Commands.LoginUser.LoginVM)">
+            <summary>
+            Api-a login olmaq üçün email və şifrə daxil edilir
+            credential-lar okeydirsə geriyə token qayıdır
+            (Daxil olmuş user-in digər bütün tokenləri block olunur)
+            </summary>
+        </member>
+        <member name="M:ILoveBaku.API.Controllers.AccountController.Logout">
+            <summary>
+            Api-dan logout olmaq üçün header-da token qəbul edilir
+            User api-dan logout olur və bütün tokenlər block olunur.
+            </summary>
+        </member>
+        <member name="M:ILoveBaku.API.Controllers.CategoryController.Get(ILoveBaku.Application.CQRS.Category.Queries.GetCategoryList.CategoryFullDto)">
+            <summary>
+            Filter meqsedi ile istifade ederken CategoriesId,ParentId,Name,IsActive,Priority data-lardan istenilen sekilde qeyd etmek mumkundur.
+            </summary>
+        </member>
+        <member name="M:ILoveBaku.API.Controllers.CategoryController.GetCategoryById(System.Int32)">
+             <summary>
+            CategoryId qəbul edir.Geriyə CategoryDto (ParentId,Priority,IsActive,Title) qaytarır.
+             </summary>
+        </member>
+        <member name="M:ILoveBaku.API.Controllers.CategoryController.GetCategoryLanguagesById(System.Int32)">
+             <summary>
+            CategoryId qəbul edir.Geriyə CategoryLanguageDto (CategoriesId,Name,Description,LangsId) qaytarır.
+             </summary>
+        </member>
+        <member name="M:ILoveBaku.API.Controllers.CategoryController.GetCategoryChildren(System.Int32,System.Int32)">
+             <summary>
+            CategoryId qəbul edir.Geriyə CategoryChildrenDto (Name,Id,CategoryChildren) qaytarır.
+             </summary>
+        </member>
+        <member name="M:ILoveBaku.API.Controllers.CategoryController.GetCategoryParentsList(System.Int32)">
+             <summary>
+            Verilmiş kateqoriya İD-ə sahib elementin bütün valideynlərini qaytarır.(Paltarlar->T-shirt)
+             </summary>
+        </member>
+        <member name="M:ILoveBaku.API.Controllers.CategoryController.GetCategorySpecifications(System.Int32)">
+             <summary>
+            Verilmiş kateqoriya İD-ə sahib elementin bütün valideynlerini (parentId) geri qaytarır.
+             </summary>
+        </member>
+        <member name="M:ILoveBaku.API.Controllers.CategoryController.ForSearch">
+            <summary>
+            Saytin navbar hissesinde cixan search-de istifade olunan kateqoriyalar
+            </summary>
+        </member>
+        <member name="M:ILoveBaku.API.Controllers.CategoryController.AddCategory(ILoveBaku.Application.CQRS.Category.Commands.AddCategory.CategoryVm)">
+            <summary>
+            Category [Title,Priority,IsActive,ParentId] əlavə olunması.Eyni zamanda Title dəyərinə uyğun
+            bütün dillərdə CategoryLang yaranır.
+            </summary>
+        </member>
+        <member name="M:ILoveBaku.API.Controllers.CategoryController.AddCategorySpecificationRelation(ILoveBaku.Application.CQRS.Category.Commands.AddCategorySpecificationRelation.CategorySpecificationVm)">
+             <summary>
+            Category ve CategorySpecification arasında əlaqə yaratdır.Categoryİd və Specificationİd qəbul edir.
+             </summary>
+        </member>
+        <member name="M:ILoveBaku.API.Controllers.CategoryController.UpdateCategory(ILoveBaku.Application.CQRS.Category.Commands.AddCategory.CategoryVm,System.Int32)">
+             <summary>
+            Category - i update olunması.Geriye update olunmuş category-nin İD-ni qaytarır.
+             </summary>
+        </member>
+        <member name="M:ILoveBaku.API.Controllers.CategoryController.UpdateCategoryLanguage(ILoveBaku.Application.CQRS.Category.Commands.UpdateCategoryLanguage.CategoryLanguageVm,System.Int32)">
+            <summary>
+            CategoryLang update olunması.Geriye update olunmuş categoryLang-nin İD-ni qaytarır.
+            </summary>
+        </member>
+        <member name="M:ILoveBaku.API.Controllers.CategorySpecificationController.GetSpecificationsByCategoryId(System.Int32)">
+            <summary>
+            Ya xüsusi olaraq verilmiş olan,ya da bütün spesifikasiyaları geri qaytarır
+            </summary>
+        </member>
+        <member name="M:ILoveBaku.API.Controllers.CategorySpecificationController.GetCategorySpecificationsGroupsList(System.Boolean)">
+            <summary>
+            Ya xüsusi olaraq verilmiş olan, ya da bütün spesifikasiya qrupların siyahısını qaytarır.
+            </summary>
+        </member>
+        <member name="M:ILoveBaku.API.Controllers.CategorySpecificationController.GetCategorySpecificationsTypesList(System.Nullable{System.Int32},System.String)">
+            <summary>
+            Ya xüsusi olaraq verilmiş olan,ya da bütün spesifikasiya növləri geri qaytarır
+            </summary>
+        </member>
+        <member name="M:ILoveBaku.API.Controllers.CategorySpecificationController.GetCategorySpecificationsPropertiesList(System.Nullable{System.Int32})">
+             <summary>
+            Category specification property-ler əlavə olunması.Arqument olaraq Specificationİd qəbul edir.
+            Geriye verilmiş spesifikasiyanın propertilerini qaytarır (Müvafiq dildə).
+             </summary>
+        </member>
+        <member name="M:ILoveBaku.API.Controllers.CategorySpecificationController.AddCategorySpecification(ILoveBaku.Application.CQRS.CategorySpecification.Commands.AddCategorySpecification.CategorySpecificationCommandDto)">
+             <summary>
+            Category specification əlavə olunması.Arqument olaraq qrup,type,title qəbul edir.
+            Eyni zamanda dillərə uyğun olaraq CategorySpecificationLangs yaranır.
+             </summary>
+        </member>
+        <member name="M:ILoveBaku.API.Controllers.CategorySpecificationController.AddCategorySpecificationGroups(ILoveBaku.Application.CQRS.CategorySpecification.Commands.AddCategorySpecificationGroup.CategorySpecificationGroupCommandDto)">
+             <summary>
+            Category specification qrup əlavə olunması.Arqument olaraq priority,isactive,title qəbul edir.
+            Eyni zamanda dillərə uyğun olaraq CategorySpecificationGroupsLangs yaranır.
+             </summary>
+        </member>
+        <member name="M:ILoveBaku.API.Controllers.CategorySpecificationController.AddCategorySpecificationProperty(ILoveBaku.Application.CQRS.CategorySpecification.Commands.AddCategorySpecificationProperty.CategorySpecificationPropertyCommandDto,System.Int32)">
+             <summary>
+            Category specification property əlavə olunması.Arqument olaraq title,parentId,specificationId qəbul edir.
+            Eyni zamanda dillərə uyğun olaraq CategorySpecificationPropertiesLangs yaranır.
+             </summary>
+        </member>
+        <member name="M:ILoveBaku.API.Controllers.CategorySpecificationController.UpdateCategorySpecification(ILoveBaku.Application.CQRS.CategorySpecification.Commands.AddCategorySpecification.CategorySpecificationCommandDto,System.Int32)">
+             <summary>
+            Category specification update olunması.Arqument olaraq qrup,type,title qəbul edir.
+             </summary>
+        </member>
+        <member name="M:ILoveBaku.API.Controllers.CategorySpecificationController.UpdateCategorySpecificationProperty(ILoveBaku.Application.CQRS.CategorySpecification.Commands.AddCategorySpecificationProperty.CategorySpecificationPropertyCommandDto,System.Int32)">
+             <summary>
+            Category specification property update olunması.Arqument olaraq ParentId,Title,SpecificationId qəbul edir.
+             </summary>
+        </member>
+        <member name="M:ILoveBaku.API.Controllers.CategorySpecificationController.UpdateCategorySpecificationPropertyLanguage(System.String,System.Int32)">
+             <summary>
+            Category specification property lang update olunması.Arqument olaraq Name,SpecificationId qəbul edir.
+             </summary>
+        </member>
+        <member name="M:ILoveBaku.API.Controllers.CategorySpecificationController.UpdateCategorySpecificationLanguage(System.String,System.Int32)">
+             <summary>
+            Category specification language update olunması.Arqument olaraq CategoryId,Name qəbul edir.
+             </summary>
+        </member>
+        <member name="M:ILoveBaku.API.Controllers.CategorySpecificationController.UpdateCategorySpecificationGroup(ILoveBaku.Application.CQRS.CategorySpecification.Commands.AddCategorySpecificationGroup.CategorySpecificationGroupCommandDto,System.Int32)">
+             <summary>
+            Category specification group update olunması.Arqument olaraq priority,isactive,title qəbul edir.
+             </summary>
+        </member>
+        <member name="M:ILoveBaku.API.Controllers.CategorySpecificationController.UpdateCategorySpecificationGroupLanguage(System.Int32,System.String)">
+             <summary>
+            Category specification group lang update olunması.Arqument olaraq CategoryId,Name qəbul edir.
+             </summary>
+        </member>
+    </members>
+</doc>

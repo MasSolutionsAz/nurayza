@@ -1,0 +1,373 @@
+﻿@model ILoveBaku.Application.CQRS.Payment.Commands.Accept.AcceptedMailModel 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <style>
+        @@font-face{
+            font-family:FFSignaSlabPro-Black;
+            src:url(fonts/FFSignaSlabPro-Black.otf);
+            src:url(fonts/FFSignaSlabPro-Black.ttf) format("truetype"),url(fonts/FFSignaSlabPro-Black.otf) format("opentype")
+        }
+        @@font-face{
+            font-family:FFSignaSlabPro-Bold;
+            src:url(fonts/FFSignaSlabPro-Bold.otf);
+            src:url(fonts/FFSignaSlabPro-Bold.ttf) format("truetype"),url(fonts/FFSignaSlabPro-Bold.otf) format("opentype")
+        }
+        @@font-face{
+            font-family:FFSignaSlabPro-Book;
+            src:url(fonts/FFSignaSlabPro-Book.otf),url(fonts/FFSignaSlabPro-Book.otf) format("opentype")
+        }
+        @@font-face{
+            font-family:FFSignaSlabPro-ExtraBlack;
+            src:url(fonts/FFSignaSlabPro-ExtraBlack.otf),url(fonts/FFSignaSlabPro-ExtraBlack.otf) format("opentype")
+        }
+        @@font-face{
+            font-family:FFSignaSlabPro-DemiBold;
+            src:url(fonts/FFSignaSlabPro-DemiBold.otf);
+            src:url(fonts/FFSignaSlabPro-DemiBold.ttf) format("truetype"),url(fonts/FFSignaSlabPro-DemiBold.otf) format("opentype")
+        }
+
+        @@font-face{
+            font-family:FFSignaSlabPro-ExtraLight;
+            src:url(fonts/FFSignaSlabPro-ExtraLight.otf);
+            src:url(fonts/FFSignaSlabPro-ExtraLight.ttf) format("truetype"),url(fonts/FFSignaSlabPro-ExtraLight.otf) format("opentype")
+        }
+        @@font-face{
+            font-family:FFSignaSlabPro-Light;
+            src:url(fonts/FFSignaSlabPro-Light.otf);
+            src:url(fonts/FFSignaSlabPro-Light.ttf) format("truetype"),url(fonts/FFSignaSlabPro-Light.otf) format("opentype")
+        }
+        @@font-face{
+            font-family:HelveticaNeueLTW1G-Bd;
+            src:url(fonts/HelveticaNeueLTW1G-Bd.otf),url(fonts/HelveticaNeueLTW1G-Bd.otf) format("opentype")
+        }
+        @@font-face{
+            font-family:HelveticaNeueLTW1G-Blk;
+            src:url(fonts/HelveticaNeueLTW1G-Blk.otf),url(fonts/HelveticaNeueLTW1G-Blk.otf) format("opentype")
+        }
+        @@font-face{
+            font-family:HelveticaNeueLTW1G-Lt;
+            src:url(fonts/HelveticaNeueLTW1G-Lt.otf),url(fonts/HelveticaNeueLTW1G-Lt.otf) format("opentype")
+        }
+        @@font-face{
+            font-family:HelveticaNeueLTW1G-Md;
+            src:url(fonts/HelveticaNeueLTW1G-Md.otf),url(fonts/HelveticaNeueLTW1G-Md.otf) format("opentype")
+        }
+        @@font-face{
+            font-family:HelveticaNeueLTW1G-Roman;
+            src:url(fonts/HelveticaNeueLTW1G-Roman.otf),url(fonts/HelveticaNeueLTW1G-Roman.otf) format("opentype")
+        }
+
+        @@font-face{
+            font-family:HelveticaNeueLTW1G-UltLt;
+            src:url(fonts/HelveticaNeueLTW1G-UltLt.otf),url(fonts/HelveticaNeueLTW1G-UltLt.otf) format("opentype")
+        }
+        @@font-face{
+            font-family:JISAZNBold;
+            src:url(fonts/jaznb.woff);
+            src:url(fonts/jaznb.woff?#iefix) format("embedded-opentype"),url(fonts/jaznb.woff) format("woff"),url(fonts/jaznb.woff) format("truetype");
+            font-weight:400;
+            font-style:normal
+        }
+        @@font-face{
+            font-family:JISAZNRegular;
+            src:url(fonts/jaznr.woff);
+            src:url(fonts/jaznr.woff?#iefix) format("embedded-opentype"),url(fonts/jaznr.woff) format("woff"),url(fonts/jaznr.woff) format("truetype");
+            font-weight:400;
+            font-style:normal
+        }
+        html, body, div, span, applet, object, iframe,
+        h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+        a, abbr, acronym, address, big, cite, code,
+        del, dfn, em, img, ins, kbd, q, s, samp,
+        small, strike, strong, sub, sup, tt, var,
+        b, u, i, center,
+        dl, dt, dd, ol, ul, li,
+        fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td,
+        article, aside, canvas, details, embed,
+        figure, figcaption, footer, header, hgroup,
+        menu, nav, output, ruby, section, summary,
+        time, mark, audio, video {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+        }
+
+        a{
+            text-decoration: none;
+        }
+        /* HTML5 display-role reset for older browsers */
+        article, aside, details, figcaption, figure,
+        footer, header, hgroup, menu, nav, section {
+            display: block;
+        }
+        body {
+            line-height: 1;
+        }
+        ol, ul {
+            list-style: none;
+        }
+        blockquote, q {
+            quotes: none;
+        }
+        blockquote:before, blockquote:after,
+        q:before, q:after {
+            content: '';
+            content: none;
+        }
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+        *{
+            box-sizing: border-box;
+        }
+
+        .container{
+            max-width: 600px;
+            padding: 0 40px;
+            margin: 0 auto;
+        }
+        .main-container{
+            padding: 60px 40px;
+        }
+        .header-container{
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+        }
+        body{
+            font-family: HelveticaNeueLTW1G-Md, sans-serif;
+
+        }
+        header{
+            border-bottom: 1px solid #949494;
+        }
+        main{
+            min-height: 400px;
+        }
+        .main-title{
+            font-size: 23px;
+            color: #590000;
+            margin-bottom: 10px;
+            font-family: FFSignaSlabPro-Light, sans-serif;
+        }
+        .main-msg{
+
+        }
+        .main-password-wrapper{
+            padding: 30px 0;
+            display: flex;
+            justify-content: center;
+        }
+        .main-password{
+            width: 300px;
+            padding: 14px 0;
+            color: white;
+            text-align: center;
+            font-size: 17px;
+            background-color: #580000;
+        }
+        footer{
+            border-top: 1px solid #949494;
+
+        }
+        .footer-container{
+            padding: 13px 0;
+            text-align: center;
+        }
+        .footer-txt{
+            font-size: 9px;
+            font-weight: 500;
+            color: #707070;
+        }
+        th {
+            border: 1px solid #707070;
+            padding: 15px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        td{
+            border: 1px solid #707070;
+            font-size: 14px;
+            padding: 15px;
+            color: #747474;
+            border-bottom: none;
+            border-top: none;
+        }
+        tr{
+            border-bottom: 1px solid #707070;
+
+        }
+        .text-left{
+            text-align: left;
+        }
+        .no-border{
+            border-bottom: none;
+        }
+        .no-border:last-child{
+            border-bottom: 1px solid #707070;
+
+        }
+        .w100{
+            width: 100%;
+        }
+        .text-center{
+            text-align: center;
+        }
+.shipment-details-item{
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 25px;
+}
+.shipment-details-icon{
+    width: 25px;
+    margin-right: 17px;
+}
+.shipment-details-content{
+    width: calc(100% - 42px);
+}
+.shipment-details-title{
+    font-size: 16px;
+    margin-bottom: 13px;
+}
+.shipment-details-txt{
+    color: #747474;
+    font-size: 14px;
+    margin-bottom: 7px;
+}
+.return-link{
+    font-size: 14px;
+    margin-left: 42px;
+}
+.return-link a{
+    font-size: 14px;
+    color: #580000;
+    text-decoration: underline;
+
+}
+        @@media only screen and (max-width: 576px) {
+            .main-container{
+                padding: 40px 0px;
+            }
+            .main-password-wrapper{
+                padding: 40px 0;
+            }
+            .main-password{
+                width: 220px;
+                font-size: 13px;
+            }
+            main{
+                min-height: 450px;
+            }
+            .ship-date{
+                width: 180px;
+            }
+            .shipment-details-title{
+                font-size: 14px;
+            }
+            .shipment-details-txt{
+                font-size: 12px;
+            }
+            .return-link{
+                font-size: 12px;
+            }
+            .return-link a{
+                font-size: 12px;
+
+            }
+        }
+    </style>
+</head>
+<body class="container">
+    <header>
+        <div class="header-container">
+            <div class="header-logo">
+                <img src="~/Contents/img/mail-logo.png" alt="">
+            </div>
+        </div>
+    </header>
+    <main class="main-container">
+        <div class="main-msg">
+            <p>
+                Your order has been accepted.
+            </p>
+        </div>
+        <div class="main-password-wrapper">
+            <div class="main-password ship-date">
+                <span>
+                    @Model.AcceptedDate
+                </span>
+            </div>
+        </div>
+        <div class="shipment-details-wrapper">
+            <div class="shipment-details-item">
+                <div class="shipment-details-icon">
+                    <img src="~/Contents/img/car.svg" alt="">
+                </div>
+                <div class="shipment-details-content">
+                    <p class="shipment-details-title">ON THE WAY</p>
+                    <p class="shipment-details-txt">
+                        Order #@Model.TransactionId
+                    </p>
+                    <p class="shipment-details-txt">
+                        An I Love Baku driver may contact you by text
+                        message or call you for help on the day of delivery.
+                    </p>
+                </div>
+            </div>
+            @*<div class="shipment-details-item">
+                <div class="shipment-details-icon">
+                    <img src="~/Contents/img/location.svg" alt="">
+                </div>
+                <div class="shipment-details-content">
+                    <p class="shipment-details-title">ON THE WAY</p>
+                    <p class="shipment-details-txt">
+                        Order #112-4082481
+                    </p>
+                    <p class="shipment-details-txt">
+                        An I Love Baku driver may contact you by text
+                        message or call you for help on the day of delivery.
+                    </p>
+                </div>
+            </div>
+            <div class="shipment-details-item">
+                <div class="shipment-details-icon">
+                    <img src="~/Contents/img/tag.svg" alt="">
+                </div>
+                <div class="shipment-details-content">
+                    <p class="shipment-details-title">ON THE WAY</p>
+                    <p class="shipment-details-txt">
+                        Order #112-4082481
+                    </p>
+                    <p class="shipment-details-txt">
+                        An I Love Baku driver may contact you by text
+                        message or call you for help on the day of delivery.
+                    </p>
+                </div>
+            </div>*@
+
+        </div>
+        <div class="return-link">
+            <p>
+                Return or replace items in <a href="">Your Orders</a>
+            </p>
+        </div>
+
+    </main>
+    <footer>
+        <div class="footer-container">
+            <p class="footer-txt">
+                © I Love Baku - All rights reserved
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
