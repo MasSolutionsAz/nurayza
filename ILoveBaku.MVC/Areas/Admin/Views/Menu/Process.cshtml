@@ -1,0 +1,565 @@
+﻿@model ILoveBaku.MVC.Areas.Admin.Logics.Menu.MenuProcessVm
+<div class="info-tabs-wrapper">
+    <div class="info-tab info-tab-active" data-name="kateqoriya">
+        <p class="info-tab-txt">Menu</p>
+    </div>
+    <div style="display:none" class="info-tab" data-name="Banner">
+        <p class="info-tab-txt">Banner</p>
+    </div>
+</div>
+<form action="@(!Model.IsUpdate?Url.Action("Process","Menu"):Url.Action("Process","Menu",new { menuId =1}))" method="post">
+    <div class="row">
+        <div class="info-content form-element-wrapper active" data-id="@Model?.MenuId" data-name="kateqoriya">
+            <div class="personal-info-fields-wrapper">
+                <input hidden value="@Model?.IsUpdate" type="text" id="isUpdate" name="IsUpdate" />
+                <input hidden value="@Model?.MenuId" id="menuId" type="text" name="menuId" />
+                <input hidden type="text" name="parentId" id="parentId" value="@Model?.ParentId" />
+                <div asp-validation-summary="ModelOnly"></div>
+                <div class="personal-info-field">
+                    <p class="info-field-title">Başlıq</p>
+                    <span class="text-danger d-block"></span>
+                    <input type="text" id="title" name="title" class="form-element info-field-input full-name-input">
+                </div>
+                <div class="personal-info-field">
+                    <p class="info-field-title">Öncəlik</p>
+                    <span class="text-danger d-block"></span>
+                    <input type="number" name="priority" id="priority" class="form-element info-field-input father-name-input">
+                </div>
+                <div class="personal-info-field">
+                    <p class="info-field-title">Bölmə</p>
+                    <span class="text-danger d-block"></span>
+                    <select id="sections" class="form-element custom-select info-field-input branch-name-input" name="sections">
+                    </select>
+                </div>
+                <div class="personal-info-field">
+                    <p class="info-field-title">Kateqoriyalar</p>
+                    <span class="text-danger d-block"></span>
+                    <select id="categories" class="form-element custom-select info-field-input branch-name-input" name="categories">
+                    </select>
+                </div>
+                <div class="personal-info-field">
+                    <p class="info-field-title">Link Konfiqurasiyası</p>
+                    <span class="text-danger d-block"></span>
+                    <select id="linkMode" class="form-element custom-select info-field-input branch-name-input" name="link">
+                        <option value="1">Manual</option>
+                        <option selected value="0">Auto</option>
+                    </select>
+                </div>
+                <div style="display:none;" class="personal-info-field link-input-wrapper">
+                    <p class="info-field-title">Link</p>
+                    <span class="text-danger d-block"></span>
+                    <input type="text" id="link" name="link" class="form-element info-field-input full-name-input">
+                </div>
+                <div class="personal-info-field">
+                    <p class="info-field-title">Menu tipi</p>
+                    <span class="text-danger d-block"></span>
+                    <select id="menuTypes" class="form-element custom-select info-field-input branch-name-input" name="menuTypes">
+                    </select>
+                </div>
+                <div class="personal-info-field">
+                    <p class="info-field-title">Status</p>
+                    <select id="status" class="form-element custom-select info-field-input branch-name-input">
+                        <option value="1">Aktiv</option>
+                        <option value="0">Deaktiv</option>
+                    </select>
+                </div>
+                <div class="personal-info-field">
+                    <button class="save-button mt-3 search-btn">Yadda saxla</button>
+                </div>
+            </div>
+        </div>
+        <div class="info-content form-element-wrapper" style="flex-direction: column;" data-id="Banner" data-name="Banner">
+            <div class="main-img-upload-wrapper d-none">
+                <div class="main-img-upload main-photo">
+                    <img src="~/admin/img/upload-img-icon.png" alt="" class="upload-icon">
+                    <span class="drop-here-txt">
+                        Drop your main  here!
+                    </span>
+                    <span class="or">
+                        or click
+                    </span>
+                    <label for="upload-img-main" class="main-img-upload-label">
+                        <span style="opacity:0;"></span>
+                        <input id="upload-img-main" accept="image/*" name="files[]" type="file">
+                        <p>Select from computer</p>
+                    </label>
+                    <div class="main-img-hover">
+                        <img src="~/admin/img/delete-upload.png" alt="" class="edit-upload-btn">
+                        <div class="rotate-buttons">
+                            <img src="~/admin/img/upload-rotate-left.png" alt="" class="rotate-left-btn">
+                            <img src="~/admin/img/upload-rotate-right.png" alt="" class="rotate-right-btn">
+                        </div>
+                    </div>
+                </div>
+                <div class="main-upload-details-uploading">
+                    <p class="upload-details-file-name">Anurajkr_dribble_post.jpg</p>
+                    <div class="file-size-wrapper">
+                        <p class="file-size">2.3MB of 8.4MB</p>
+                        <button class="cancel-upload-btn">
+                            <p>+</p>
+                        </button>
+                        <img src="~/admin/img/delete-upload.png" alt="" class="delete-upload-btn">
+                    </div>
+                    <progress value="100" max="100" class="upload-progress"></progress>
+                </div>
+            </div>
+            <div class="other-uploaded-images-container">
+
+            </div>
+            <div class="main-img-upload other-images-upload">
+                <img src="~/admin/img/upload-img-icon.png" alt="" class="upload-icon">
+                <span class="drop-here-txt">
+                    Drop your BANNERS here!
+                </span>
+                <span class="or">
+                    or click
+                </span>
+                <label for="upload-img-other" class="other-img-upload-label">
+
+                    <input id="upload-img-other" name="files[]" type="file">
+                    <p>Select from computer</p>
+                </label>
+            </div>
+            <div class="col-12">
+                <div class="personal-info-field">
+                    <button id="submit-photo" data-request="/admin/menu/upload" type="button" class="mt-3 search-btn">Yadda saxla</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="msg-wrapper error-msg-wrapper">
+    <div class="error-message message-popup">
+        <div class="popup-close-btn">
+            <span>+</span>
+        </div>
+        <img src="~/admin/img/error.png" alt="" class="msg-img">
+        <p class="msg-title">
+            Oops!
+        </p>
+        <p class="msg-details"></p>
+        <button class="msg-btn error-btn">
+            Bağla
+        </button>
+    </div>
+</div>
+
+<div class="msg-wrapper success-msg-wrapper">
+    <div class="success-message message-popup">
+        <div class="popup-close-btn">
+            <span>+</span>
+        </div>
+        <img src="~/admin/img/success.png" alt="" class="msg-img">
+        <p class="msg-title">
+            Uğurlu əməliyyat!
+        </p>
+        <p class="msg-details">Dəyişikliklər yadda saxlanıldı. </p>
+        <button class="msg-btn">
+            OK
+        </button>
+    </div>
+</div>
+@section Styles{
+    <link href="~/admin/css/user-info.css" rel="stylesheet" />
+    <link href="~/admin/css/add-news.css" rel="stylesheet" />
+}
+@section Scripts{
+    <script src="~/admin/js/user-info.js"></script>
+    <script src="~/admin/custom/js/ajax.js"></script>
+    @if (Model.MenuId != 0)
+    {
+        <script src="~/admin/js/add-news.js"></script>
+    }
+    <script>
+
+        $(document).ready(function () {
+
+            //fill sections
+            let ajax = new AJAX();
+            ajax._constructor("/admin/product/getCategories", "get",
+                (res, loader) => {
+                    $("#sections").append(`<option value="0">--</option>`);
+                    FillSections(res.data.children, $("#sections"), false);
+                    loader.remove();
+
+                    let typeAjax = new AJAX();
+                    typeAjax._constructor("/admin/menu/getMenuTypes", "get",
+                        (res, loader) => {
+                            loader.remove();
+                            for (var d of res.data) {
+                                let option = `<option value='${d.id}'>${d.name}</option>`;
+                                $("#menuTypes").append(option);
+                            }
+
+                            //edit process fill data
+                            if ($("#menuId").val() != 0) {
+                                FillData($("#menuId").val());
+                                FillPhotos($("#menuId").val())
+
+
+                                //let sectionId = $("#sections").val();
+                                //let categoriesAjax = new AJAX();
+                                //categoriesAjax._constructor("/admin/menu/getCategories/?parentId=" + sectionId, 'get',
+                                //    (res, loader) => {
+                                //        $("#categories").append(`<option value='0'>View all</option>`);
+                                //        $("#categories").append(`<option value='new'>New in</option>`);
+                                //        FillSections(res.data.children, $("#categories"));
+                                //        loader.remove();
+
+                                //    },
+                                //    (res, loader) => {
+                                //        loader.remove();
+                                //        alert("xeta");
+                                //    });
+
+                                //categoriesAjax._getAsync();
+
+                            }
+
+                        },
+                        (res, loader) => {
+                            loader.remove();
+                        })
+
+                    typeAjax._getAsync();
+                }, (res, loader) => {
+                    loader.remove();
+                });
+            ajax._getAsync();
+            //end fill sections
+
+
+
+            $("#linkMode").change(function () {
+                var value = $(this).val();
+                if (value == "1") {
+                    $(".link-input-wrapper").css("display", "block");
+                    $("#sections").parents(".personal-info-field").css("display", "none");
+                    $("#categories").parents(".personal-info-field").css("display", "none");
+                }
+                else {
+                    $(".link-input-wrapper").css("display", "none");
+                    $("#sections").parents(".personal-info-field").css("display", "block");
+                    $("#categories").parents(".personal-info-field").css("display", "block");
+                }
+            })
+
+            $("#sections").change(function () {
+                $("#categories option").remove();
+                var sectionId = $(this).val();
+
+                if (sectionId != 0) {
+                    let ajax = new AJAX();
+                    ajax._constructor("/admin/menu/getCategories/?parentId=" + sectionId, "get",
+                        (res, loader) => {
+
+                            FillSections(res.data.children, $("#categories"), true);
+                            loader.remove();
+                        }, (res, loader) => {
+                            loader.remove();
+                        });
+                    ajax._getAsync();
+                }
+            });
+
+
+            $(".save-button").click(function (e) {
+                e.preventDefault();
+                var dataId = $(this).data("id");
+                if (dataId == undefined) {
+                    let formData = AddMenu();
+                    let ajax = new AJAX();
+                    ajax._constructor("/admin/menu/addMenu", "post",
+                        (res, loader) => {
+                            loader.remove();
+                            window.location.href = "/admin/menu/process/?menuId=" + res.data;
+
+                        },
+                        (res, loader) => {
+                            loader.remove();
+                            alert("xeta");
+                        })
+                    ajax._postAsync(formData, true);
+                }
+                else {
+                    let formData = AddMenu();
+                    let ajax = new AJAX();
+                    ajax._constructor("/admin/menu/updateMenu/?menuId=" + $("#menuId").val(), "post",
+                        (res, loader) => {
+                            window.location.href = "/admin/menu/process/?menuId=" + res.data;
+                        },
+                        (res, loader) => {
+                            loader.remove();
+                            alert("xeta");
+                        });
+
+                    ajax._postAsync(formData, true);
+                }
+            });
+
+            $(document).on("click", ".save-lang-button", function (e) {
+                e.preventDefault();
+                var menuLangId = $(this).attr("data-id");
+                if (menuLangId != undefined) {
+                    let ajax = new AJAX();
+                    var formData = CreateFormDataMenuLang(menuLangId);
+                    ajax._constructor("/admin/menu/updateMenuLang/?menuLangId=" + menuLangId, "post",
+                        (res, loader) => {
+                            loader.remove();
+                            SuccessModal();
+                        },
+                        (res, loader) => {
+                            loader.remove();
+                            alert('xeta');
+                        });
+
+                    ajax._postAsync(formData, true);
+                }
+            })
+
+            $("#submit-photo").click(function (e) {
+                var formData = CreateFormData(e);
+                for (var arr of deleteArray) {
+                    formData.append(`deletePhotos`, arr);
+                }
+                var ajax = new AJAX();
+                ajax._constructor("/admin/menu/uploadBanner/?menuId=" + $("#menuId").val(), "post",
+                    (res, loader) => {
+                        loader.remove();
+                        SuccessModal();
+                        $(".upload-details-file-name").attr("data-old", "true");
+                        array = [];
+                        deleteArray = [];
+
+                        for (var d of res.data) {
+                            $(".upload-details-file-name").text(d.name);
+                        }
+                    },
+                    (res, loader) => {
+                        loader.remove();
+                        alert("xeta");
+                    });
+
+                ajax._postAsync(formData, true);
+            })
+        });
+        function FillPhotos(menuId) {
+            var ajax = new AJAX();
+            ajax._constructor(`/admin/menu/getPhotos/?menuId=${menuId}`, "get",
+                (res, loader) => {
+                    loader.remove();
+                    for (var photo of res.data) {
+                        let element = `<div class="uploaded-item-wrapper">
+                                                                        <div class="uploaded-item">
+                                                                        <div class="uploaded-item-img-wrapper" style="background-image:url('${photo.path}')">
+                                                                        <div class="main-img-hover visible" style="display: none;">
+                                                                        <img src="/admin/img/delete-upload.png" class="edit-upload-btn">
+                                                                        <div class="rotate-buttons">
+                                                                        <img src="/admin/img/upload-rotate-left.png" class="rotate-left-btn">
+                                                                        <img class="rotate-right-btn" src="/admin/img/upload-rotate-right.png">
+                                                                        </div>
+                                                                        </div>
+                                                                        </div>
+                                                                        <div class="main-upload-details-uploading other-upload-details-uploading">
+                                                                        <p class="upload-details-file-name" data-old="true">${photo.name}</p><div class="file-size-wrapper">
+                                                                        <p class="file-size">0.057MB of 0.057MB</p>
+                                                                        <button class="cancel-upload-btn"><p>+</p></button>
+                                                                        <img class="delete-upload-btn" src="/admin/img/delete-upload.png">
+                                                                        </div><progress value="100" max="100" class="upload-progress"></progress></div>
+                                                                        </div></div>`
+                        $(".other-uploaded-images-container").append(element);
+                    }
+                },
+                (res, loader) => {
+                    loader.remove();
+                    for (var error in res.errors) {
+                        ErrorModal(res.errors[error]);
+                        break;
+                    }
+                });
+
+            ajax._getAsync();
+        }
+        function CreateFormDataMenuLang(menuLangId) {
+            var wrapper = $(`.save-lang-button[data-id='${menuLangId}']`).parents(".info-content");
+            console.log(wrapper);
+            var obj = {
+                Name: wrapper.find("#name").val()
+            };
+
+            var formData = new FormData();
+
+            for (var o in obj) {
+                formData.append(o, obj[o]);
+            }
+
+            return formData;
+        }
+        function FillData(menuId) {
+            let ajax = new AJAX();
+            ajax._constructor("/admin/menu/getMenu/?menuId=" + menuId, "get",
+                (res, loader) => {
+                    $("#title").val(res.data.name);
+                    $("#priority").val(res.data.priority);
+                    $("#menuTypes").val(res.data.menuTypeId);
+                    $("#status").val(res.data.isActive ? 1 : 0);
+                    $("#parentId").val(res.data.parentId);
+
+                    if (!res.data.isManualLink) {
+                        $("#sections").val(res.data.categoryParentId);
+                        let sectionId = $("#sections").val();
+                        let categoriesAjax = new AJAX();
+                        categoriesAjax._constructor("/admin/menu/getCategories/?parentId=" + sectionId, 'get',
+                            (r, loader) => {
+                                FillSections(r.data.children, $("#categories"), true);
+                                $("#categories").val(res.data.categoryId == res.data.categoryParentId ? 0 : res.data.categoryId);
+                                loader.remove();
+                            },
+                            (r, loader) => {
+                                loader.remove();
+                                alert("xeta");
+                            });
+
+                        categoriesAjax._getAsync();
+                    }
+                    else {
+                        $("#sections").parents(".personal-info-field").css("display", "none");
+                        $("#categories").parents(".personal-info-field").css("display", "none");
+                        $("#linkMode option[value='1']").prop("selected", true);
+                        $("#link").val(res.data.link);
+                        $("#link").parents(".personal-info-field").css("display", "block");
+                    }
+
+                    $("#linkMode").prop("disabled", true);
+                    AddMenuLangsTab(res.data.id);
+
+                    $(".save-button").attr("data-id", res.data.id);
+
+                    if ($("#parentId").val() == "0") {
+                        $(".info-tab[data-name='Banner']").css("display", "flex");
+                    }
+                    loader.remove();
+                },
+                (res, loader) => {
+
+                });
+
+            ajax._getAsync();
+
+        }
+        function AddMenuLangsTab(menuId) {
+            let ajax = new AJAX();
+            ajax._constructor("/admin/menu/getMenuLangs/?menuId=" + menuId, "get",
+                (res, loader) => {
+                    for (var d of res.data) {
+                        let element = `<div class="info-tab" data-name="${d.langName}">
+                                                                                                                  <p class="info-tab-txt">${d.langName}</p>
+                                                                                                           </div>`;
+                        $(".info-tabs-wrapper").append(element);
+
+                        let infoContent = `<div class="info-content form-element-wrapper" data-name="${d.langName}">
+                                                                                                                <div class="personal-info-fields-wrapper">
+                                                                                                                    <div class="personal-info-field">
+                                                                                                                        <p class="info-field-title">Ad</p>
+                                                                                                                        <span class="text-danger d-block"></span>
+                                                                                                                        <input type="text" id="name" name="name" value='${d.name}' class="form-element info-field-input full-name-input">
+                                                                                                                    </div>
+                                                                                                                    <div class="personal-info-field">
+                                                                                                                        <button data-id='${d.id}' class="save-lang-button mt-3 search-btn">Yadda saxla</button>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                             </div>`;
+
+                        $("form .row").append(infoContent);
+
+                    }
+                    handleTabsChange();
+                    loader.remove();
+                },
+                (res, loader) => {
+                    loader.remove();
+                    alert("xeta");
+                });
+
+            ajax._getAsync();
+        }
+        function AddMenu() {
+            var requestData = {
+                Name: $("#title").val(),
+                Link: "",
+                ParentId: $("#parentId").val(),
+                MenuTypeId: $("#menuTypes").val(),
+                Priority: $("#priority").val(),
+                CategoryParentId: $("#linkMode").val() == 1 ? 0 : $("#sections").val(),
+                CategoryId: $("#linkMode").val() == 1 ? 0 : $("#categories").val(),
+                IsActive: $("#status").val() == "1" ? "true" : "false",
+                IsManualLink: false
+            };
+            var link = "/products/" + $("#categories option:selected").attr("data-root");
+            if ($("#linkMode").val() == 1) {
+                link = $("#link").val();
+                requestData.IsManualLink = true;
+            }
+            requestData.Link = link;
+
+            var formData = new FormData();
+
+            for (var data in requestData) {
+                formData.append(data, requestData[data]);
+            }
+
+            return formData;
+        }
+        function FillSections(categories, parent, bool) {
+            if (bool) {
+                let root = $("#sections option:selected").attr('data-root');
+                $("#categories").append(`<option  data-root='${root}' value='0'>View all</option>`);
+                $("#categories").append(`<option  data-root='${root}' value='0'>New in</option>`);
+            }
+
+            for (var category of categories) {
+                var option = `<option data-root='${category.rootName}' value='${category.id}'>${category.name}</option>`
+                parent.append(option);
+            }
+        }
+        function SuccessModal() {
+            $(".success-msg-wrapper").css("display", "flex");
+            $(".error-msg-wrapper").css("display", "none");
+        }
+        function ErrorModal(text) {
+            $(".error-msg-wrapper").css("display", "flex");
+            $(".success-msg-wrapper").css("display", "none");
+            $(".error-msg-wrapper").find(".msg-details").html(text);
+        }
+        function toFormData(obj, form, namespace) {
+            let fd = form || new FormData();
+            let formKey;
+
+            for (let property in obj) {
+                if (obj.hasOwnProperty(property) && obj[property]) {
+                    if (namespace && Array.isArray(obj)) {
+                        formKey = namespace + '[' + property + ']';
+                    }
+                    else if (namespace) {
+                        formKey = namespace + '.' + property;
+                    }
+                    else {
+                        formKey = property;
+                    }
+
+                    // if the property is an object, but not a File, use recursivity.
+                    if (obj[property] instanceof Date) {
+                        fd.append(formKey, obj[property].toISOString());
+                    }
+                    else if (typeof obj[property] === 'object' && !(obj[property] instanceof File)) {
+                        toFormData(obj[property], fd, formKey);
+                    } else { // if it's a string or a File object
+                        fd.append(formKey, obj[property]);
+                    }
+                }
+            }
+
+            return fd;
+        }
+    </script>
+}

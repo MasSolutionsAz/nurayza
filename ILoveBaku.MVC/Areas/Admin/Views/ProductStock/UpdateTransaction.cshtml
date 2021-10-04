@@ -1,0 +1,488 @@
+﻿@model ILoveBaku.MVC.Areas.Admin.Models.ProductTransationVm
+<form action="" method="post">
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="info-content form-element-wrapper active" data-id="" data-name="">
+            <div class="personal-info-fields-wrapper">
+                <div asp-validation-summary="ModelOnly"></div>
+                <input hidden type="number" id="productTransaction-id" value="@Model.Transaction.Id" />
+                <div class="row">
+                    <div class="col-5">
+                        <div class="personal-info-field">
+                            <p class="info-field-title">Firma</p>
+                            <select id="suppliers" class="form-element custom-select info-field-input branch-name-input">
+                                @foreach (var item in Model.Suppliers)
+                                {
+                                    <option value="@item.Id">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="personal-info-field">
+                            <p class="info-field-title">Sənəd nömrəsi</p>
+                            <input value="@Model.Transaction.ReceiptNumber" @(ViewBag.TransactionFinished ? "disabled" : "") type="text" id="receipt-number" class="form-element info-field-input father-name-input">
+                            <span class="text-danger d-block"></span>
+                        </div>
+                        <div class="personal-info-field">
+                            <p class="info-field-title">Sənəd tarixi <span class="required">*</span></p>
+                            @{
+                                var day = Model.Transaction.Day < 10 ? "0" + Model.Transaction.Day : Model.Transaction.Day.ToString();
+                                var month = Model.Transaction.Month < 10 ? "0" + Model.Transaction.Month : Model.Transaction.Month.ToString();
+                                var year = Model.Transaction.Year;
+                            }
+                            <span style="display:none;" id="receipt-date-text">@(year)-@(month)-@(day)</span>
+                            <input @(ViewBag.TransactionFinished ? "disabled" : "") asp-for="Transaction.ReceiptDate" type="date" id="receipt-date" class="form-element info-field-input father-name-input">
+                            <span class="text-danger d-block"></span>
+                        </div>
+                        <div class="personal-info-field">
+                            <p class="info-field-title">Qeyd</p>
+                            <textarea @(ViewBag.TransactionFinished ? "disabled" : "") asp-for="Transaction.Note" name="recipt-description" id="receipt-description" rows="3" cols="10" class="form-element info-field-input father-name-input">@Model.Transaction.Note</textarea>
+                            <span class="text-danger d-block"></span>
+                        </div>
+                    </div>
+                    @if (!ViewBag.TransactionFinished)
+                    {
+                        <div class="col-12 submit-button-wrapper">
+                            <div class="personal-info-field">
+                                <button id="update-transaction" type="button" class="save-button mt-3 search-btn">Sənədi Yenilə</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="users-table-wrapper my-4">
+    @if (!ViewBag.TransactionFinished)
+    {
+        <div class="col-12 my-4">
+            <div class="row">
+                <div class="col-3">
+                    <div class="personal-info-field">
+                        <p class="info-field-title">Barkod</p>
+                        <input type="text" id="transaction-detail-barcode" class="form-element info-field-input father-name-input">
+                        <span class="text-danger d-block"></span>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="personal-info-field">
+                        <p class="info-field-title">Say</p>
+                        <input type="text" id="transaction-detail-count" class="form-element info-field-input father-name-input">
+                        <span class="text-danger d-block"></span>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="personal-info-field">
+                        <p class="info-field-title">Endirim %</p>
+                        <input type="text" id="transaction-detail-discount" class="form-element info-field-input father-name-input">
+                        <span class="text-danger d-block"></span>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="personal-info-field">
+                        <p class="info-field-title">Alış qiyməti</p>
+                        <input type="text" id="transaction-detail-buyamount" class="form-element info-field-input father-name-input">
+                        <span class="text-danger d-block"></span>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="personal-info-field">
+                        <p class="info-field-title">Maya dəyəri</p>
+                        <input type="text" id="transaction-detail-costamount" class="form-element info-field-input father-name-input">
+                        <span class="text-danger d-block"></span>
+                    </div>
+                </div>
+                <div class="col-3 submit-button-wrapper">
+                    <div class="personal-info-field">
+                        <button id="add-transaction-detail" type="button" class="save-button mt-3 search-btn">Əlavə et</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <hr />
+    <div class="col-12 d-flex my-4">
+        <div class="col-3">
+            <p><b>Alış qiyməti ilə ümumi məbləğ:@(Model.Transaction.TotalBuyAmount==0?"0":Model.Transaction.TotalBuyAmount.ToString("#.##")) AZN</b></p>
+        </div>
+        <div class="col-3">
+            <p><b>Endirim məbləği:@(Model.Transaction.Discount==0?"0":Model.Transaction.Discount.ToString("#.##")) AZN</b></p>
+        </div>
+        <div class="col-3">
+            <p><b>Ödəniləcək məbləğ:@(Model.Transaction.PayAmount==0?"0":Model.Transaction.PayAmount.ToString("#.##")) AZN</b></p>
+        </div>
+        <div class="col-3">
+            <p><b>Maya dəyəri:@(Model.Transaction.TotalCostAmount==0?"0":Model.Transaction.TotalCostAmount.ToString("#.##")) AZN</b></p>
+        </div>
+    </div>
+    <table class="users-table">
+        <tr class="header-row">
+            <th class="column-header">ID</th>
+            <th class="column-header">Barkod</th>
+            <th class="column-header">Adı</th>
+            <th class="column-header">Alış</th>
+            <th class="column-header">Maya dəyəri</th>
+            <th class="column-header">Miqdarı</th>
+            <th class="column-header">Məbləğ</th>
+            <th class="column-header">Endirim</th>
+            <th class="column-header">Ödəniləcək məbləğ</th>
+            @if (!ViewBag.TransactionFinished)
+            {
+                <th class="column-header">Sil</th>
+            }
+        </tr>
+        @foreach (var transactionDetail in Model.TransactionDetails)
+        {
+            <tr class="users-row" data-id="@transactionDetail.ProductTransactionDetailId">
+                <td class="row-item">@transactionDetail.ProductTransactionDetailId</td>
+                <td class="row-item">@transactionDetail.Barcode</td>
+                <td class="row-item">@transactionDetail.Name</td>
+                <td class="row-item">@(transactionDetail.BuyAmount!=0?transactionDetail.BuyAmount.ToString("#.##"):"0")</td>
+                <td class="row-item">@(transactionDetail.CostAmount!=0?transactionDetail.CostAmount.ToString("#.##"):"0")</td>
+                <td class="row-item">@(transactionDetail.Count!=0?transactionDetail.Count.ToString("#.##"):"0")</td>
+                <td class="row-item">@(transactionDetail.TotalAmount!=0?transactionDetail.TotalAmount.ToString("#.##"):"0")</td>
+                <td class="row-item">@(transactionDetail.DiscountAmount!=0?transactionDetail.DiscountAmount.ToString("#.##"):"0")</td>
+                <td class="row-item">@(transactionDetail.PayAmount!=0?transactionDetail.PayAmount.ToString("#.##"):"0")</td>
+                @if (!ViewBag.TransactionFinished)
+                {
+                    <td class="row-item"><a class="transaction-detail-delete" href="#">sil</a></td>
+                }
+            </tr>
+        }
+    </table>
+
+    @if (!ViewBag.TransactionFinished)
+    {
+        <div class="col-12 submit-button-wrapper">
+            <div class="personal-info-field">
+                <button id="open-notification" type="button" class="save-button mt-3 search-btn">Əməliyyatı bitir</button>
+            </div>
+        </div>
+    }
+
+</div>
+<div class="msg-wrapper error-msg-wrapper">
+    <div class="error-message message-popup">
+        <div class="popup-close-btn">
+            <span>+</span>
+        </div>
+        <img src="~/admin/img/error.png" alt="" class="msg-img">
+        <p class="msg-title">
+            Oops!
+        </p>
+        <p class="msg-details"></p>
+        <button class="msg-btn error-btn">
+            Bağla
+        </button>
+    </div>
+</div>
+
+<div class="msg-wrapper success-msg-wrapper">
+    <div class="success-message message-popup">
+        <div class="popup-close-btn">
+            <span>+</span>
+        </div>
+        <img src="~/admin/img/success.png" alt="" class="msg-img">
+        <p class="msg-title">
+            Uğurlu əməliyyat!
+        </p>
+        <p class="msg-details">Dəyişikliklər yadda saxlanıldı. </p>
+        <button class="msg-btn">
+            OK
+        </button>
+    </div>
+</div>
+
+<div class="msg-wrapper notification-msg-wrapper" style="display:none;">
+    <div class="error-message message-popup">
+        <div class="popup-close-btn">
+            <span>+</span>
+        </div>
+        <img src="~/admin/img/question.png" style="width:60px;height:40px;" alt="" class="msg-img">
+        <p class="msg-title">
+            Diqqət!
+        </p>
+        <p class="msg-details">
+            Əməliyyatı bitirmək istədiyinizə əminsinizmi?
+        </p>
+        <div class="col-12 d-flex justify-content-around">
+            <button id="finish-transaction" class="msg-btn">
+                Bəli
+            </button>
+
+            <button class="msg-btn error-btn">
+                Bağla
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<div class="msg-wrapper" id="transaction-detail-delete-modal" style="display:none;">
+    <div class="error-message message-popup">
+        <div class="popup-close-btn">
+            <span>+</span>
+        </div>
+        <img src="~/admin/img/question.png" style="width:60px;height:40px;" alt="" class="msg-img">
+        <p class="msg-title">
+            Diqqət!
+        </p>
+        <p class="msg-details">
+           Tranzaksiyanı silmək istədiyinizə əminsinizmi?
+        </p>
+        <div class="col-12 d-flex justify-content-around">
+            <button id="submit-transaction-detail-delete" class="msg-btn">
+                Bəli
+            </button>
+
+            <button class="msg-btn error-btn">
+                Bağla
+            </button>
+        </div>
+    </div>
+</div>
+
+@section Styles{
+    <link href="~/admin/css/user-info.css" rel="stylesheet" />
+    <style>
+        .info-field-input {
+            width: 100%;
+        }
+
+        .info-tabs-wrapper {
+            width: 150px;
+        }
+
+            .info-tabs-wrapper div {
+                width: 100%;
+            }
+
+        .error-msg-wrapper {
+            z-index: 1000000;
+        }
+    </style>
+}
+@section Scripts{
+    <script src="~/admin/js/user-info.js"></script>
+    <script src="~/admin/custom/js/ajax.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            document.getElementById("receipt-date").value = document.getElementById("receipt-date-text").innerText;
+
+            $("#transaction-detail-barcode").change(function () {
+                var barcode = $(this).val();
+
+
+                ClearInputs();
+
+                if (barcode.length < 13) {
+                    ErrorModal("Barkod standartlara uyğun deyil.");
+                }
+                else {
+                    var ajax = new AJAX();
+                    ajax._constructor("/admin/productStock/getProductByBarcode/?barcode=" + barcode, "get",
+                        (res, loader) => {
+                            $("#transaction-detail-buyamount").val(res.data.buyAmount);
+                            $("#transaction-detail-costamount").val(res.data.costAmount);
+                            loader.remove();
+                        },
+                        (res, loader) => {
+                            if (res.errors != null) {
+                                for (var error in res.errors) {
+                                    ErrorModal(res.errors[error]);
+                                    break;
+                                }
+                            }
+                        })
+                    ajax._getAsync();
+                }
+            })
+
+            $("#update-transaction").click(function (e) {
+                e.preventDefault();
+
+                var obj = {
+                    Id: $("#productTransaction-id").val(),
+                    SupplierId: $("#suppliers").val(),
+                    ReceiptNumber: $("#receipt-number").val(),
+                    ReceiptDate: $("#receipt-date").val(),
+                    Note: $("#receipt-description").val()
+                }
+
+                var formData = toFormData(obj);
+                let ajax = new AJAX();
+                ajax._constructor("/admin/productStock/updateTransaction", "post",
+                    (res, loader) => {
+                        loader.remove(); SuccessModal();
+                    },
+                    (res, loader) => {
+                        loader.remove();
+                        if (res.errors != null) {
+                            for (var error in res.errors) {
+                                ErrorModal(res.errors[error]);
+                                break;
+                            }
+                        }
+                    }
+                )
+                ajax._postAsync(formData, true);
+            });
+
+
+            $("#add-transaction-detail").click(function (e) {
+                e.preventDefault();
+
+                var obj = {
+                    Barcode: $("#transaction-detail-barcode").val(),
+                    Count: $("#transaction-detail-count").val(),
+                    Discount: $("#transaction-detail-discount").val(),
+                    BuyAmount: $("#transaction-detail-buyamount").val(),
+                    CostAmount: $("#transaction-detail-costamount").val()
+                };
+
+                var formData = toFormData(obj);
+                var transactionId = $("#productTransaction-id").val();
+                var ajax = new AJAX();
+
+                ajax._constructor("/admin/productStock/addTransactionDetails/?transactionId=" + transactionId, "post",
+                    (res, loader) => {
+                        loader.remove();
+                        window.location.reload();
+                    },
+                    (res, loader) => {
+                        loader.remove();
+                        if (res.errors != null) {
+                            for (var error in res.errors) {
+                                ErrorModal(res.errors[error]);
+                                break;
+                            }
+                        }
+                    });
+
+                ajax._postAsync(formData, true);
+            })
+
+
+            var transactionIdGlobal;
+            var detailIdGlobal;
+            $(".transaction-detail-delete").click(function (e) {
+                e.preventDefault();
+                let transactionId = $("#productTransaction-id").val();
+                let detailId = $(this).parents("tr").attr("data-id");
+
+
+                transactionIdGlobal = transactionId;
+                detailIdGlobal = detailId;
+
+                $("#transaction-detail-delete-modal").css("display", "flex");
+
+
+            });
+
+            $("#transaction-detail-delete-modal #submit-transaction-detail-delete").click(function (e) {
+                var ajax = new AJAX();
+                ajax._constructor(`/admin/productStock/deleteTransactionDetail/?transactionId=${transactionIdGlobal}&transactionDetailId=${detailIdGlobal}`, "get",
+                    (res, loader) => {
+                        loader.remove();
+                        window.location.reload();
+                    },
+                    (res, loader) => {
+                        loader.remove();
+                        if (res.errors != null) {
+                            for (var error in res.errors) {
+                                ErrorModal(res.errors[error]);
+                                break;
+                            }
+                        }
+                    });
+
+                ajax._getAsync();
+            })
+
+
+            $("#open-notification").click(function (e) {
+                e.preventDefault();
+                NotificationModal();
+            });
+
+            $("#finish-transaction").click(function (e) {
+                e.preventDefault();
+                $(".notification-msg-wrapper").css("display", "none");
+                var transactionId = $("#productTransaction-id").val();
+                var ajax = new AJAX();
+                ajax._constructor("/admin/productStock/finishTransaction/?transactionId=" + transactionId, "get",
+                    (res, loader) => {
+                        loader.remove();
+                        SuccessModal();
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 1500)
+                    },
+                    (res, loader) => {
+                        loader.remove();
+                        if (res.errors != null) {
+                            for (var error in res.errors) {
+                                ErrorModal(res.errors[error]);
+                                break;
+                            }
+                        }
+                    });
+                ajax._getAsync();
+            })
+        });
+
+        function toFormData(obj, form, namespace) {
+            let fd = form || new FormData();
+            let formKey;
+
+            for (let property in obj) {
+                if (obj.hasOwnProperty(property) && obj[property]) {
+                    if (namespace && Array.isArray(obj)) {
+                        formKey = namespace + '[' + property + ']';
+                    }
+                    else if (namespace) {
+                        formKey = namespace + '.' + property;
+                    }
+                    else {
+                        formKey = property;
+                    }
+
+                    // if the property is an object, but not a File, use recursivity.
+                    if (obj[property] instanceof Date) {
+                        fd.append(formKey, obj[property].toISOString());
+                    }
+                    else if (typeof obj[property] === 'object' && !(obj[property] instanceof File)) {
+                        toFormData(obj[property], fd, formKey);
+                    } else { // if it's a string or a File object
+                        fd.append(formKey, obj[property]);
+                    }
+                }
+            }
+
+            return fd;
+        }
+        function SuccessModal() {
+            $(".success-msg-wrapper").css("display", "flex");
+            $(".error-msg-wrapper").css("display", "none");
+        }
+        function NotificationModal() {
+            $(".notification-msg-wrapper").css("display", "flex");
+        }
+        function ErrorModal(text) {
+            $(".error-msg-wrapper").css("display", "flex");
+            $(".success-msg-wrapper").css("display", "none");
+            $(".error-msg-wrapper").find(".msg-details").html(text);
+        }
+
+        function ClearInputs() {
+            $("#transaction-detail-costamount").val("");
+            $("#transaction-detail-buyamount").val("");
+            $("#transaction-detail-discount").val("");
+            $("#transaction-detail-count").val("");
+        }
+
+    </script>
+}

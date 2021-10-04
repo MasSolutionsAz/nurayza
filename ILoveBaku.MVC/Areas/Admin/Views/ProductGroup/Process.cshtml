@@ -1,0 +1,155 @@
+﻿@model ILoveBaku.MVC.Areas.Admin.Models.ProductGroupProccessVm
+<div class="info-tabs-wrapper">
+    @if (Model.GroupId == 0)
+    {
+        <div style="width:45%" class="info-tab info-tab-active" data-name="kateqoriya">
+            <p class="info-tab-txt">Yeni Məhsul Qrupu</p>
+        </div>
+    }
+    else
+    {
+        <div style="width:45%" class="info-tab info-tab-active" data-name="kateqoriya">
+            <p class="info-tab-txt">Məhsul Qrupu Düzəliş</p>
+        </div>
+    }
+
+
+</div>
+<form action="@Url.Action("Process","ProductGroup")" method="post">
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="info-content form-element-wrapper active" data-id="kateqoriya" data-name="kateqoriya">
+            <div class="personal-info-fields-wrapper">
+                <div asp-validation-summary="ModelOnly"></div>
+                <div class="row">
+                    <div class="col-6">
+                        <input type="hidden" name="groupId" value="@Model.GroupId" />
+                        <input type="hidden" name="categoryId" value="@Model.ProuctGroup?.CategoriesId" />
+                        <div class="personal-info-field">
+                            <p class="info-field-title">Adı</p>
+                            <input type="text" asp-for="ProuctGroup.Name" id="product-group-name" class="form-element info-field-input father-name-input">
+                            <span asp-validation-for="ProuctGroup.Name" class="text-danger d-block"></span>
+                        </div>
+                        <div class="personal-info-field">
+                            <p class="info-field-title">Kateqoriyalar</p>
+                            <select id="product-group-categories" asp-for="ProuctGroup.CategoriesId" class="form-element custom-select info-field-input branch-name-input">
+                                @foreach (var item in Model.Categories)
+                                {
+                                    if (item.IsActive)
+                                    {
+                                        if (item.Children == null || item.Children.Count == 0)
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option disabled value="@item.Id">@item.Name</option>
+                                            @await Html.PartialAsync("_ProductGroupCategoriesPartial", item)
+                                        }
+                                    }
+                                }
+                            </select>
+                            <span asp-validation-for="ProuctGroup.CategoriesId" class="text-danger d-block"></span>
+                        </div>
+                        <div class="personal-info-field">
+                            <p class="info-field-title">Status</p>
+                            <span class="text-danger d-block"></span>
+                            <select class="form-element custom-select info-field-input branch-name-input" asp-for="ProuctGroup.IsActive">
+                                @if (Model.ProuctGroup != null)
+                                {
+                                    if (Model.ProuctGroup.IsActive)
+                                    {
+                                        <option value="false">Deaktiv</option>
+                                        <option selected value="true">Aktiv</option>
+                                    }
+                                    else
+                                    {
+                                        <option selected value="false">Deaktiv</option>
+                                        <option value="true">Aktiv</option>
+                                    }
+                                }
+                                else
+                                {
+                                    <option value="true">Aktiv</option>
+                                    <option value="false">Deaktiv</option>
+                                }
+                            </select>
+                            <span asp-validation-for="ProuctGroup.IsActive" class="text-danger d-block"></span>
+                        </div>
+                    </div>
+                    <div class="col-12 submit-button-wrapper">
+                        <div class="personal-info-field">
+                            <button id="submit-productGroup" type="submit" class="save-button mt-3 search-btn">Yadda saxla</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="msg-wrapper error-msg-wrapper">
+    <div class="error-message message-popup">
+        <div class="popup-close-btn">
+            <span>+</span>
+        </div>
+        <img src="~/admin/img/error.png" alt="" class="msg-img">
+        <p class="msg-title">
+            Oops!
+        </p>
+        <p class="msg-details"></p>
+        <button class="msg-btn error-btn">
+            Bağla
+        </button>
+    </div>
+</div>
+
+<div class="msg-wrapper success-msg-wrapper">
+    <div class="success-message message-popup">
+        <div class="popup-close-btn">
+            <span>+</span>
+        </div>
+        <img src="~/admin/img/success.png" alt="" class="msg-img">
+        <p class="msg-title">
+            Uğurlu əməliyyat!
+        </p>
+        <p class="msg-details">Dəyişikliklər yadda saxlanıldı. </p>
+        <button class="msg-btn">
+            OK
+        </button>
+    </div>
+</div>
+@section Styles{
+    <link href="~/admin/css/user-info.css" rel="stylesheet" />
+    <link href="~/admin/css/add-news.css" rel="stylesheet" />
+    <style>
+        /*.group-create {
+            display: none;
+        }*/
+        .group-create-modal {
+            display: none;
+        }
+
+        .absolute-button {
+            right: 0 !important
+        }
+
+        .error-msg-wrapper {
+            z-index: 1000000;
+        }
+    </style>
+}
+@section Scripts{
+    <script src="~/admin/js/user-info.js"></script>
+    <script src="~/admin/custom/js/ajax.js"></script>
+    <script src="~/admin/custom/js/specification.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            var groupId = $("input[name='groupId']").val();
+            if (groupId != 0 || groupId != null || groupId != undefined) {
+                var categoryId = $("input[name='categoryId']").val();
+                $(`#product-group-categories`).val(categoryId);
+            }
+        })
+    </script>
+}

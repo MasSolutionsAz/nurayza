@@ -1,0 +1,38 @@
+﻿@model ILoveBaku.Application.CQRS.User.Models.UserListVm
+<div class="users-table-wrapper">
+    <table class="users-table">
+        <tr class="header-row">
+            <th class="column-header">Ad</th>
+            <th class="column-header">Soyad</th>
+            <th class="column-header">Email</th>
+            <th class="column-header">Cins</th>
+            <th class="column-header">Status</th>
+            <th class="column-header">Ətraflı</th>
+        </tr>
+        @foreach (var user in Model.Users)
+        {
+            <tr class="users-row">
+                <td class="row-item">@user.Name</td>
+                <td class="row-item">@user.Surname</td>
+                <td class="row-item">@user.Email</td>
+                <td class="row-item">@(user.Gender!=null&&(bool)user.Gender?"Qadın":(user.Gender==null?"":"Kişi"))</td>
+                <td class="row-item"><span class="badge @(user.UserStatusId==Convert.ToInt32(ILoveBaku.Domain.Enums.UserStatus.Active)?"badge-success":"badge-danger")">@(user.UserStatusId == Convert.ToInt32(ILoveBaku.Domain.Enums.UserStatus.Active)? "Aktiv":"Deaktiv")</span></td>
+                <td class="row-item">
+                    <div class="select-category-btn">
+                        <a href="@Url.Action("Detail","User",new { userId=user.UserId})">→</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+<div class="pagination-container">
+    @if (Model.Total != 1)
+    {
+        for (int i = 1; i <= Model.Total; i++)
+        {
+            <a class="pagination-btn @(i==Model.Page?"active":"")" href="@Url.Action("List","User",new { area="Admin",page=i})">@i</a>
+        }
+    }
+</div>

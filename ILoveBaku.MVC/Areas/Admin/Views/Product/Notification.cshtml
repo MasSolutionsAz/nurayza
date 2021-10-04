@@ -1,0 +1,117 @@
+﻿@using ILoveBaku.Domain.Stored_Procedures
+@model List<ProductList_sp>
+<div style="display:flex;">
+    <button id="submit-all" style="width:230px;margin-right:20px;" class="save-button mt-3 search-btn">Toplu əlavə et</button>
+    <button id="submit-checked" style="width:230px;" class="save-button mt-3 search-btn">Seçilmiş məhsulları əlavə et</button>
+</div>
+<div class="users-table-wrapper">
+    <table class="users-table">
+        <tr class="header-row">
+            <th class="column-header"></th>
+            <th class="column-header">Qrup adı</th>
+            <th class="column-header">Adı</th>
+            <th class="column-header">Kateqoriyası</th>
+            <th class="column-header">Əlavə olunma tarixi</th>
+        </tr>
+        @foreach (var productDto in Model)
+        {
+            <tr class="users-row" data-id="@productDto.ProductId">
+                <td style="width:50px;">
+                    <label style="width:50px;" class="right-checkbox-container">
+                        <input type="checkbox" class="user-list right-checkbox">
+                        <span class="right-checkmark "></span>
+                    </label>
+                </td>
+                <td class="row-item">@productDto.ProductGroupName</td>
+                <td class="row-item">@productDto.ProductName</td>
+                <td class="row-item">@productDto.CategoryName</td>
+                <td class="row-item">@productDto.ProductCreatedDate</td>
+            </tr>
+        }
+    </table>
+</div>
+
+<div class="msg-wrapper error-msg-wrapper">
+    <div class="error-message message-popup">
+        <div class="popup-close-btn">
+            <span>+</span>
+        </div>
+        <img src="~/admin/img/error.png" alt="" class="msg-img">
+        <p class="msg-title">
+            Oops!
+        </p>
+        <p class="msg-details"></p>
+        <button class="msg-btn error-btn">
+            Bağla
+        </button>
+    </div>
+</div>
+@section Styles{
+    <link href="~/admin/css/user-info.css" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="~/admin/js/user-info.js"></script>
+    <script src="~/admin/custom/js/ajax.js"></script>
+
+    <script>
+        $("#submit-checked").click(function () {
+            var inputs = $(".right-checkbox:checkbox:checked");
+            var formData = new FormData();
+            for (var input of inputs) {
+                formData.append("products", $(input).parents("tr").data("id"));
+            }
+
+            var ajax = new AJAX();
+            ajax._constructor("/admin/productStock/Add", "post",
+                (res, loader) => {
+                    loader.remove();
+                    window.location.reload();
+                },
+                (res, loader) => {
+                    loader.remove();
+                    let errorText = "";
+                    for (var error in res.errors) {
+                        errorText += res.errors[error] + "</br>";
+                    }
+
+                    ErrorModal(errorText);
+                });
+
+            ajax._postAsync(formData, true);
+        });
+
+
+        $("#submit-all").click(function () {
+            var inputs = $(".right-checkbox");
+            var formData = new FormData();
+            for (var input of inputs) {
+                formData.append("products", $(input).parents("tr").data("id"));
+            }
+
+            var ajax = new AJAX();
+            ajax._constructor("/admin/productStock/Add", "post",
+                (res, loader) => {
+                    loader.remove();
+                    window.location.reload();
+                },
+                (res, loader) => {
+                    loader.remove();
+                    let errorText = "";
+                    for (var error in res.errors) {
+                        errorText += res.errors[error] + "</br>";
+                    }
+
+                    ErrorModal(errorText);
+                });
+
+            ajax._postAsync(formData, true);
+        });
+
+        function ErrorModal(text) {
+            $(".error-msg-wrapper").css("display", "flex");
+            $(".success-msg-wrapper").css("display", "none");
+            $(".error-msg-wrapper").find(".msg-details").html(text);
+        }
+    </script>
+}

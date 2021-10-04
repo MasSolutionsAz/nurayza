@@ -1,0 +1,52 @@
+﻿@model ILoveBaku.Application.CQRS.User.Queries.GetUser.UserDto
+<div class="user-info-content">
+    <div class="user-info-items-wrapper">
+        <h1 class="user-info-title">Istifadəçi məlumatları</h1>
+        <div class="user-info-item">
+            <p class="user-info-item-title">Ad Soyad</p>
+            <p class="user-info-item-data">@Model.Name @Model.Surname</p>
+        </div>
+        <div class="user-info-item">
+            <p class="user-info-item-title">Ata adı</p>
+            <p class="user-info-item-data">@Model.FatherName</p>
+        </div>
+        <div class="user-info-item">
+            <p class="user-info-item-title">Qeydiyyatdan keçmə tarixi</p>
+            <p class="user-info-item-data">@Model.RegisterDate</p>
+        </div>
+        <div class="user-info-item">
+            <p class="user-info-item-title">Çatdırılma Ünvanı</p>
+            @foreach (var item in Model.Addresses)
+            {
+                <p class="user-info-item-data">@item</p>
+            }
+        </div>
+    </div>
+</div>
+
+
+@section Styles{
+    <link href="~/admin/css/user-info.css" rel="stylesheet" />
+    <link href="~/admin/css/add-news.css" rel="stylesheet" />
+    <style>
+        /*.group-create {
+            display: none;
+        }*/
+        .group-create-modal {
+            display: none;
+        }
+
+        .absolute-button {
+            right: 0 !important
+        }
+
+        .error-msg-wrapper {
+            z-index: 1000000;
+        }
+    </style>
+}
+@section Scripts{
+    <script src="~/admin/js/user-info.js"></script>
+    <script src="~/admin/custom/js/ajax.js"></script>
+    <script src="~/admin/custom/js/specification.js"></script>
+}

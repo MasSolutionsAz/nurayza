@@ -1,0 +1,17 @@
+﻿@model ILoveBaku.Application.CQRS.Category.Queries.GetCategoryChildrenList.CategoryChildrenDto
+
+@foreach (var item in Model.Children)
+{
+    if (item.IsActive)
+    {
+        if (item.Children == null || item.Children.Count == 0)
+        {
+            <option value="@item.Id">@item.Name</option>
+        }
+        else
+        {
+            <option disabled value="@item.Id">@item.Name</option>
+            @await Html.PartialAsync("_ProductGroupCategoriesPartial", item);
+        }
+    }
+}

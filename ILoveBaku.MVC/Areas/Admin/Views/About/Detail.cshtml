@@ -1,0 +1,165 @@
+﻿@model ILoveBaku.MVC.Areas.Admin.Models.AboutVm
+<div class="info-tabs-wrapper">
+    @{ var langCounter = 0;}
+    @foreach (var item in Model.Languages)
+    {
+        <div class="info-tab @(langCounter==0?"info-tab-active":"")" data-name="@item.DisplayName">
+            <p class="info-tab-txt">@item.DisplayName</p>
+        </div>
+        langCounter++;
+    }
+</div>
+<form action="" method="post">
+    <div class="row">
+        @{ var counter = 0;}
+        @foreach (var item in Model.Languages)
+        {
+            <div class="info-content form-element-wrapper @(counter==0?"active":"")" data-id="@item.DisplayName" data-name="@item.DisplayName">
+                <div class="personal-info-fields-wrapper">
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <div class="row">
+                        <div class="col-12">
+                            <p style="display:none;" id="editor_text_@(counter)">@Model.Contents.FirstOrDefault(c => c.LangName == item.DisplayName)?.Content</p>
+                            <div id="editor_@(counter)"></div>
+                        </div>
+                    </div>
+                    <div class="col-12 submit-button-wrapper">
+                        <div class="personal-info-field">
+                            <button data-id="@(Model.Contents.FirstOrDefault(c=>c.LangName == item.DisplayName)?.ContentLangId==null?0:Model.Contents.FirstOrDefault(c=>c.LangName == item.DisplayName)?.ContentLangId)" type="button" class="save-button submit-about mt-3 search-btn">Yadda saxla</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            counter++;
+        }
+    </div>
+
+</form>
+<div class="msg-wrapper error-msg-wrapper">
+    <div class="error-message message-popup">
+        <div class="popup-close-btn">
+            <span>+</span>
+        </div>
+        <img src="~/admin/img/error.png" alt="" class="msg-img">
+        <p class="msg-title">
+            Oops!
+        </p>
+        <p class="msg-details"></p>
+        <button class="msg-btn error-btn">
+            Bağla
+        </button>
+    </div>
+</div>
+
+<div class="msg-wrapper success-msg-wrapper">
+    <div class="success-message message-popup">
+        <div class="popup-close-btn">
+            <span>+</span>
+        </div>
+        <img src="~/admin/img/success.png" alt="" class="msg-img">
+        <p class="msg-title">
+            Uğurlu əməliyyat!
+        </p>
+        <p class="msg-details">Dəyişikliklər yadda saxlanıldı. </p>
+        <button class="msg-btn">
+            OK
+        </button>
+    </div>
+</div>
+@section Styles{
+    <link href="~/admin/css/user-info.css" rel="stylesheet" />
+    <link href="~/admin/css/add-news.css" rel="stylesheet" />
+    @*<link href="~/admin/ckeditor/contents.css" rel="stylesheet" />*@
+    <style>
+        /*.group-create {
+            display: none;
+        }*/
+        .group-create-modal {
+            display: none;
+        }
+
+        .absolute-button {
+            right: 0 !important
+        }
+
+        .error-msg-wrapper {
+            z-index: 1000000;
+        }
+
+        .ck-content {
+            min-height: 450px;
+        }
+    </style>
+}
+@section Scripts{
+    <script src="~/admin/js/user-info.js"></script>
+    <script src="~/admin/custom/js/ajax.js"></script>
+    <script src="~/admin/custom/js/specification.js"></script>
+
+    <script src="~/admin/ckeditor/ckeditor.js"></script>
+    @*<script src="~/admin/ckeditor/config.js"></script>
+        <script src="~/admin/ckeditor/build-config.js"></script>
+        <script src="~/admin/ckeditor/styles.js"></script>*@
+
+    @*<script src="https://cdn.ckeditor.com/ckeditor5/22.0.0/classic/ckeditor.js"></script>*@
+    <script src="~/admin/js/add-news.js"></script>
+
+    <script>
+        var editors = [];
+
+        $(document).ready(function () {
+
+            var contents = $("[id^=editor_text_]");
+            var editorCounter = 0;
+            for (var content of contents) {
+                let obj = {
+                    editor: "",
+                    langName: $(content).parents(".info-content").data("id")
+                };
+                let contentHtml = $(content).text();
+
+                var editor = CKEDITOR.replace(`editor_${editorCounter}`);
+
+                editor.setData(contentHtml);
+                obj.editor = editor;
+
+
+                editors.push(obj);
+                editorCounter++;
+            }
+
+
+            $(".save-button").click(function () {
+                var saveButton = $(this);
+                var contentLangId = $(this).data("id");
+                var ajax = new AJAX();
+                let obj = {
+                    Content: "",
+                    LangName: saveButton.parents(".info-content").data("id")
+                };
+
+                for (var e of editors) {
+                    if (e.langName == saveButton.parents(".info-content").data("id")) {
+                        obj.Content = e.editor.getData();
+                    }
+                }
+
+                var formData = toFormData(obj);
+                ajax._constructor("/admin/about/update/?contentLangId=" + contentLangId, "post",
+                    (res, loader) => {
+                        loader.remove();
+                        SuccessModal();
+                    },
+                    (res, loader) => {
+                        loader.remove();
+                        alert("Xeta");
+                    });
+
+                ajax._postAsync(formData, true);
+
+            });
+
+        })
+    </script>
+}

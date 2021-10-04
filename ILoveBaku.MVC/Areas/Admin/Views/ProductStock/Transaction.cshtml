@@ -1,0 +1,31 @@
+﻿@model List<ILoveBaku.Application.CQRS.Transactions.Models.ProductTransactionDto>
+<a href="@Url.Action("CreateTransaction","ProductStock")"><button class="add-user-btn">Tranzaksiya əlavə et</button></a>
+<div class="users-table-wrapper">
+    <table class="users-table">
+        <tr class="header-row">
+            <th class="column-header">Firma</th>
+            <th class="column-header">Sənəd nömrəsi</th>
+            <th class="column-header">Məbləğ</th>
+            <th class="column-header">Endirim</th>
+            <th class="column-header">Ödəniləcək</th>
+            <th class="column-header">Qeyd</th>
+            <th class="column-header">Sənəd tarixi</th>
+            <th class="column-header">Bax</th>
+            <th class="column-header">Çap et</th>
+        </tr>
+        @foreach (var transaction in Model)
+        {
+            <tr class="users-row">
+                <td class="row-item">@transaction.Supplier</td>
+                <td class="row-item">@transaction.ReceiptNumber</td>
+                <td class="row-item">@(transaction.TotalAmount == 0?"0":transaction.TotalAmount.ToString("#.##")) AZN</td>
+                <td class="row-item">@(transaction.Discount==0?"0":transaction.Discount.ToString("#.##")) AZN</td>
+                <td class="row-item">@(transaction.PayAmount==0?"0":transaction.PayAmount.ToString("#.##")) AZN</td>
+                <td class="row-item">@transaction.Note</td>
+                <td class="row-item">@transaction.ReceiptDate</td>
+                <td class="row-item"><a href="@Url.Action("UpdateTransaction","ProductStock",new { transactionId = transaction.Id })">bax</a></td>
+                <td class="row-item"><a href="#">çap et</a></td>
+            </tr>
+        }
+    </table>
+</div>

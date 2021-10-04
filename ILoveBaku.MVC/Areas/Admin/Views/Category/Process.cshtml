@@ -1,0 +1,423 @@
+﻿@using ILoveBaku.MVC.Areas.Admin.Logics.Category
+@model CategoryProcessVm
+<div class="info-tabs-wrapper">
+    <div class="info-tab info-tab-active" data-name="kateqoriya">
+        <p class="info-tab-txt">Kateqoriya</p>
+    </div>
+    @if (Model.IsUpdate)
+    {
+        @foreach (var language in Model.Languages)
+        {
+            <div class="info-tab" data-name="@language?.Culture">
+                <p class="info-tab-txt">@language?.DisplayName</p>
+            </div>
+        }
+        <div class="info-tab" data-name="şəkillər">
+            <p class="info-tab-txt">Şəkil</p>
+        </div>
+    }
+</div>
+<form action="@(!Model.IsUpdate?Url.Action("Process","Category"):Url.Action("Process","Category",new { categoryId = Model.CategoryLanguageVm.FirstOrDefault()?.CategoriesId}))" method="post">
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="info-content form-element-wrapper active" data-main="1" data-id="@Model?.CategoryId" data-name="kateqoriya">
+            <div class="personal-info-fields-wrapper">
+                <input hidden value="@Model?.IsUpdate" type="text" name="IsUpdate" />
+                <input hidden value="@Model?.CategoryId" id="category-id" type="text" name="CategoryId" />
+                <div asp-validation-summary="ModelOnly"></div>
+                @if (Model.CategoryId == null)
+                {
+                    <div class="personal-info-field">
+                        <p class="info-field-title">Ad</p>
+                        <span class="text-danger d-block" asp-validation-for="CategoryVm.Name"></span>
+                        <input type="text" value="@Model.CategoryVm?.Name" name="CategoryVm.Name" class="form-element info-field-input full-name-input">
+                    </div>
+                }
+                <div class="personal-info-field">
+                    <p class="info-field-title">Başlıq</p>
+                    <span class="text-danger d-block" asp-validation-for="CategoryVm.Title"></span>
+                    <input type="text" value="@Model.CategoryVm?.Title" name="CategoryVm.Title" class="form-element info-field-input full-name-input">
+                </div>
+                <div class="personal-info-field">
+                    <p class="info-field-title">Öncəlik</p>
+                    <span class="text-danger d-block" asp-validation-for="CategoryVm.Priority"></span>
+                    <input value="@Model.CategoryVm?.Priority" type="number" name="CategoryVm.Priority" class="form-element info-field-input father-name-input">
+                </div>
+                <div class="personal-info-field" style="display:none;">
+                    <p class="info-field-title">Bağlı olduğu kateqoriya</p>
+                    <span class="text-danger d-block" asp-validation-for="CategoryVm.ParentId"></span>
+                    <input type="number" name="CategoryVm.ParentId" hidden value="@(Model.ParentId!=null?Model.ParentId:0)" class="form-element info-field-input father-name-input">
+                </div>
+                <div class="personal-info-field">
+                    <p class="info-field-title">Aktivlik</p>
+                    <span class="text-danger d-block" asp-validation-for="CategoryVm.IsActive"></span>
+                    <select class="form-element custom-select info-field-input branch-name-input" name="CategoryVm.IsActive">
+                        @if (Model.CategoryVm != null)
+                        {
+                            if (Model.CategoryVm.IsActive)
+                            {
+                                <option value="false">Deaktiv</option>
+                                <option selected value="true">Aktiv</option>
+                            }
+                            else
+                            {
+                                <option selected value="false">Deaktiv</option>
+                                <option value="true">Aktiv</option>
+                            }
+                        }
+                        else
+                        {
+                            <option value="true">Aktiv</option>
+                            <option value="false">Deaktiv</option>
+                        }
+                    </select>
+                </div>
+                @if (Model.Specifications.Count > 0)
+                {
+                    <div class="form-element-wrapper">
+                        <div class="rights-wrapper">
+                            <p class="rights-title">Kateqoriya xüsusiyyətləri</p>
+                            <div class="rights">
+                                @{
+                                    var counter = 1;
+                                }
+                                @foreach (var specification in Model.Specifications)
+                                {
+                                    <div class="single-right">
+                                        <div class="right-id">
+                                            <p class="right-id-txt">@counter</p>
+                                        </div>
+                                        <label data-id="@Model?.CategoryId" for="user-list_@(counter)" class="right-checkbox-container">
+                                            @specification.Name
+                                            <input type="number" hidden name="Specification.CategoryId" class="form-element" value="@Model?.CategoryId" />
+                                            <input type="number" hidden name="Specification.CategorySpecificationId" class="form-element" value="@specification.CategorySpecificationId" />
+                                            <input type="checkbox" @(specification.CategorySpecificationRelationId != null && specification.CategoryId == Model.CategoryId ? "checked" : "") id="user-list_@(counter)" class="user-list right-checkbox">
+                                            <span class="right-checkmark "></span>
+                                        </label>
+                                    </div>
+
+                                    counter++;
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="personal-info-field">
+                    <button data-main="1" data-id="@Model?.CategoryId" class="save-button mt-3 search-btn">Yadda saxla</button>
+                </div>
+            </div>
+        </div>
+        @if (Model.IsUpdate)
+        {
+            @for (int i = 0; i < Model.Languages.Count; i++)
+            {
+                <div data-main="0" data-name="@Model.Languages[i]?.Culture" data-id="@Model.CategoryLanguageVm[i].Id" class="info-content form-element-wrapper">
+                    <div class="personal-info-fields-wrapper">
+                        <input type="number" class="form-element" hidden name="CategoryLanguageVm[0].LangsId" value="@Model.CategoryLanguageVm[i].LangsId" />
+                        <input id="CategoryLangId" hidden type="text" class="form-element" value="@Model.CategoryLanguageVm[i].Id" name="CategoryLanguageVm[0].Id" />
+                        <div class="personal-info-field">
+                            <p class="info-field-title">Ad</p>
+                            <span class="text-danger d-block"></span>
+                            <input id="CategoryLangName" type="text" value="@Model.CategoryLanguageVm[i].Name" name="CategoryLanguageVm[0].Name" class="form-element info-field-input full-name-input">
+                        </div>
+                        <div class="personal-info-field">
+                            <p class="info-field-title">Təsvir</p>
+                            <span class="text-danger d-block"></span>
+                            <input id="CategoryLangDescription" type="text" value="@Model.CategoryLanguageVm[i].Description" name="CategoryLanguageVm[0].Description" class="form-element info-field-input full-name-input">
+                        </div>
+                        <div class="personal-info-field" data-name="@Model.Languages[i].Culture">
+                            <button data-id="@Model.CategoryLanguageVm[i].Id" class="save-button mt-3 search-btn">Yadda saxla</button>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div class="info-content form-element-wrapper" style="flex-direction: column;" data-id="şəkillər" data-name="şəkillər">
+                <div class="main-img-upload-wrapper">
+                    <div class="main-img-upload main-photo">
+                        <img src="~/admin/img/upload-img-icon.png" alt="" class="upload-icon">
+                        <span class="drop-here-txt">
+                            Drop your main image here!
+                        </span>
+                        <span class="or">
+                            or click
+                        </span>
+                        <label for="upload-img-main" class="main-img-upload-label">
+                            <span style="opacity:0;"></span>
+                            <input id="upload-img-main" accept="image/*" name="files[]" type="file">
+                            <p>Select from computer</p>
+                        </label>
+                        <div class="main-img-hover">
+                            <img src="~/admin/img/delete-upload.png" alt="" class="edit-upload-btn">
+                            <div class="rotate-buttons">
+                                <img src="~/admin/img/upload-rotate-left.png" alt="" class="rotate-left-btn">
+                                <img src="~/admin/img/upload-rotate-right.png" alt="" class="rotate-right-btn">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main-upload-details-uploading">
+                        <p class="upload-details-file-name">Anurajkr_dribble_post.jpg</p>
+                        <div class="file-size-wrapper">
+                            <p class="file-size">2.3MB of 8.4MB</p>
+                            <button class="cancel-upload-btn">
+                                <p>+</p>
+                            </button>
+                            <img src="~/admin/img/delete-upload.png" alt="" class="delete-upload-btn">
+                        </div>
+                        <progress value="100" max="100" class="upload-progress"></progress>
+                    </div>
+                </div>
+                <div class="other-uploaded-images-container">
+
+                </div>
+                <div class="main-img-upload other-images-upload">
+                    <img src="~/admin/img/upload-img-icon.png" alt="" class="upload-icon">
+                    <span class="drop-here-txt">
+                        Drop your ICON here!
+                    </span>
+                    <span class="or">
+                        or click
+                    </span>
+                    <label for="upload-img-other" class="other-img-upload-label">
+
+                        <input id="upload-img-other" accept="image/svg+xml" name="files[]" type="file">
+                        <p>Select from computer</p>
+                    </label>
+                </div>
+                <div class="col-12">
+                    <div class="personal-info-field">
+                        <button id="submit-photo" data-request="/admin/category/upload" type="button" class="mt-3 search-btn">Yadda saxla</button>
+                    </div>
+                </div>
+            </div>
+
+
+        }
+    </div>
+</form>
+<div class="msg-wrapper error-msg-wrapper">
+    <div class="error-message message-popup">
+        <div class="popup-close-btn">
+            <span>+</span>
+        </div>
+        <img src="~/admin/img/error.png" alt="" class="msg-img">
+        <p class="msg-title">
+            Oops!
+        </p>
+        <p class="msg-details"></p>
+        <button class="msg-btn error-btn">
+            Bağla
+        </button>
+    </div>
+</div>
+
+<div class="msg-wrapper success-msg-wrapper">
+    <div class="success-message message-popup">
+        <div class="popup-close-btn">
+            <span>+</span>
+        </div>
+        <img src="~/admin/img/success.png" alt="" class="msg-img">
+        <p class="msg-title">
+            Uğurlu əməliyyat!
+        </p>
+        <p class="msg-details">Dəyişikliklər yadda saxlanıldı. </p>
+        <button class="msg-btn">
+            OK
+        </button>
+    </div>
+</div>
+
+@section Styles{
+    <link href="~/admin/css/user-info.css" rel="stylesheet" />
+    <link href="~/admin/css/add-news.css" rel="stylesheet" />
+}
+@section Scripts{
+    <script src="~/admin/js/user-info.js"></script>
+    <script src="~/admin/custom/js/ajax.js"></script>
+    <script src="~/admin/js/add-news.js"></script>
+
+    <script>
+        const url = "/admin/category/update";
+        $(document).ready(function () {
+
+            if ($("#category-id").val() != 0) {
+                FillPhotos($("#category-id").val());
+            }
+            $(".save-button").click(async function (e) {
+                if ($(".info-content").children().length != 1) {
+                    e.preventDefault();
+
+                    var obj = getRequiredAjaxData($(this));
+                    obj.data.push({ name: "id", value: obj.id });
+
+                    var ajax = new AJAX();
+                    ajax._constructor(url, "post", (res, loader) => {
+                        ResponseProcess(res);
+                        loader.remove();
+                    }, (res, loader) => { loader.remove(); if (res != null) { ResponseProcess(res); } });
+
+                    await ajax._postAsync(obj.data);
+                }
+            });
+
+            $(".rights-wrapper label").click(function (e) {
+                if (e.target.tagName == "SPAN") {
+                    e.stopPropagation();
+                }
+                else {
+                    var id = $(this).data('id');
+                    var data = $(this).find("input").serializeArray();
+                    data.push({ name: "id", value: id });
+                    var ajax = new AJAX();
+                    ajax._constructor(url, "post", (res, loader) => {
+                        loader.remove();
+                    }, (loader) => { loader.remove; alert("xeta bas verdi"); });
+                    ajax._postAsync(data);
+                }
+
+            });
+
+            $("#submit-photo").click(function (e) {
+                var formData = CreateFormData(e);
+
+                var ajax = new AJAX();
+                var urll = $(this).data("request");
+                for (var arr of deleteArray) {
+                    formData.append(`deletePhotos`, arr);
+                }
+
+                var isValid = false;
+                if ($(".main-img-upload.main-photo").hasClass("img-dropped")) {
+                    isValid = true;
+                }
+
+                if (isValid) {
+                    var categoryId = $("#category-id").val();
+                    ajax._constructor(`${urll}/?categoryId=${categoryId}`, "post",
+                        (res, loader) => {
+                            loader.remove();
+                            SuccessModal();
+                            $(".main-img-upload-label span").attr("data-old", "true");
+                            $(".upload-details-file-name").attr("data-old", "true");
+                            array = [];
+                            deleteArray = [];
+
+                            for (var d of res.data) {
+                                if (d.isMain) {
+                                    $(".main-img-upload-label span").text(d.name);
+                                }
+                                else {
+                                    $(".upload-details-file-name").text(d.name);
+                                }
+                            }
+                        }
+                        , (res, loader) => {
+                            loader.remove();
+                            for (var error in res.errors) {
+                                ErrorModal(res.errors[error]);
+                                break;
+                            }
+                        });
+
+                    ajax._postAsync(formData, true);
+                }
+                else {
+                    ErrorModal("Kateqoriya şəkli qeyd edin.");
+                }
+            });
+        });
+        function FillPhotos(categoryId) {
+            var ajax = new AJAX();
+            ajax._constructor(`/admin/category/getPhotos/?categoryId=${categoryId}`, "get",
+                (res, loader) => {
+                    loader.remove();
+                    console.log(res.data)
+                    for (var photo of res.data) {
+                        if (!photo.isMain) {
+                            let element = `<div class="uploaded-item-wrapper">
+                                                        <div class="uploaded-item">
+                                                        <div class="uploaded-item-img-wrapper" style="background-image:url('${photo.path}')">
+                                                        <div class="main-img-hover visible" style="display: none;">
+                                                        <img src="/admin/img/delete-upload.png" class="edit-upload-btn">
+                                                        <div class="rotate-buttons">
+                                                        <img src="/admin/img/upload-rotate-left.png" class="rotate-left-btn">
+                                                        <img class="rotate-right-btn" src="/admin/img/upload-rotate-right.png">
+                                                        </div>
+                                                        </div>
+                                                        </div>
+                                                        <div class="main-upload-details-uploading other-upload-details-uploading">
+                                                        <p class="upload-details-file-name" data-old="true">${photo.name}</p><div class="file-size-wrapper">
+                                                        <p class="file-size">0.057MB of 0.057MB</p>
+                                                        <button class="cancel-upload-btn"><p>+</p></button>
+                                                        <img class="delete-upload-btn" src="/admin/img/delete-upload.png">
+                                                        </div><progress value="100" max="100" class="upload-progress"></progress></div>
+                                                        </div></div>`
+                            $(".other-uploaded-images-container").append(element);
+                        }
+                        else {
+                            $(".main-img-upload.main-photo").css("background-image", `url('${photo.path}')`);
+                            $(".main-img-upload-label span").attr("data-old", "true");
+                            $(".main-img-upload-label span").text(photo.name);
+                            clearContainer(".main-img-upload");
+                        }
+                    }
+                },
+                (res, loader) => {
+                    loader.remove();
+                    for (var error in res.errors) {
+                        ErrorModal(res.errors[error]);
+                        break;
+                    }
+                });
+
+            ajax._getAsync();
+        }
+        function getRequiredAjaxData(element) {
+            var main = element.data("main") == 1;
+            var id = element.data('id');
+            var selector = main ? `.form-element-wrapper[data-id='${id}'][data-main='1'] .form-element` : `.form-element-wrapper[data-id='${id}'][data-main='0'] .form-element`;
+            var formElements = $(selector).serializeArray();
+            var obj =
+            {
+                data: formElements,
+                id: id
+            };
+
+            console.log(obj);
+
+            return obj;
+        }
+        function ResponseProcess(res) {
+            if (res.status == 200) {
+                SuccessModal();
+            }
+            else if (res.status == 400) {
+                if (res.errors != null) {
+                    let errorDetail = "";
+                    for (var error of res.errors) {
+                        if (error.errorMessage != null) {
+                            errorDetail += `<p>${error.errorMessage}</p>`;
+                        }
+                    }
+                    ErrorModal(errorDetail);
+                }
+                else if (res.errorsObj != null) {
+                    let errorDetail = "";
+                    for (var key in res.errorsObj) {
+                        errorDetail += `<p>${res.errorsObj[key]}</p>`;
+                    }
+                    ErrorModal(errorDetail);
+                }
+            }
+        }
+        function SuccessModal() {
+            $(".success-msg-wrapper").css("display", "flex");
+            $(".error-msg-wrapper").css("display", "none");
+        }
+        function ErrorModal(text) {
+            $(".error-msg-wrapper").css("display", "flex");
+            $(".success-msg-wrapper").css("display", "none");
+            $(".error-msg-wrapper").find(".msg-details").html(text);
+        }
+    </script>
+}

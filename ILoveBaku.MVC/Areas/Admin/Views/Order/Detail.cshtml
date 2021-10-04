@@ -1,0 +1,440 @@
+﻿@using ILoveBaku.Application.CQRS.ProductCashOut.Models
+@using ILoveBaku.Domain.Enums
+@model ProductCashOutDetailVm
+@{
+    var productCashOutId = Model.ProductCashOutDetailDtos?.FirstOrDefault()?.ProductCashOutId;
+}
+<div class="user-info-content">
+    <div class="user-info-items-wrapper">
+        <p class="user-info-title">Istifadəçi məlumatları</p>
+        <div class="user-info-item">
+            <p class="user-info-item-title">Ad Soyad</p>
+            <p class="user-info-item-data">@Model.UserCardDto?.Name @Model.UserCardDto?.Surname</p>
+        </div>
+        <div class="user-info-item">
+            <p class="user-info-item-title">Telefon</p>
+            <p class="user-info-item-data">@Model.UserCardDto?.Phone</p>
+        </div>
+        <div class="user-info-item">
+            <p class="user-info-item-title">Filial</p>
+            <p class="user-info-item-data">@Model.UserCardDto?.BranchName</p>
+        </div>
+        <div class="user-info-item">
+            <p class="user-info-item-title">Ödənişin növü</p>
+            <p class="user-info-item-data">@(Model.UserCardDto?.PaymentType== (int)PaymentType.WithCard?"Plastik kart":"Nağd")</p>
+        </div>
+        <div class="user-info-item">
+            <p class="user-info-item-title">Qeydiyyatdan keçmə tarixi</p>
+            <p class="user-info-item-data">@Model.UserCardDto?.RegisterDate</p>
+        </div>
+        <div class="user-info-item">
+            <p class="user-info-item-title">Çatdırılma Ünvanı</p>
+            <p class="user-info-item-data">@Model.UserCardDto?.Address</p>
+        </div>
+    </div>
+</div>
+<div class="products-table-wrapper">
+    <table class="products-table">
+        <thead>
+            <tr class="header-row">
+                <th class="column-header">ID</th>
+                <th class="column-header">Barkod</th>
+                <th class="column-header">Məhsulun adı</th>
+                <th class="column-header">Say</th>
+                <th class="column-header">Satış qiyməti</th>
+                <th class="column-header">Total</th>
+            </tr>
+        </thead>
+        @foreach (var productCashOutDetail in Model.ProductCashOutDetailDtos)
+        {
+            <tr class="header-row">
+                <td class="row-item row-id">###</td>
+                <td class="row-item">@productCashOutDetail?.Barcode</td>
+                <td class="row-item">@productCashOutDetail?.ProductName</td>
+                <td class="row-item">@productCashOutDetail?.Count.ToString("#.##")</td>
+                <td class="row-item">@productCashOutDetail?.SaleAmount.ToString("#.##")</td>
+                <td class="row-item">@((productCashOutDetail?.SaleAmount * productCashOutDetail?.Count)?.ToString("#.##"))</td>
+            </tr>
+        }
+    </table>
+</div>
+<div class="choose-package-buttons-wrapper">
+    <!--                <div class="select-pack-wrapper" >-->
+    <!--                    <div class="select-pack-input-wrapper">-->
+    <!--                        <input type="text" class="select-pack-input" value="Package" readonly>-->
+    <!--                    </div>-->
+    <!--                    <div class="pack-select-dropdown-menu">-->
+    <!--                        <div class="pack-select-dropdown-item"><p class="pack-item-txt">One</p></div>-->
+    <!--                        <div class="pack-select-dropdown-item"><p class="pack-item-txt">Two</p></div>-->
+    <!--                        <div class="pack-select-dropdown-item"><p class="pack-item-txt">Three</p></div>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <input type="text" name="ProductCashOutId" hidden value="@ViewBag?.ProductCashOutId" />
+    <select name="pack" class="select-pack">
+        @if (Model?.PacketDetail == null)
+        {
+            <option selected value="--" class="select-pack-item">--</option>
+        }
+
+        @foreach (var packet in Model?.Packets)
+        {
+            @if (Model?.PacketDetail != null && Model?.PacketDetail?.ProductsCashOutShippingsPacketsId == packet?.Id)
+            {
+                <option selected value="@packet?.Id" class="select-pack-item">@packet?.Name</option>
+            }
+            else
+            {
+                <option value="@packet?.Id" class="select-pack-item">@packet?.Name</option>
+            }
+        }
+    </select>
+    <button class="add-news-btn create-packet-modal" id="create-packet-modal">Bağlama yarat</button>
+    <div class="total-price-container">
+        <p class="total-price">
+            <span class="total">
+                Məhsulların toplam qiyməti:
+            </span>
+            <span class="price-num">
+                @{
+                    var productsPrice = Model?.ProductCashOutDetailDtos?.Sum(c => c.Count * c.SaleAmount);
+                    var productsPriceView = productsPrice == 0 ? "0" : productsPrice?.ToString("#.##");
+                }
+                @productsPriceView
+            </span>
+            <span class="manat-sign">
+                AZN
+            </span>
+        </p>
+        <p class="total-price">
+            <span class="total">
+                Çatdırılma qiyməti:
+            </span>
+            <span class="price-num">
+                @{ var price = Model?.PacketDetail?.Price;
+                    var shippingPriceView = price == 0 ? "0" : price?.ToString("#.##");
+                }
+                @shippingPriceView
+            </span>
+            <span class="manat-sign">
+                AZN
+            </span>
+        </p>
+        <p class="total-price">
+            <span class="total">
+                Toplam:
+            </span>
+            <span class="price-num">
+                @{ var totalPrice = price + productsPrice;
+                    var totalPriceView = totalPrice == 0 ? "0" : totalPrice?.ToString("#.##");
+                }
+                @totalPriceView
+            </span>
+            <span class="manat-sign">
+                AZN
+            </span>
+        </p>
+    </div>
+    @{
+        var isFinished = Model.ProductCashOutDetailDtos.Any(c => c.ProductCashOutStatusId == (byte)ILoveBaku.Domain.Enums.ProductCashOutStatus.Paid);
+        var isAccepted = Model.ProductCashOutDetailDtos.Any(c => c.ProductCashOutStatusId == (byte)ILoveBaku.Domain.Enums.ProductCashOutStatus.Accepted);
+    }
+    @if (!isFinished && isAccepted)
+    {
+        <div class="process-end" style="display:inline-block;vertical-align:bottom;">
+            <button class="custom-button process-end-button">Əməliyyatı bitir</button>
+        </div>
+    }
+    else if (!isAccepted && !isFinished)
+    {
+        <div class="process-accept" style="display:inline-block;vertical-align:bottom;">
+            <button class="custom-button process-accept-button">Sifarişi qəbul et</button>
+        </div>
+    }
+</div>
+
+<div class="msg-wrapper packet-create-modal">
+    <div class="error-message message-popup">
+        <div class="popup-close-btn">
+            <span>+</span>
+        </div>
+        <div class="group-create-form-wrapper">
+            <form action="/" method="post">
+                <div class="personal-info-field">
+                    <p class="info-field-title">Ad</p>
+                    <input type="text" name="Name" id="packet-name" class="form-element info-field-input father-name-input">
+                    <span class="text-danger d-block"></span>
+                </div>
+                <div class="personal-info-field">
+                    <button id="submit-packet" class="save-button mt-3 search-btn">Yadda saxla</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="msg-wrapper error-msg-wrapper">
+    <div class="error-message message-popup">
+        <div class="popup-close-btn">
+            <span>+</span>
+        </div>
+        <img src="~/admin/img/error.png" alt="" class="msg-img">
+        <p class="msg-title">
+            Oops!
+        </p>
+        <p class="msg-details"></p>
+        <button class="msg-btn error-btn">
+            Bağla
+        </button>
+    </div>
+</div>
+
+@if (!isFinished && isAccepted)
+{
+    <div class="msg-wrapper notification-msg-wrapper process-end-modal" style="display:none;">
+        <div class="error-message message-popup">
+            <div class="popup-close-btn">
+                <span>+</span>
+            </div>
+            <img src="~/admin/img/question.png" style="width:60px;height:40px;" alt="" class="msg-img">
+            <p class="msg-title">
+                Diqqət!
+            </p>
+            <p class="msg-details">
+                Əməliyyatı bitirmək istədiyinizə əminsinizmi?
+            </p>
+            <div class="col-12 d-flex justify-content-around">
+                <button id="process-end-button" class="msg-btn">
+                    Bəli
+                </button>
+
+                <button class="msg-btn error-btn">
+                    Bağla
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+@if (!isFinished && !isAccepted)
+{
+    <div class="msg-wrapper notification-msg-wrapper process-accept-modal" style="display:none;">
+        <div class="error-message message-popup">
+            <div class="popup-close-btn">
+                <span>+</span>
+            </div>
+            <img src="~/admin/img/question.png" style="width:60px;height:40px;" alt="" class="msg-img">
+            <p class="msg-title">
+                Diqqət!
+            </p>
+            <p class="msg-details">
+                Sifarişi qəbul etmək istədiyinizə əminsinizmi?
+            </p>
+            <div class="col-12 d-flex justify-content-around">
+                <button id="process-accept-button" class="msg-btn">
+                    Bəli
+                </button>
+
+                <button class="msg-btn error-btn">
+                    Bağla
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="msg-wrapper success-msg-wrapper">
+    <div class="success-message message-popup">
+        <div class="popup-close-btn">
+            <span>+</span>
+        </div>
+        <img src="~/admin/img/success.png" alt="" class="msg-img">
+        <p class="msg-title">
+            Uğurlu əməliyyat!
+        </p>
+        <p class="msg-details">Dəyişikliklər yadda saxlanıldı. </p>
+        <button class="msg-btn">
+            OK
+        </button>
+    </div>
+</div>
+@section Styles{
+    <link href="~/admin/css/ordered-products.css" rel="stylesheet" />
+    <link href="~/admin/css/user-info.css" rel="stylesheet" />
+    <style>
+        .packet-create-modal {
+            display: none;
+        }
+
+        .custom-button {
+            background-color: #ff0100;
+            text-align: center;
+            padding: 15px 0px;
+            width: 195px;
+            border-radius: 10px;
+            border: none;
+            color: white;
+            position: relative;
+            font-size: 14px;
+            align-self: flex-start;
+            align-items: center;
+            margin-left: 20px;
+        }
+    </style>
+}
+
+@section Scripts{
+    <script src="~/admin/js/user-info.js"></script>
+    <script src="~/admin/custom/js/ajax.js"></script>
+
+    <script>
+        $(".create-packet-modal").click(function () {
+            $(".packet-create-modal").css("display", "flex");
+        });
+
+        $(".process-end button").click(function () {
+            $(".notification-msg-wrapper.process-end-modal").css("display", "flex")
+        })
+
+        $(".process-accept button").click(function () {
+            $(".notification-msg-wrapper.process-accept-modal").css("display", "flex")
+        })
+
+        $("#process-end-button").click(function () {
+            $(".process-end-modal").css("display", "none");
+            let productCashOutId = $(`input[name="ProductCashOutId"]`).val();
+            var ajax = new AJAX();
+            ajax._constructor("/admin/order/finishOrder/?ProductCashOutId=" + productCashOutId, "post",
+                (res, loader) => {
+                    loader.remove();
+                    SuccessModal();
+                    $(".process-end").remove();
+                    $(".process-end-modal").remove();
+                },
+                (res, loader) => {
+                    loader.remove();
+                    ErrorModal(res.error);
+                });
+
+            var formData = new FormData();
+            ajax._postAsync(formData, true);
+        });
+
+
+        $("#process-accept-button").click(function () {
+            $(".process-accept-modal").css("display", "none");
+
+            let productCashOutId = $(`input[name="ProductCashOutId"]`).val();
+            var ajax = new AJAX();
+            ajax._constructor("/admin/order/acceptOrder/?ProductCashOutId=" + productCashOutId, "post",
+                (res, loader) => {
+                    loader.remove();
+                    SuccessModal();
+                    $(".process-accept").remove();
+                    $(".process-accept-modal").remove();
+
+                    setTimeout(function () {
+                        window.location.reload();
+                    },1000)
+                },
+                (res, loader) => {
+                    loader.remove();
+                    ErrorModal(res.error);
+                });
+            var formData = new FormData();
+            ajax._postAsync(formData,true);
+        })
+
+        $("#submit-packet").click(function (e) {
+            e.preventDefault();
+            var name = $("#packet-name").val();
+
+            var ajax = new AJAX();
+            var formData = new FormData();
+            formData.append("Name", name);
+            ajax._constructor("/admin/order/createPacket", "post",
+                (res, loader) => {
+                    loader.remove();
+                    let element = `<option value="${res.data}">${name}</option>`;
+                    $(".select-pack").append(element);
+                    $(`.select-pack option[value="${res.data}"`).prop("selected", true);
+
+                    let productCashOutId = $(`input[name="ProductCashOutId"]`).val();
+                    let data = new FormData();
+                    data.append("ProductCashOutId", productCashOutId);
+                    data.append("PacketId", res.data);
+                    var ajaxRequest = new AJAX();
+                    ajaxRequest._constructor(`/admin/order/createPacketDetail`, "post",
+                        (r, loader) => {
+                            loader.remove();
+                            $(".packet-create-modal").css("display", "none");
+                            SuccessModal();
+                        },
+                        (r, loader) => {
+                            loader.remove();
+                            let errorText = "";
+                            for (var error in r.errors) {
+                                errorText += r.errors[error] + "</br>";
+                            }
+
+                            ErrorModal(errorText);
+                        })
+
+                    ajaxRequest._postAsync(data, true);
+                },
+                (res, loader) => {
+                    loader.remove();
+                    let errorText = "";
+                    for (var error in res.errors) {
+                        errorText += res.errors[error] + "</br>";
+                    }
+
+                    ErrorModal(errorText);
+                });
+
+            ajax._postAsync(formData, true);
+
+        });
+
+        $(".select-pack").change(function () {
+            var packetId = $(this).val();
+            var productCashOutId = $(`input[name="ProductCashOutId"]`).val();
+
+            var ajax = new AJAX();
+            let data = new FormData();
+
+            data.append("ProductCashOutId", productCashOutId);
+            data.append("PacketId", packetId);
+
+            ajax._constructor(`/admin/order/createPacketDetail`, "post",
+                (r, loader) => {
+                    loader.remove();
+                    $(".packet-create-modal").css("display", "none");
+                    SuccessModal();
+                },
+                (r, loader) => {
+                    loader.remove();
+                    let errorText = "";
+                    for (var error in r.errors) {
+                        errorText += r.errors[error] + "</br>";
+                    }
+
+                    ErrorModal(errorText);
+                })
+
+            ajax._postAsync(data, true);
+        });
+
+
+        
+        function ErrorModal(text) {
+            $(".error-msg-wrapper").css("display", "flex");
+            $(".success-msg-wrapper").css("display", "none");
+            $(".error-msg-wrapper").find(".msg-details").html(text);
+        }
+        function SuccessModal(text) {
+            $(".error-msg-wrapper").css("display", "none");
+            $(".success-msg-wrapper").css("display", "flex");
+        }
+    </script>
+}

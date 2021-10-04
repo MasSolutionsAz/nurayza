@@ -1,0 +1,435 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>d668a38e-37ef-45ba-914f-fbea1c081bd9</UserSecretsId>
+    <!--<AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+    <AspNetCoreModuleName>AspNetCoreModule</AspNetCoreModuleName>-->
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\Admin\Data\**" />
+    <Compile Remove="Areas\Admin\Models\**" />
+    <Content Remove="Areas\Admin\Data\**" />
+    <Content Remove="Areas\Admin\Models\**" />
+    <EmbeddedResource Remove="Areas\Admin\Data\**" />
+    <EmbeddedResource Remove="Areas\Admin\Models\**" />
+    <None Remove="Areas\Admin\Data\**" />
+    <None Remove="Areas\Admin\Models\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluffySpoon.AspNet.EncryptWeMust" Version="1.171.0" />
+    <PackageReference Include="GoogleReCaptcha.V3" Version="1.3.0" />
+    <PackageReference Include="LettuceEncrypt" Version="1.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Certificate" Version="3.1.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OAuth" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="System.Globalization" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\uploads\banners\" />
+    <Folder Include="wwwroot\uploads\categories\" />
+    <Folder Include="wwwroot\uploads\portfolios\" />
+    <Folder Include="wwwroot\uploads\productimages\" />
+    <Folder Include="www\**" CopyToPublishDirectory="Always" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Areas\Admin\Models\AboutVm.cs" />
+    <Compile Include="Areas\Admin\Models\ProductGroupProccessVm.cs" />
+    <Compile Include="Areas\Admin\Models\ProductListVm.cs" />
+    <Compile Include="Areas\Admin\Models\ProductTransationVm.cs" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Data\" />
+    <Folder Include="Core\Attributes\" />
+    <Folder Include="Core\Enums\" />
+    <Folder Include="Core\Arguments\" />
+    <Folder Include="Core\Helpers\" />
+    <Folder Include="wwwroot\static\fontawesome-free-5.11.2-web\svgs\solid\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\admin\ckeditor\adapters\jquery.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\af.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\ar.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\az.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\bg.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\bn.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\bs.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\ca.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\cs.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\cy.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\da.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\de-ch.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\de.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\el.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\en-au.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\en-ca.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\en-gb.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\en.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\eo.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\es-mx.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\es.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\et.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\eu.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\fa.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\fi.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\fo.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\fr-ca.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\fr.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\gl.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\gu.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\he.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\hi.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\hr.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\hu.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\id.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\is.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\it.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\ja.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\ka.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\km.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\ko.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\ku.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\lt.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\lv.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\mk.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\mn.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\ms.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\nb.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\nl.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\no.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\oc.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\pl.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\pt-br.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\pt.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\ro.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\ru.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\si.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\sk.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\sl.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\sq.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\sr-latn.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\sr.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\sv.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\th.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\tr.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\tt.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\ug.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\uk.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\vi.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\zh-cn.js" />
+    <None Include="wwwroot\admin\ckeditor\lang\zh.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\a11yhelp.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\af.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\ar.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\az.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\bg.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\ca.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\cs.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\cy.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\da.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\de-ch.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\de.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\el.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\en-au.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\en-gb.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\en.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\eo.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\es-mx.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\es.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\et.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\eu.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\fa.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\fi.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\fo.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\fr-ca.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\fr.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\gl.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\gu.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\he.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\hi.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\hr.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\hu.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\id.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\it.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\ja.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\km.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\ko.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\ku.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\lt.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\lv.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\mk.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\mn.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\nb.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\nl.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\no.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\oc.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\pl.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\pt-br.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\pt.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\ro.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\ru.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\si.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\sk.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\sl.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\sq.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\sr-latn.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\sr.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\sv.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\th.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\tr.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\tt.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\ug.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\uk.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\vi.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\zh-cn.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\a11yhelp\dialogs\lang\zh.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\about\dialogs\about.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\clipboard\dialogs\paste.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\dialog\dialogDefinition.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\image\dialogs\image.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\link\dialogs\anchor.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\link\dialogs\link.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\pastefromgdocs\filter\default.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\pastefromword\filter\default.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\pastetools\filter\common.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\pastetools\filter\image.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\scayt\CHANGELOG.md" />
+    <None Include="wwwroot\admin\ckeditor\plugins\scayt\dialogs\options.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\scayt\LICENSE.md" />
+    <None Include="wwwroot\admin\ckeditor\plugins\scayt\README.md" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\af.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\ar.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\az.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\bg.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\ca.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\cs.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\cy.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\da.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\de-ch.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\de.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\el.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\en-au.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\en-ca.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\en-gb.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\en.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\eo.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\es-mx.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\es.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\et.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\eu.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\fa.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\fi.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\fr-ca.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\fr.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\gl.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\he.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\hr.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\hu.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\id.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\it.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\ja.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\km.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\ko.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\ku.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\lt.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\lv.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\nb.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\nl.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\no.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\oc.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\pl.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\pt-br.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\pt.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\ro.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\ru.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\si.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\sk.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\sl.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\sq.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\sr-latn.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\sr.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\sv.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\th.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\tr.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\tt.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\ug.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\uk.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\vi.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\zh-cn.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\lang\zh.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\specialchar\dialogs\specialchar.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\tabletools\dialogs\tableCell.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\table\dialogs\table.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\wsc\dialogs\wsc.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\wsc\dialogs\wsc_ie.js" />
+    <None Include="wwwroot\admin\ckeditor\plugins\wsc\LICENSE.md" />
+    <None Include="wwwroot\admin\ckeditor\plugins\wsc\README.md" />
+    <None Include="wwwroot\admin\ckeditor\samples\img\logo.svg" />
+    <None Include="wwwroot\admin\ckeditor\samples\js\sample.js" />
+    <None Include="wwwroot\admin\ckeditor\samples\js\sf.js" />
+    <None Include="wwwroot\admin\ckeditor\samples\old\assets\posteddata.php" />
+    <None Include="wwwroot\admin\ckeditor\samples\old\assets\uilanguages\languages.js" />
+    <None Include="wwwroot\admin\ckeditor\samples\old\dialog\assets\my_dialog.js" />
+    <None Include="wwwroot\admin\ckeditor\samples\old\htmlwriter\assets\outputforflash\outputforflash.fla" />
+    <None Include="wwwroot\admin\ckeditor\samples\old\htmlwriter\assets\outputforflash\outputforflash.swf" />
+    <None Include="wwwroot\admin\ckeditor\samples\old\htmlwriter\assets\outputforflash\swfobject.js" />
+    <None Include="wwwroot\admin\ckeditor\samples\old\sample.js" />
+    <None Include="wwwroot\admin\ckeditor\samples\old\sample_posteddata.php" />
+    <None Include="wwwroot\admin\ckeditor\samples\toolbarconfigurator\font\fontello.svg" />
+    <None Include="wwwroot\admin\ckeditor\samples\toolbarconfigurator\js\abstracttoolbarmodifier.js" />
+    <None Include="wwwroot\admin\ckeditor\samples\toolbarconfigurator\js\fulltoolbareditor.js" />
+    <None Include="wwwroot\admin\ckeditor\samples\toolbarconfigurator\js\toolbarmodifier.js" />
+    <None Include="wwwroot\admin\ckeditor\samples\toolbarconfigurator\js\toolbartextmodifier.js" />
+    <None Include="wwwroot\admin\ckeditor\samples\toolbarconfigurator\lib\codemirror\codemirror.js" />
+    <None Include="wwwroot\admin\ckeditor\samples\toolbarconfigurator\lib\codemirror\javascript.js" />
+    <None Include="wwwroot\admin\ckeditor\samples\toolbarconfigurator\lib\codemirror\LICENSE" />
+    <None Include="wwwroot\admin\ckeditor\samples\toolbarconfigurator\lib\codemirror\show-hint.js" />
+    <None Include="wwwroot\admin\ckeditor\skins\moono-lisa\readme.md" />
+    <None Include="wwwroot\admin\ckeditor\vendor\promise.js" />
+    <None Include="wwwroot\admin\datePicker\bootstrap.min.js" />
+    <None Include="wwwroot\admin\datePicker\datepicker.js" />
+    <None Include="wwwroot\admin\datePicker\moment.js" />
+    <None Include="wwwroot\admin\datePicker\popper.min.js" />
+    <None Include="wwwroot\admin\fonts\helvetica\HelveticaNeue-Black.woff2" />
+    <None Include="wwwroot\admin\fonts\helvetica\HelveticaNeue-Bold.woff2" />
+    <None Include="wwwroot\admin\fonts\helvetica\HelveticaNeue-BoldItalic.woff2" />
+    <None Include="wwwroot\admin\fonts\helvetica\HelveticaNeue-Italic.woff2" />
+    <None Include="wwwroot\admin\fonts\helvetica\HelveticaNeue-Light.woff2" />
+    <None Include="wwwroot\admin\fonts\helvetica\HelveticaNeue-LightItalic.woff2" />
+    <None Include="wwwroot\admin\fonts\helvetica\HelveticaNeue-Medium.woff2" />
+    <None Include="wwwroot\admin\fonts\helvetica\HelveticaNeue-Thin.woff2" />
+    <None Include="wwwroot\admin\fonts\helvetica\HelveticaNeue-ThinItalic.woff2" />
+    <None Include="wwwroot\admin\fonts\helvetica\HelveticaNeue-UltraLight.woff2" />
+    <None Include="wwwroot\admin\fonts\helvetica\HelveticaNeue-UltraLightItalic.woff2" />
+    <None Include="wwwroot\admin\fonts\helvetica\HelveticaNeue.woff2" />
+    <None Include="wwwroot\admin\fonts\helvetica\HelveticaNeueCondensed-Bold.woff2" />
+    <None Include="wwwroot\admin\fonts\helvetica\HelveticaNeueCondensed-Heavy.woff2" />
+    <None Include="wwwroot\admin\fonts\helvetica\HelveticaNeueCondensed-Light.woff2" />
+    <None Include="wwwroot\admin\fonts\helvetica\HelveticaNeueCondensed-Medium.woff2" />
+    <None Include="wwwroot\admin\fonts\helvetica\HelveticaNeueCondensed-Thin.woff2" />
+    <None Include="wwwroot\admin\fonts\helvetica\HelveticaNeueCondensed.woff2" />
+    <None Include="wwwroot\admin\fonts\helvetica\helvetica_400-webfont.woff2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ILoveBaku.Infrastructure\ILoveBaku.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="sysglobl">
+      <HintPath>..\..\..\..\..\..\..\Windows\Microsoft.NET\assembly\GAC_MSIL\sysglobl\v4.0_4.0.0.0__b03f5f7f11d50a3a\sysglobl.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\SharedResource.en-US.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Account.Profile.en-US.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Account.Profile.ru-RU.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Home.Index.en-US.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Home.Index.ru-RU.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Payment.Checkout.en-US.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Portfolio.List.en-US.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Portfolio.List.ru-RU.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Product.Details.en-US.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Product.Details.ru-RU.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Product.List.en-US.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Shared._LoginModalPartial.en-US.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Shared.Components.AddToCart.Default.en-US.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Shared.Components.AddToCart.Default.ru-RU.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Shared.Components.FooterBranch.Default.en-US.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Shared.Components.FooterBranch.Default.ru-RU.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Shared.Components.Search.Default.en-US.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Shared.Components.Search.Default.ru-RU.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Shared._ChangePasswordPartial.en-US.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Shared._HomeCategoryPartial.en-US.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Shared._HomeCategoryPartial.ru-RU.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Shared._Layout.en-US.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Shared._Layout.ru-RU.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Shared._LoginPartial.en-US.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Shared._LoginPartial.ru-RU.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Shared._ProductFilterPartial.en-US.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Shared._ProductStockListPartial.en-US.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Shared._ProductStockListPartial.ru-RU.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Shared._RegisterModalPartial.en-US.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Shared._LoginModalPartial.ru-RU.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Shared._RegisterModalPartial.ru-RU.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

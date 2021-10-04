@@ -1,0 +1,221 @@
+﻿@using ILoveBaku.Application.CQRS.Product.Models
+@model ProductStockVM
+<div class="info-tabs-wrapper">
+    <div class="info-tab info-tab-active" data-name="kateqoriya">
+        <p class="info-tab-txt">Məhsul detalları</p>
+    </div>
+</div>
+<form action="" method="post">
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="info-content form-element-wrapper active" data-id="" data-name="">
+            <div class="personal-info-fields-wrapper">
+                <div asp-validation-summary="ModelOnly"></div>
+                <input hidden type="number" id="product-id" value="@Model?.Product?.ProductId" />
+                <div class="row">
+                    <div class="col-5">
+                        <input type="text" id="product-id" hidden value="@Model?.Product?.ProductId" />
+                        <div class="personal-info-field">
+                            <p class="info-field-title">Barkod <span class="required">*</span></p>
+                            @{
+                                string barcode = "";
+                            }
+                            @foreach (var item in Model?.Product?.Barcodes)
+                            {
+                                barcode += item + "";
+                            }
+                            <input disabled value="@barcode" type="text" id="barcode" class="form-element info-field-input father-name-input">
+                            <span class="text-danger d-block"></span>
+                        </div>
+                        <div class="personal-info-field">
+                            <p class="info-field-title">Kateqoriya <span class="required">*</span></p>
+                            <input disabled type="text" id="category" value="@Model?.Product?.CategoryName" class="form-element info-field-input father-name-input">
+                        </div>
+                        <div class="personal-info-field">
+                            <p class="info-field-title">Adı <span class="required">*</span></p>
+                            <input disabled type="text" id="name" value="@Model?.Product?.Name" class="form-element info-field-input father-name-input">
+                            <span class="text-danger d-block"></span>
+                        </div>
+                        @*<div class="personal-info-field">
+                            <p class="info-field-title">Təsvir</p>
+                            <textarea name="Description" id="description" rows="5" cols="10" class="form-element info-field-input father-name-input">@Model?.Product?.Description</textarea>
+                            <span class="text-danger d-block"></span>
+                        </div>*@
+                        <div class="personal-info-field">
+                            <div class="price-wrapper">
+                                <p class="info-field-title">Alış qiyməti <span class="required">*</span></p>
+                                <input value="@Model?.Product?.BuyAmount" style="width:100%;" type="text" id="buy-amount" class="form-element info-field-input father-name-input">
+                                <span class="text-danger d-block"></span>
+                            </div>
+                            <div class="price-wrapper">
+                                <p class="info-field-title">Maya dəyəri <span class="required">*</span></p>
+                                <input value="@Model?.Product?.CostAmount" style="width:100%;" type="text" id="cost-amount" class="form-element info-field-input father-name-input">
+                                <span class="text-danger d-block"></span>
+                            </div>
+                            <div class="price-wrapper">
+                                <p class="info-field-title">Satış qiyməti <span class="required">*</span></p>
+                                <input value="@Model?.Product?.Price" style="width:100%;" type="text" id="sale-amount" class="form-element info-field-input father-name-input">
+                                <span class="text-danger d-block"></span>
+                            </div>
+                        </div>
+                        <div class="personal-info-field">
+                            <p class="info-field-title">ƏDV % <span class="required">*</span></p>
+                            <input type="text" value="@Model?.Product?.Tax" id="tax-amount" class="form-element info-field-input father-name-input">
+                            <span class="text-danger d-block"></span>
+                        </div>
+                        <div class="personal-info-field">
+                            <p class="info-field-title">Satışa buraxılma tarixi <span class="required">*</span></p>
+                            @{
+                                var day = Model?.Product?.PublishDate.Day < 10 ? "0" + Model?.Product?.PublishDate.Day.ToString() : Model?.Product?.PublishDate.Day.ToString();
+                                var month = Model?.Product?.PublishDate.Month < 10 ? "0" + Model?.Product?.PublishDate.Month.ToString() : Model?.Product?.PublishDate.Month.ToString();
+                                var year = Model?.Product?.PublishDate.Year;
+                            }
+                            <span style="display:none;" id="publish-date-text">@(year)-@(month)-@(day)</span>
+                            <input type="date" id="publish-date" class="form-element info-field-input father-name-input">
+                            <span class="text-danger d-block"></span>
+                        </div>
+                        <div class="personal-info-field">
+                            <p class="info-field-title">Status <span class="required">*</span></p>
+                            <select id="statusues" class="form-element custom-select info-field-input branch-name-input">
+                                @if (Model?.Product?.ProductStockStatusId != null)
+                                {
+                                    if (Model?.Product?.ProductStockStatusId == 10)
+                                    {
+                                        <option value="20">Deaktiv</option>
+                                        <option selected value="10">Aktiv</option>
+                                    }
+                                    else
+                                    {
+                                        <option selected value="20">Deaktiv</option>
+                                        <option value="10">Aktiv</option>
+                                    }
+                                }
+                                else
+                                {
+                                    <option selected value="0">--</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-7">
+                        <img src="@Model?.Product?.Images?.FirstOrDefault()" style="width:30%;" alt="Alternate Text" />
+                    </div>
+                    <div class="col-12 submit-button-wrapper">
+                        <div class="personal-info-field">
+                            <button id="submit-product" type="button" class="save-button mt-3 search-btn">Yadda saxla</button>
+                            <button id="reject" type="button" style="background:red;" class="save-button mt-3 search-btn">Imtina</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="msg-wrapper error-msg-wrapper">
+    <div class="error-message message-popup">
+        <div class="popup-close-btn">
+            <span>+</span>
+        </div>
+        <img src="~/admin/img/error.png" alt="" class="msg-img">
+        <p class="msg-title">
+            Oops!
+        </p>
+        <p class="msg-details"></p>
+        <button class="msg-btn error-btn">
+            Bağla
+        </button>
+    </div>
+</div>
+
+
+
+<div class="msg-wrapper success-msg-wrapper">
+    <div class="success-message message-popup">
+        <div class="popup-close-btn">
+            <span>+</span>
+        </div>
+        <img src="~/admin/img/success.png" alt="" class="msg-img">
+        <p class="msg-title">
+            Uğurlu əməliyyat!
+        </p>
+        <p class="msg-details">Dəyişikliklər yadda saxlanıldı. </p>
+        <button class="msg-btn">
+            OK
+        </button>
+    </div>
+</div>
+@section Styles{
+    <link href="~/admin/css/user-info.css" rel="stylesheet" />
+    <style>
+        .price-wrapper {
+            width: 28%;
+            display: inline-block;
+            margin: 1%;
+        }
+
+        .info-field-input {
+            width: 100%;
+        }
+
+        .info-tabs-wrapper {
+            width: 150px;
+        }
+
+            .info-tabs-wrapper div {
+                width: 100%;
+            }
+
+        .error-msg-wrapper {
+            z-index: 1000000;
+        }
+    </style>
+}
+@section Scripts{
+    <script src="~/admin/js/user-info.js"></script>
+    <script src="~/admin/custom/js/ajax.js"></script>
+    <script>
+        $("#submit-product").click(function (e) {
+            e.preventDefault();
+            let formData = new FormData();
+
+            formData.append("ProductId", $("#product-id").val());
+            formData.append("CostAmount", $("#cost-amount").val());
+            formData.append("BuyAmount", $("#buy-amount").val());
+            formData.append("Tax", $("#tax-amount").val());
+            formData.append("Price", $("#sale-amount").val());
+            formData.append("ProductStockStatusId", $("#statusues").val());
+            formData.append("PublishDate", $("#publish-date").val());
+            //formData.append("Description", $("#description").val());
+
+            var ajax = new AJAX();
+            ajax._constructor("/admin/productStock/process", "post",
+                (res, loader) => { loader.remove(); SuccessModal() },
+                (res, loader) => {
+                    loader.remove();
+                    let errorText = "";
+                    for (var error in res.errors) {
+                        errorText += res.errors[error] + "</br>";
+                    }
+
+                    ErrorModal(errorText);
+                });
+
+            ajax._postAsync(formData, true);
+        });
+
+        $(document).ready(function () {
+            document.getElementById("publish-date").value = document.getElementById("publish-date-text").innerText;
+        });
+
+        function ErrorModal(text) {
+            $(".error-msg-wrapper").css("display", "flex");
+            $(".success-msg-wrapper").css("display", "none");
+            $(".error-msg-wrapper").find(".msg-details").html(text);
+        }
+        function SuccessModal(text) {
+            $(".error-msg-wrapper").css("display", "none");
+            $(".success-msg-wrapper").css("display", "flex");
+        }
+    </script>
+}

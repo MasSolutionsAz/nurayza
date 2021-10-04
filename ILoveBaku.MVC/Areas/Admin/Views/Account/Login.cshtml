@@ -1,0 +1,60 @@
+﻿@{
+    Layout = null;
+}
+@model LoginVM
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/admin/css/reset.css">
+    <link rel="stylesheet" href="~/admin/css/login-2.css">
+    <title>Login</title>
+</head>
+<body>
+    <div class="login-page-container">
+        <div class="login-page-main">
+
+            <form asp-action="Login" asp-controller="Account" method="post" class="login-panel">
+                <img class="logo" src="~/admin/img//logo.png" alt="">
+                <h3 class="page-right-header">Login to your account</h3>
+                <div asp-validation-summary="ModelOnly"></div>
+                <div class="input-wrapper">
+                    <p class="field-title">
+                        Username
+                    </p>
+                    <div class="input-field">
+                        <img class="field-icon" src="~/admin/img/user.png" alt="">
+                        <input asp-for="Email" class="username-input" placeholder="Username">
+                        <span asp-validation-for="Email"></span>
+                    </div>
+                </div>
+                <div class="input-wrapper">
+                    <p class="field-title">
+                        Password
+                    </p>
+                    <div class="input-field">
+                        <img class="field-icon" src="~/admin/img/password.png" alt="">
+                        <input asp-for="Password" type="password" class="password-input" placeholder="Password">
+                        <img src="~/admin/img/show-pass.png" class="show-password-btn" alt="">
+                        <span asp-validation-for="Password"></span>
+                    </div>
+                </div>
+                <button class="sign-in-btn">Sign In</button>
+                <div class="additional-options">
+                    <label for="remember" class="checkbox-container">
+                        Remember me
+                        <input id="remember" type="checkbox">
+                        <span class="checkmark"></span>
+                    </label>
+                    <a href="#" class="forgot-pass">Forgot Password?</a>
+                </div>
+            </form>
+        </div>
+        <div class="login-page-img">
+            <img src="~/admin/img/login-2-img.png" alt="">
+        </div>
+    </div>
+    <script src="~/admin/js/login-page.js"></script>
+</body>
+</html>

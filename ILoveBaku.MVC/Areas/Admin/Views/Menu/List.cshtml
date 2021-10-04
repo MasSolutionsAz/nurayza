@@ -1,0 +1,64 @@
+﻿@model List<ILoveBaku.Application.CQRS.Menus.Queries.GetMenus.MenuItemDto>
+<button class="add-user-btn"><a style="color:white;" href="@Url.Action("Process","Menu",new { parentId = ViewBag.MenuId})">Əlavə et</a></button>
+<div class="categories-wrapper">
+    <a href="#" class="expand-all-btn">
+        Expand All
+    </a>
+    <div class="categories-content">
+        <div class="categories-content-headers">
+            <p class="header-categories">Menular</p>
+            <p class="header-comments">Öncəlik</p>
+            <p class="header-edit">Düzəliş</p>
+        </div>
+        <div class="clothes-categories-wrapper">
+            @foreach (var menuLang in Model)
+            {
+                <div class="clothes-category">
+                    <div class="clothes-category-main">
+                        @if (menuLang.Children.Count > 0)
+                        {
+                            <div class="collapse-btn"><span>+</span></div>
+                        }
+                        <a href="#" class="clothes-title">@menuLang.Name</a>
+                        <p>@menuLang.Priority</p>
+                        <a href="@Url.Action("Process","Menu",new { menuId = menuLang.Id})"><i class="far fa-edit"></i></a>
+                        <div class="select-category-btn"><a href="@Url.Action("List","Menu",new { parentId = menuLang.Id})">→</a></div>
+                    </div>
+                    <div class="category-subitems invisible">
+                        @foreach (var menuChild in menuLang.Children) 
+                        {
+                            if (menuChild.Children.Count > 0)
+                            {
+                                <div class="category-inner" style="padding-left:15px">
+                                    @(await Html.PartialAsync("_MenuListPartial", menuChild))
+                                </div>
+                            }
+
+                            @if (menuChild.Children.Count == 0)
+                            {
+                                <div class="single-subitem child">
+                                    <p class="subitem-name">@menuChild.Name</p>
+                                    <p>@menuChild.Priority</p>
+                                    <a href="@Url.Action("Process","Menu",new { menuId = menuChild.Id})"><i class="far fa-edit"></i></a>
+                                    <p class="subitem-detail"><div class="select-category-btn"><a href="@Url.Action("List","Menu",new { parentId = menuChild.Id})">→</a></div></p>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+@*<div class="pagination-container">
+        @for (int i = 1; i <= Model.Total; i++)
+        {
+            <a class="pagination-btn" href="@Url.Action("List","Category",new { id = Model.ParentId,page=i})">@i</a>
+        }
+    </div>*@
+@section Scripts{
+    <script src="~/admin/js/categories.js"></script>
+}
+@section Styles{
+    <link rel="stylesheet" href="~/admin/css/categories.css">
+}

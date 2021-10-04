@@ -1,0 +1,192 @@
+﻿<form action="" method="post">
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="info-content form-element-wrapper active" data-id="" data-name="">
+            <div class="personal-info-fields-wrapper">
+                <div asp-validation-summary="ModelOnly"></div>
+                <div class="row">
+                    <div class="col-5">
+                        <div class="personal-info-field">
+                            <p class="info-field-title">Firma</p>
+                            <select id="suppliers" class="form-element custom-select info-field-input branch-name-input">
+                            </select>
+                        </div>
+                        <div class="personal-info-field">
+                            <p class="info-field-title">Sənəd nömrəsi</p>
+                            <input type="text" id="receipt-number" class="form-element info-field-input father-name-input">
+                            <span class="text-danger d-block"></span>
+                        </div>
+                        <div class="personal-info-field">
+                            <p class="info-field-title">Sənəd tarixi <span class="required">*</span></p>
+                            <span style="display:none;" id="receipt-date-text"></span>
+                            <input type="date" id="receipt-date" class="form-element info-field-input father-name-input">
+                            <span class="text-danger d-block"></span>
+                        </div>
+                        <div class="personal-info-field">
+                            <p class="info-field-title">Qeyd</p>
+                            <textarea name="recipt-description" id="receipt-description" rows="3" cols="10" class="form-element info-field-input father-name-input">@Model?.Product?.Description</textarea>
+                            <span class="text-danger d-block"></span>
+                        </div>
+                    </div>
+                    <div class="col-12 submit-button-wrapper">
+                        <div class="personal-info-field">
+                            <button id="create-transaction" type="button" class="save-button mt-3 search-btn">Sənədi yarat</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="msg-wrapper error-msg-wrapper">
+    <div class="error-message message-popup">
+        <div class="popup-close-btn">
+            <span>+</span>
+        </div>
+        <img src="~/admin/img/error.png" alt="" class="msg-img">
+        <p class="msg-title">
+            Oops!
+        </p>
+        <p class="msg-details"></p>
+        <button class="msg-btn error-btn">
+            Bağla
+        </button>
+    </div>
+</div>
+
+<div class="msg-wrapper success-msg-wrapper">
+    <div class="success-message message-popup">
+        <div class="popup-close-btn">
+            <span>+</span>
+        </div>
+        <img src="~/admin/img/success.png" alt="" class="msg-img">
+        <p class="msg-title">
+            Uğurlu əməliyyat!
+        </p>
+        <p class="msg-details">Dəyişikliklər yadda saxlanıldı. </p>
+        <button class="msg-btn">
+            OK
+        </button>
+    </div>
+</div>
+@section Styles{
+    <link href="~/admin/css/user-info.css" rel="stylesheet" />
+    <style>
+        .info-field-input {
+            width: 100%;
+        }
+
+        .info-tabs-wrapper {
+            width: 150px;
+        }
+
+            .info-tabs-wrapper div {
+                width: 100%;
+            }
+
+        .error-msg-wrapper {
+            z-index: 1000000;
+        }
+    </style>
+}
+@section Scripts{
+    <script src="~/admin/js/user-info.js"></script>
+    <script src="~/admin/custom/js/ajax.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            FillSuppliers();
+
+
+            $("#create-transaction").click(function (e) {
+                e.preventDefault();
+
+                var obj = {
+                    SupplierId: $("#suppliers").val(),
+                    ReceiptNumber: $("#receipt-number").val(),
+                    ReceiptDate: $("#receipt-date").val(),
+                    Description: $("#receipt-description").val()
+                }
+
+                var formData = toFormData(obj);
+                let ajax = new AJAX();
+                ajax._constructor("/admin/productStock/createTransaction", "post",
+                    (res, loader) => {
+                        loader.remove(); SuccessModal();
+                        setTimeout(function () {
+                            window.location.href="/admin/productStock/updateTransaction/?transactionId="+res.data
+                        },1500)
+                    },
+                    (res, loader) => {
+                        loader.remove();
+                        if (res.errors != null) {
+                            for (var error in res.errors) {
+                                ErrorModal(res.errors[error]);
+                                break;
+                            }
+                        }
+                    }
+                )
+
+                ajax._postAsync(formData, true);
+            })
+
+            function toFormData(obj, form, namespace) {
+                let fd = form || new FormData();
+                let formKey;
+
+                for (let property in obj) {
+                    if (obj.hasOwnProperty(property) && obj[property]) {
+                        if (namespace && Array.isArray(obj)) {
+                            formKey = namespace + '[' + property + ']';
+                        }
+                        else if (namespace) {
+                            formKey = namespace + '.' + property;
+                        }
+                        else {
+                            formKey = property;
+                        }
+
+                        // if the property is an object, but not a File, use recursivity.
+                        if (obj[property] instanceof Date) {
+                            fd.append(formKey, obj[property].toISOString());
+                        }
+                        else if (typeof obj[property] === 'object' && !(obj[property] instanceof File)) {
+                            toFormData(obj[property], fd, formKey);
+                        } else { // if it's a string or a File object
+                            fd.append(formKey, obj[property]);
+                        }
+                    }
+                }
+
+                return fd;
+            }
+        });
+
+        function SuccessModal() {
+            $(".success-msg-wrapper").css("display", "flex");
+            $(".error-msg-wrapper").css("display", "none");
+        }
+        function ErrorModal(text) {
+            $(".error-msg-wrapper").css("display", "flex");
+            $(".success-msg-wrapper").css("display", "none");
+            $(".error-msg-wrapper").find(".msg-details").html(text);
+        }
+        function FillSuppliers() {
+            var ajax = new AJAX();
+
+            ajax._constructor("/admin/productStock/getSuppliers", "get",
+                (res, loader) => {
+                    for (var supplier of res.data) {
+                        let option = `<option value='${supplier.id}'>${supplier.name}</option>`;
+                        $("#suppliers").append(option);
+                    }
+                    loader.remove();
+                },
+                (res, loader) => { loader.remove(); alert("xeta") });
+
+            ajax._getAsync();
+        }
+    </script>
+}

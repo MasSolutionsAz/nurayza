@@ -1,0 +1,505 @@
+﻿@model int
+<input type="text" hidden name="newsId" value="@Model" />
+<div class="info-tabs-wrapper">
+    <div class="info-tab info-tab-active" data-name="kateqoriya">
+        <p class="info-tab-txt">Portfolio</p>
+    </div>
+    @if (Model != 0)
+    {
+        <div class="info-tab" data-name="şəkillər">
+            <p class="info-tab-txt">Portfolio Şəkilləri</p>
+        </div>
+    }
+</div>
+<form action="" method="post">
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="info-content form-element-wrapper active" data-id="kateqoriya" data-name="kateqoriya">
+            <div class="personal-info-fields-wrapper">
+                <div asp-validation-summary="ModelOnly"></div>
+                <input hidden type="number" id="product-id" value="@Model" />
+                <div class="row">
+                    <div class="col-12">
+                        <div class="personal-info-field">
+                            <p class="info-field-title">Başlıq</p>
+                            <input type="text" name="ProductName" id="news-title" class="form-element info-field-input father-name-input">
+                            <span class="text-danger d-block"></span>
+                        </div>
+                        <div class="personal-info-field">
+                            <p class="info-field-title">Göstərilmə tarixi<span class="required">*</span></p>
+                            <span style="display:none;" id="publish-show-date-text"></span>
+                            <input type="date" id="news-show-date" class="form-element info-field-input father-name-input">
+                            <span class="text-danger d-block"></span>
+                        </div>
+                        <div class="personal-info-field">
+                            <p class="info-field-title">Status <span class="required">*</span></p>
+                            <select id="statuses" class="form-element custom-select info-field-input branch-name-input">
+                                <option value="10">Aktiv</option>
+                                <option value="20">Deaktiv</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 submit-button-wrapper">
+                    <div class="personal-info-field">
+                        <button id="submit-portfolio" type="button" class="save-button mt-3 search-btn">Yadda saxla</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @if (Model != 0)
+    {
+        <div class="info-content form-element-wrapper" style="flex-direction: column;" data-id="şəkillər" data-name="şəkillər">
+            <div class="main-img-upload-wrapper">
+                <div class="main-img-upload main-photo">
+                    <img src="~/admin/img/upload-img-icon.png" alt="" class="upload-icon">
+                    <span class="drop-here-txt">
+                        Drop your main image here!
+                    </span>
+                    <span class="or">
+                        or click
+                    </span>
+                    <label for="upload-img-main" class="main-img-upload-label">
+                        <span style="opacity:0;"></span>
+                        <input id="upload-img-main" accept="image/*" name="files[]" type="file">
+                        <p>Select from computer</p>
+                    </label>
+                    <div class="main-img-hover">
+                        <img src="~/admin/img/delete-upload.png" alt="" class="edit-upload-btn">
+                        <div class="rotate-buttons">
+                            <img src="~/admin/img/upload-rotate-left.png" alt="" class="rotate-left-btn">
+                            <img src="~/admin/img/upload-rotate-right.png" alt="" class="rotate-right-btn">
+                        </div>
+                    </div>
+                </div>
+                <div class="main-upload-details-uploading">
+                    <p class="upload-details-file-name">Anurajkr_dribble_post.jpg</p>
+                    <div class="file-size-wrapper">
+                        <p class="file-size">2.3MB of 8.4MB</p>
+                        <button class="cancel-upload-btn">
+                            <p>+</p>
+                        </button>
+                        <img src="~/admin/img/delete-upload.png" alt="" class="delete-upload-btn">
+                    </div>
+                    <progress value="100" max="100" class="upload-progress"></progress>
+                </div>
+            </div>
+            <div class="other-uploaded-images-container">
+
+            </div>
+            <div class="main-img-upload other-images-upload">
+                <img src="~/admin/img/upload-img-icon.png" alt="" class="upload-icon">
+                <span class="drop-here-txt">
+                    Drop your images here!
+                </span>
+                <span class="or">
+                    or click
+                </span>
+                <label for="upload-img-other" class="other-img-upload-label">
+
+                    <input id="upload-img-other" accept="image/*" name="files[]" type="file" multiple>
+                    <p>Select from computer</p>
+                </label>
+            </div>
+            <div class="col-12">
+                <div class="personal-info-field">
+                    <button id="submit-photo" data-request="/admin/portfolio/UploadPhoto" type="button" class="save-button mt-3 search-btn">Yadda saxla</button>
+                </div>
+            </div>
+        </div>
+    }
+</form>
+<div class="msg-wrapper error-msg-wrapper">
+    <div class="error-message message-popup">
+        <div class="popup-close-btn">
+            <span>+</span>
+        </div>
+        <img src="~/admin/img/error.png" alt="" class="msg-img">
+        <p class="msg-title">
+            Oops!
+        </p>
+        <p class="msg-details"></p>
+        <button class="msg-btn error-btn">
+            Bağla
+        </button>
+    </div>
+</div>
+
+<div class="msg-wrapper success-msg-wrapper">
+    <div class="success-message message-popup">
+        <div class="popup-close-btn">
+            <span>+</span>
+        </div>
+        <img src="~/admin/img/success.png" alt="" class="msg-img">
+        <p class="msg-title">
+            Uğurlu əməliyyat!
+        </p>
+        <p class="msg-details">Dəyişikliklər yadda saxlanıldı. </p>
+        <button class="msg-btn">
+            OK
+        </button>
+    </div>
+</div>
+@section Styles{
+    <link href="~/admin/css/user-info.css" rel="stylesheet" />
+    <link href="~/admin/css/add-news.css" rel="stylesheet" />
+    @*<link href="~/admin/ckeditor/contents.css" rel="stylesheet" />*@
+    <style>
+        /*.group-create {
+            display: none;
+        }*/
+        .group-create-modal {
+            display: none;
+        }
+
+        .absolute-button {
+            right: 0 !important
+        }
+
+        .error-msg-wrapper {
+            z-index: 1000000;
+        }
+
+        .ck-content {
+            min-height: 450px;
+        }
+    </style>
+}
+@section Scripts{
+    <script src="~/admin/js/user-info.js"></script>
+    <script src="~/admin/custom/js/ajax.js"></script>
+    <script src="~/admin/custom/js/specification.js"></script>
+
+    <script src="~/admin/ckeditor/ckeditor.js"></script>
+    @*<script src="~/admin/ckeditor/config.js"></script>
+    <script src="~/admin/ckeditor/build-config.js"></script>
+    <script src="~/admin/ckeditor/styles.js"></script>*@
+
+    @*<script src="https://cdn.ckeditor.com/ckeditor5/22.0.0/classic/ckeditor.js"></script>*@
+    @if (Model != 0)
+    {
+        <script src="~/admin/js/add-news.js"></script>
+    }
+
+    <script>
+        var editors = [];
+
+        $(document).ready(function () {
+            var updateNewsId = $("input[name='newsId']").val();
+
+            if (updateNewsId != 0) {
+                GetNews(updateNewsId);
+            }
+
+            $("#submit-portfolio").click(function () {
+                let newsId = $("input[name='newsId']").val();
+                if (newsId == 0) {
+                    let ajax = new AJAX();
+                    let obj = {
+                        News: {
+                            Title: $("#news-title").val(),
+                            Status: $("#statuses").val() == 10,
+                            ShowDate: $("#news-show-date").val()
+                        }
+                    }
+                    var formData = toFOrmData(obj);
+                    ajax._constructor("/admin/portfolio/process", "post",
+                        (res, loader) => {
+                            loader.remove();
+                            window.location.href = "/admin/portfolio/process/?portfolioId=" + res.data;
+                        },
+                        (res, loader) => {
+                            loader.remove();
+                            alert("Xeta bas verdi!");
+                        });
+
+                    ajax._postAsync(formData, true);
+                }
+                else {
+                    let obj = {
+                        Title: $("#news-title").val(),
+                        Status: $("#statuses").val() == 10,
+                        ShowDate: $("#news-show-date").val()
+                    }
+
+                    var formData = toFOrmData(obj);
+                    let ajax = new AJAX();
+                    ajax._constructor("/admin/portfolio/updateNews/?newsId=" + newsId, "post",
+                        (res, loader) => {
+                            loader.remove();
+                            SuccessModal();
+                        },
+                        (res, loader) => {
+                            loader.remove();
+                            alert("Xeta");
+                        });
+
+                    ajax._postAsync(formData, true);
+                }
+            })
+
+            $("#submit-photo").click(function (e) {
+                var formData = CreateFormData(e);
+
+                var ajax = new AJAX();
+                var url = $(this).data("request");
+                for (var arr of deleteArray) {
+                    formData.append(`deletePhotos`, arr);
+                }
+
+                var isValid = false;
+                if ($(".main-img-upload.main-photo").hasClass("img-dropped")) {
+                    isValid = true;
+                }
+
+                if (isValid) {
+                    ajax._constructor(`${url}/?newsId=${updateNewsId}`, "post",
+                        (res, loader) => {
+                            loader.remove(); SuccessModal();
+                            $(".main-img-upload-label span").attr("data-old", "true");
+                            $(".upload-details-file-name").attr("data-old", "true");
+                            array = [];
+                            deleteArray = [];
+
+                            for (var d of res.data) {
+                                if (d.isMain) {
+                                    $(".main-img-upload-label span").text(d.name);
+                                }
+                                else {
+                                    $(".upload-details-file-name").text(d.name);
+                                }
+                            }
+                        }
+                        , (res, loader) => {
+                            loader.remove();
+                            for (var error in res.errors) {
+                                ErrorModal(res.errors[error]);
+                                break;
+                            }
+                        });
+
+                    ajax._postAsync(formData, true);
+                }
+                else {
+                    ErrorModal("Əsas şəkil qeyd edin.");
+                }
+            });
+
+            $(document).on("click", ".save-newslang-button", function (e) {
+                e.preventDefault();
+
+                var newsLangId = $(this).data("id");
+                var parent = $(this).parents(".info-content");
+                var lang = parent.data("name");
+                let obj = {
+                    Id: newsLangId,
+                    Title: parent.find(".newslang-title").val(),
+                    Description: parent.find(".newslang-description").val(),
+                    ContentHtml: "",
+                    Status: parent.find(".newslang-status").val()
+                };
+
+                for (var e of editors) {
+                    if (e.langName == lang) {
+                        obj.ContentHtml = e.editor.getData();
+                        break;
+                    }
+                }
+
+
+                var formData = toFOrmData(obj);
+                let ajax = new AJAX();
+                ajax._constructor("/admin/portfolio/UpdateNewsLang", "post",
+                    (res, loader) => {
+                        loader.remove();
+                        SuccessModal();
+                    },
+                    (res, loader) => {
+                        loader.remove();
+                        alert("xeta");
+                    });
+
+                ajax._postAsync(formData, true);
+            })
+
+            function toFOrmData(obj, form, namespace) {
+                let fd = form || new FormData();
+                let formKey;
+
+                for (let property in obj) {
+                    if (obj.hasOwnProperty(property) && obj[property]) {
+                        if (namespace && Array.isArray(obj)) {
+                            formKey = namespace + '[' + property + ']';
+                        }
+                        else if (namespace) {
+                            formKey = namespace + '.' + property;
+                        }
+                        else {
+                            formKey = property;
+                        }
+
+                        // if the property is an object, but not a File, use recursivity.
+                        if (obj[property] instanceof Date) {
+                            fd.append(formKey, obj[property].toISOString());
+                        }
+                        else if (typeof obj[property] === 'object' && !(obj[property] instanceof File)) {
+                            toFOrmData(obj[property], fd, formKey);
+                        } else { // if it's a string or a File object
+                            fd.append(formKey, obj[property]);
+                        }
+                    }
+                }
+
+                return fd;
+            };
+
+            function FillPhotos(newsId) {
+                var ajax = new AJAX();
+                ajax._constructor(`/admin/portfolio/getPhotos/?newsId=${newsId}`, "get",
+                    (res, loader) => {
+                        loader.remove();
+                        for (var photo of res.data) {
+                            if (!photo.isMain) {
+                                let element = `<div class="uploaded-item-wrapper">
+                                                                                            <div class="uploaded-item">
+                                                                                            <div class="uploaded-item-img-wrapper" style="background-image:url('${photo.path}')">
+                                                                                            <div class="main-img-hover visible" style="display: none;">
+                                                                                            <img src="/admin/img/delete-upload.png" class="edit-upload-btn">
+                                                                                            <div class="rotate-buttons">
+                                                                                            <img src="/admin/img/upload-rotate-left.png" class="rotate-left-btn">
+                                                                                            <img class="rotate-right-btn" src="/admin/img/upload-rotate-right.png">
+                                                                                            </div>
+                                                                                            </div>
+                                                                                            </div>
+                                                                                            <div class="main-upload-details-uploading other-upload-details-uploading">
+                                                                                            <p class="upload-details-file-name" data-old="true">${photo.name}</p><div class="file-size-wrapper">
+                                                                                            <p class="file-size">0.057MB of 0.057MB</p>
+                                                                                            <button class="cancel-upload-btn"><p>+</p></button>
+                                                                                            <img class="delete-upload-btn" src="/admin/img/delete-upload.png">
+                                                                                            </div><progress value="100" max="100" class="upload-progress"></progress></div>
+                                                                                            </div></div>`
+                                $(".other-uploaded-images-container").append(element);
+                            }
+                            else {
+                                $(".main-img-upload.main-photo").css("background-image", `url('${photo.path}')`);
+                                $(".main-img-upload-label span").attr("data-old", "true");
+                                $(".main-img-upload-label span").text(photo.name);
+                                clearContainer(".main-img-upload");
+                            }
+                        }
+
+                        //let element = ` <div class="info-tab" data-name="şəkillər">
+                        //                          <p class="info-tab-txt">Məhsul Şəkilləri</p>
+                        //                      </div>`;
+
+                        //$(".info-tabs-wrapper").append(element);
+
+                        handleTabsChange();
+                    },
+                    (res, loader) => {
+                        loader.remove();
+                        for (var error in res.errors) {
+                            ErrorModal(res.errors[error]);
+                            break;
+                        }
+                    });
+
+                ajax._getAsync();
+            }
+
+            function GetNews(newsId) {
+                let ajax = new AJAX();
+                ajax._constructor("/admin/portfolio/getNews/?newsId=" + newsId, "get",
+                    (res, loader) => {
+                        var editorCounter = 0;
+                        for (var newsLang of res.data.newsLangs) {
+                            let element = `<div class="info-tab" data-name="${newsLang.langName}">
+                                                                                                                                                              <p class="info-tab-txt">${newsLang.langName}</p>
+                                                                                                                                                       </div>`;
+                            $(".info-tabs-wrapper").append(element);
+
+                            var select = $(`<div class="personal-info-field">
+                                                                                   <p class="info-field-title">Status</p>
+                                                                                   <span class="text-danger d-block"></span>
+                                                                                <select class="form-element newslang-status custom-select info-field-input branch-name-input"></select>
+                                                                               </div>`)
+
+
+                            if (res.data.statuses != null) {
+                                for (var status of res.data.statuses) {
+                                    let option;
+                                    if (newsLang.status == status.id) {
+                                        option = `<option selected value="${status.id}">${status.name}</option>`
+                                    }
+                                    else {
+                                        option = `<option  value="${status.id}">${status.name}</option>`
+                                    }
+                                    select.find("select").append(option);
+                                }
+                            }
+
+
+                            let infoContent = $(`<div class="info-content form-element-wrapper" data-name="${newsLang.langName}">
+                                                              <div class="personal-info-fields-wrapper">
+                                                                  <div class="personal-info-field">
+                                                                      <p class="info-field-title">Başlıq</p>
+                                                                      <span class="text-danger d-block"></span>
+                                                                      <input type="text"  value='${newsLang.title}' class="form-element newslang-title info-field-input full-name-input">
+                                                                  </div>
+                                                                    <div class="personal-info-field">
+                                                                      <p class="info-field-title">Qısa təsvir</p>
+                                                                      <span class="text-danger d-block"></span>
+                                                                      <input type="text"  value='${newsLang.description}' class="form-element newslang-description info-field-input full-name-input">
+                                                                  </div>
+                                                                   <div style="width:70%;height:450px;" id="editor_${editorCounter}">
+                                                                  </div>
+                                                                  <div class="personal-info-field">
+                                                                      <button data-id='${newsLang.id}' class="save-newslang-button mt-3 search-btn">Yadda saxla</button>
+                                                                  </div>
+                                                              </div>
+                                                             <div>`);
+
+                            //<p class="info-field-title">Qısa təsvir</p>
+                            //    <span class="text-danger d-block"></span>
+                            //<textarea class="form-element newslang-contentHtml info-field-input full-name-input">${newsLang.contentHtml}</textarea>
+                            if (res.data.statuses != null) {
+                                select.insertBefore(infoContent.find(".personal-info-field:last-child"));
+                            }
+                            $("form > .row").append(infoContent);
+
+                            let obj = {
+                                editor: "",
+                                langName: newsLang.langName
+                            };
+                            let contentHtml = newsLang.contentHtml;
+
+                            var editor = CKEDITOR.replace(`editor_${editorCounter}`);
+
+                            editor.setData(contentHtml);
+                            obj.editor = editor;
+
+
+                            editors.push(obj);
+                            editorCounter++;
+
+                        }
+
+
+                        $("#news-title").val(res.data.news.title);
+                        $("#news-show-date").val(res.data.news.date);
+                        $("#statuses").val(res.data.news.status ? 10 : 20);
+                        FillPhotos(newsId);
+
+                        loader.remove();
+                    },
+                    (res, loader) => {
+                        loader.remove();
+                        alert("xeta");
+                    });
+
+                ajax._getAsync();
+            }
+        })
+    </script>
+}

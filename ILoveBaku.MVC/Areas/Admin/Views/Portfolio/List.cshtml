@@ -1,0 +1,37 @@
+﻿@model ILoveBaku.Application.CQRS.News.Models.AllNewsVM
+<a href="@Url.Action("Process","Portfolio")"><button class="add-user-btn">Portfolio əlavə et</button></a>
+<div class="users-table-wrapper">
+    <table class="users-table">
+        <tr class="header-row">
+            <th class="column-header"></th>
+            <th class="column-header">Başlıq</th>
+            <th class="column-header">Göstərilmə tarixi</th>
+            <th class="column-header">Əlavə edilmə tarixi</th>
+            <th class="column-header">Status</th>
+            <th class="column-header">Düzəliş</th>
+        </tr>
+        @foreach (var news in Model.AllNews)
+        {
+            <tr class="users-row">
+                <td class="row-item"><img style="width:100px;height:100px;" src="@news.Image" alt="Alternate Text" /></td>
+                <td class="row-item">@news.Title</td>
+                <td class="row-item">@news.ShowDate</td>
+                <td class="row-item">@news.CreatedDate</td>
+                <td class="row-item"><span class="badge @(news.Status == Convert.ToByte(ILoveBaku.Domain.Enums.NewsLangStatus.Active)?"badge-success":"badge-danger")">@(news.Status == Convert.ToByte(ILoveBaku.Domain.Enums.NewsLangStatus.Active)?"Aktiv":"Deaktiv")</span></td>
+                <td class="row-item">
+                    <a href="@Url.Action("Process","Portfolio",new { portfolioId = news.Id})"><i class="far fa-edit"></i></a>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+@*<div class="pagination-container">
+    @if (Model.NewsCount != 1)
+    {
+        for (int i = 1; i <= Model.NewsCount; i++)
+        {
+            <a class="pagination-btn @(i==Model.Page?"active":"")" href="@Url.Action("List","Portfolio",new { area="Admin",page=i})">@i</a>
+        }
+    }
+</div>*@

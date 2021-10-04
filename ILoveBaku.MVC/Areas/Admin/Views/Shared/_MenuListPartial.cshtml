@@ -1,0 +1,42 @@
+﻿@model ILoveBaku.Application.CQRS.Menus.Queries.GetMenus.MenuItemDto
+@if (Model.Children.Count > 0)
+{
+    <div class="clothes-category-main">
+        <div class="collapse-btn"><span>+</span></div>
+        <a href="#" class="clothes-title">@Model.Name</a>
+        <p>@Model.Priority</p>
+        <a href="@Url.Action("Process","Menu",new { menuId = Model.Id})"><i class="far fa-edit"></i></a>
+        <div class="select-category-btn">
+            <div class=" select-category-btn"><a href="@Url.Action("List","Menu",new { parentId = Model.Id})">→</a></div>
+        </div>
+    </div>
+    <div class="category-subitems invisible">
+        @foreach (var item in Model.Children)
+        {
+            @*EGER DROPDOWN VARSA*@
+            @if (item.Children.Count > 0)
+            {
+                <div class="category-inner" style="padding-left:15px">
+                    @(await Html.PartialAsync("_MenuListPartial", item))
+                </div>
+            }
+
+            @if (item.Children.Count == 0)
+            {
+                <div class="single-subitem child">
+                    <p class="subitem-name">@item.Name</p>
+                    <p class="subitem-detail"><div class=" select-category-btn"><a href="@Url.Action("List","Menu",new { parentId = item.Id})">→</a></div></p>
+                </div>
+            }
+        }
+    </div>
+}
+else
+{
+    <div class="category-subitems invisible">
+        <div class="single-subitem">
+            <p class="subitem-name">@Model.Name</p>
+            <p class="subitem-detail"><div class=" select-category-btn"><a href="@Url.Action("List","Menu",new { parentId = Model.Id})">→</a></div></p>
+        </div>
+    </div>
+}

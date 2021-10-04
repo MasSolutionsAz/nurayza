@@ -1,0 +1,959 @@
+﻿@using ILoveBaku.MVC.Areas.Admin.Logics.Product
+@model int
+<div class="info-tabs-wrapper" @(Model != 0 ? "style=width:735px;" : "")>
+    <div class="info-tab info-tab-active" data-name="kateqoriya">
+        <p class="info-tab-txt">Məhsul detalları</p>
+    </div>
+</div>
+<form action="" method="post">
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="info-content form-element-wrapper active" data-id="kateqoriya" data-name="kateqoriya">
+            <div class="personal-info-fields-wrapper">
+                <div asp-validation-summary="ModelOnly"></div>
+                <input hidden type="number" id="product-id" value="@Model" />
+                <div class="row">
+                    <div class="col-6">
+                        @if (Model == 0)
+                        {
+                            <div class="personal-info-field">
+                                <p class="info-field-title">Ad</p>
+                                <input type="text" name="ProductName" id="product-name" class="form-element info-field-input father-name-input">
+                                <span class="text-danger d-block"></span>
+                            </div>
+                        }
+                        <div class="personal-info-field">
+                            <p class="info-field-title">Başlıq</p>
+                            <input type="text" name="ProductTitle" id="product-title" class="form-element info-field-input father-name-input">
+                            <span class="text-danger d-block"></span>
+                        </div>
+                        <div class="personal-info-field">
+                            <p class="info-field-title">Satış qiyməti</p>
+                            <input type="number" name="DefaultSaleAmount" id="product-sale-amount" class="form-element info-field-input father-name-input">
+                            <span class="text-danger d-block"></span>
+                        </div>
+                        <div class="personal-info-field">
+                            <p class="info-field-title">Alış qiyməti</p>
+                            <input type="number" name="DefaultBuyAmount" id="product-buy-amount" class="form-element info-field-input father-name-input">
+                            <span class="text-danger d-block"></span>
+                        </div>
+                        <div class="personal-info-field">
+                            <p class="info-field-title">Təsvir</p>
+                            <textarea name="Description" id="description" rows="5" cols="10" class="form-element info-field-input father-name-input"></textarea>
+                            <span class="text-danger d-block"></span>
+                        </div>
+                        <div class="personal-info-field">
+                            <p class="info-field-title">Satışa buraxılma tarixi <span class="required">*</span></p>
+                            <span style="display:none;" id="publish-date-text"></span>
+                            <input type="date" id="publish-date" class="form-element info-field-input father-name-input">
+                            <span class="text-danger d-block"></span>
+                        </div>
+                        <div id="barcode-type-wrapper" class="personal-info-field">
+                            <p class="info-field-title">Barkod növü</p>
+                            <select id="barcode-type" class="form-element custom-select info-field-input branch-name-input">
+                                <option selected value="0">--</option>
+                                <option value="1">Daxili barkod</option>
+                                <option value="2">Beynelxalq barkod</option>
+                            </select>
+                            <span class="text-danger d-block"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="personal-info-field">
+                            <p class="info-field-title">Maya dəyəri</p>
+                            <input type="number" name="DefaultCostAmount" id="product-cost-amount" class="form-element info-field-input father-name-input">
+                            <span class="text-danger d-block"></span>
+                        </div>
+                        <div class="personal-info-field">
+                            <p class="info-field-title">Kateqoriya</p>
+                            <select id="categories" name="categoryId" class="form-element custom-select info-field-input branch-name-input">
+                                <option selected value="0">--</option>
+                            </select>
+                            <span class="text-danger d-block"></span>
+                        </div>
+                        <div class="personal-info-field absolute-button-wrapper">
+                            <p class="info-field-title">Qrup</p>
+                            <select id="groups" @(Model == 0 ? "style=width:345px!Important" : "") class="form-element group-select custom-select info-field-input branch-name-input" name="ProductGroupId">
+                                <option value="0" selected>--</option>
+                            </select>
+                            @if (Model == 0)
+                            {<a href="#" class="group-create absolute-button"><button class="add-user-btn ustom-button">Yeni qrup əlavə et</button></a>}
+                            <span class="text-danger d-block"></span>
+                        </div>
+                    </div>
+                    <div class="col-12 submit-button-wrapper">
+                        <div class="personal-info-field">
+                            <button id="submit-product" type="button" class="save-button mt-3 search-btn">Yadda saxla</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if (Model != 0)
+        {
+            <div class="info-content form-element-wrapper" style="flex-direction: column;" data-id="şəkillər" data-name="şəkillər">
+                <div class="main-img-upload-wrapper">
+                    <div class="main-img-upload main-photo">
+                        <img src="~/admin/img/upload-img-icon.png" alt="" class="upload-icon">
+                        <span class="drop-here-txt">
+                            Drop your main image here!
+                        </span>
+                        <span class="or">
+                            or click
+                        </span>
+                        <label for="upload-img-main" class="main-img-upload-label">
+                            <span style="opacity:0;"></span>
+                            <input id="upload-img-main" accept="image/*" name="files[]" type="file">
+                            <p>Select from computer</p>
+                        </label>
+                        <div class="main-img-hover">
+                            <img src="~/admin/img/delete-upload.png" alt="" class="edit-upload-btn">
+                            <div class="rotate-buttons">
+                                <img src="~/admin/img/upload-rotate-left.png" alt="" class="rotate-left-btn">
+                                <img src="~/admin/img/upload-rotate-right.png" alt="" class="rotate-right-btn">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main-upload-details-uploading">
+                        <p class="upload-details-file-name">Anurajkr_dribble_post.jpg</p>
+                        <div class="file-size-wrapper">
+                            <p class="file-size">2.3MB of 8.4MB</p>
+                            <button class="cancel-upload-btn">
+                                <p>+</p>
+                            </button>
+                            <img src="~/admin/img/delete-upload.png" alt="" class="delete-upload-btn">
+                        </div>
+                        <progress value="100" max="100" class="upload-progress"></progress>
+                    </div>
+                </div>
+                <div class="other-uploaded-images-container">
+
+                </div>
+                <div class="main-img-upload other-images-upload">
+                    <img src="~/admin/img/upload-img-icon.png" alt="" class="upload-icon">
+                    <span class="drop-here-txt">
+                        Drop your images here!
+                    </span>
+                    <span class="or">
+                        or click
+                    </span>
+                    <label for="upload-img-other" class="other-img-upload-label">
+
+                        <input id="upload-img-other" accept="image/*" name="files[]" type="file" multiple>
+                        <p>Select from computer</p>
+                    </label>
+                </div>
+                <div class="col-12">
+                    <div class="personal-info-field">
+                        <button id="submit-photo" data-request="/admin/product/UploadPhoto" type="button" class="save-button mt-3 search-btn">Yadda saxla</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</form>
+<div class="msg-wrapper error-msg-wrapper">
+    <div class="error-message message-popup">
+        <div class="popup-close-btn">
+            <span>+</span>
+        </div>
+        <img src="~/admin/img/error.png" alt="" class="msg-img">
+        <p class="msg-title">
+            Oops!
+        </p>
+        <p class="msg-details"></p>
+        <button class="msg-btn error-btn">
+            Bağla
+        </button>
+    </div>
+</div>
+
+<div class="msg-wrapper success-msg-wrapper">
+    <div class="success-message message-popup">
+        <div class="popup-close-btn">
+            <span>+</span>
+        </div>
+        <img src="~/admin/img/success.png" alt="" class="msg-img">
+        <p class="msg-title">
+            Uğurlu əməliyyat!
+        </p>
+        <p class="msg-details">Dəyişikliklər yadda saxlanıldı. </p>
+        <button class="msg-btn">
+            OK
+        </button>
+    </div>
+</div>
+
+
+@if (Model == 0)
+{
+
+    <div class="msg-wrapper group-create-modal">
+        <div class="error-message message-popup">
+            <div class="popup-close-btn">
+                <span>+</span>
+            </div>
+            <div class="group-create-form-wrapper">
+                <form action="/" method="post">
+                    <div class="personal-info-field">
+                        <p class="info-field-title">Ad</p>
+                        <input type="text" name="Name" id="group-name" class="form-element info-field-input father-name-input">
+                        <span class="text-danger d-block"></span>
+                    </div>
+                    <div class="personal-info-field">
+                        <p class="info-field-title">Kateqoriya</p>
+                        <select name="CategoryId" id="group-categories" class="form-element info-field-input father-name-input">
+                            <option selected value="0">--</option>
+                        </select>
+                        <span class="text-danger d-block"></span>
+                    </div>
+                    <div class="personal-info-field">
+                        <button id="submit-group" class="save-button mt-3 search-btn">Yadda saxla</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+}
+
+
+<div class="msg-wrapper" id="change-product-category-modal" style="display:none;">
+    <div class="error-message message-popup">
+        <div class="popup-close-btn">
+            <span>+</span>
+        </div>
+        <img src="~/admin/img/question.png" style="width:60px;height:40px;" alt="" class="msg-img">
+        <p class="msg-title">
+            Diqqət!
+        </p>
+        <p class="msg-details">
+            Məhsulun qrupu və kateqoriyası dəyişərsə spesifikasiyalar yenilənəcəkdir.Əminsinizmi?
+        </p>
+        <div class="col-12 d-flex justify-content-around">
+            <button id="change-product-category-modal-button" class="msg-btn">
+                Bəli
+            </button>
+
+            <button class="msg-btn error-btn">
+                Bağla
+            </button>
+        </div>
+    </div>
+</div>
+
+
+@section Styles{
+    <link href="~/admin/css/user-info.css" rel="stylesheet" />
+    <link href="~/admin/css/add-news.css" rel="stylesheet" />
+    <style>
+        /*.group-create {
+            display: none;
+        }*/
+        .group-create-modal {
+            display: none;
+        }
+
+        .absolute-button {
+            right: 0 !important
+        }
+
+        .error-msg-wrapper {
+            z-index: 1000000;
+        }
+    </style>
+}
+@section Scripts{
+    <script src="~/admin/js/user-info.js"></script>
+    <script src="~/admin/custom/js/ajax.js"></script>
+    <script src="~/admin/custom/js/specification.js"></script>
+    @if (Model != 0)
+    {
+        <script src="~/admin/js/add-news.js"></script>
+    }
+    <script>
+        var recursiveCount = 0;
+
+        $(document).ready(function () {
+
+
+
+            if ($(".group-select").val() == 0) {
+                $(".group-create").css("display", "block");
+            }
+
+            //get categories
+            var ajax = new AJAX();
+            ajax._constructor("/admin/product/getCategories", "get", (res, loader) => {
+                FillCategories(res.data.children, $("#categories"));
+
+                var productId = $("#product-id").val();
+                if (productId != 0) {
+                    FillProduct(productId);
+                }
+
+                loader.remove();
+            }, (loader) => { loader.remove(); alert("Xeta bas verdi!") });
+            ajax._getAsync();
+
+            //disable barcode types
+            $("#barcode-type-wrapper").css("display", "none");
+
+            if ($("#product-id").val() != 0) {
+                $(".group-create").css("display", 'none')
+                //$("#categories").prop("disabled", true);
+                //$("#groups").prop("disabled", true);
+                $(".group-create-modal").css("display", "none")
+            }
+
+        });
+        var categoryChangedSpecValues = [];
+        $(".group-select").change(async function () {
+            categoryChangedSpecValues = [];
+            if ($(this).val() == 0) {
+                $(".group-create").css("display", "block");
+            }
+            else {
+                $(".group-create").css("display", "none");
+
+                
+                categoryChangedSpecValues = TakeSpecificationValues(false);
+
+                $(".group-wrapper").remove();
+                var specification = new Specification($("#categories").val());
+                await specification.getFullDto();
+
+                if ($("#barcode")) {
+                    $("#barcode-type-wrapper").css("display", "block");
+                }
+
+            }
+        });
+
+        var selectedCategory;
+        //when clicked create new group
+        $(".group-create").click(function (e) {
+            selectedCategory = $("#categories").val();
+            recursiveCount = 0;
+            e.preventDefault();
+
+            var ajax = new AJAX();
+            //fill categories when modal open
+            ajax._constructor("/admin/product/getCategories", "get", (res, loader) => {
+                FillCategories(res.data.children, $("#group-categories"));
+                loader.remove();
+                $(".group-create-modal").css("display", "flex");
+            }, (loader) => { loader.remove(); alert("Xeta bas verdi!") });
+            ajax._getAsync();
+        });
+
+        //create group
+        var newGroupName = "";
+        $("#submit-group").click(async function (e) {
+            e.preventDefault();
+
+            newGroupName = $("#group-name").val();
+
+            var formArray = $(this).parents("form").serializeArray();
+            var ajax = new AJAX();
+
+            ajax._constructor("/admin/product/createGroup", "post",
+                (res, loader) => {
+                    var option = `<option selected value='${res.data}'>${newGroupName}</option>`;
+                    $("#groups").append(option);
+                    $(".group-create-modal").css("display", "none");
+                    loader.remove();
+                    $("#groups").trigger("change");
+                }, (res, loader) => {
+                    loader.remove();
+                    var error = "";
+                    for (var o in res.errors) {
+                        error = +`<p>${res.errors[o]}</p>`;
+                    }
+                    ErrorModal(error);
+                });
+
+            await ajax._postAsync(formArray);
+        });
+
+        $("#submit-photo").click(function (e) {
+            var formData = CreateFormData(e);
+
+            var ajax = new AJAX();
+            var url = $(this).data("request");
+            for (var arr of deleteArray) {
+                formData.append(`deletePhotos`, arr);
+            }
+
+            var isValid = false;
+            if ($(".main-img-upload.main-photo").hasClass("img-dropped")) {
+                isValid = true;
+            }
+
+            if (isValid) {
+                var productId = $("#product-id").val();
+                ajax._constructor(`${url}/?productId=${productId}`, "post",
+                    (res, loader) => {
+                        loader.remove(); SuccessModal();
+                        $(".main-img-upload-label span").attr("data-old", "true");
+                        $(".upload-details-file-name").attr("data-old", "true");
+                        array = [];
+                        deleteArray = [];
+
+                        for (var d of res.data) {
+                            if (d.isMain) {
+                                $(".main-img-upload-label span").text(d.name);
+                            }
+                            else {
+                                $(".upload-details-file-name").text(d.name);
+                            }
+                        }
+                    }
+                    , (res, loader) => {
+                        loader.remove();
+                        for (var error in res.errors) {
+                            ErrorModal(res.errors[error]);
+                            break;
+                        }
+                    });
+
+                ajax._postAsync(formData, true);
+            }
+            else {
+                ErrorModal("Əsas şəkil qeyd edin.");
+            }
+        });
+
+        //when selected category get groups
+        $("#categories").change(function () {
+
+            let prId = $("#product-id").val();
+
+            $(".group-wrapper").css("display","none");
+            $("#barcode-type-wrapper").css("display", "none");
+            var ajax = new AJAX();
+            var data = $("#categories").serializeArray();
+            var query = ajax.makeQuery(data);
+            ajax._constructor(`/admin/product/getGroupsByCategoryId/${query}`, "get", (res, loader) => {
+                FillGroups(res.data, $("#groups"));
+                loader.remove();
+            }, (res, loader) => { loader.remove(); alert("xeta bas verdi"); });
+            ajax._getAsync();
+        });
+
+        $("form").submit(function (e) {
+            e.preventDefault();
+            $("#submit-product").trigger("click");
+        })
+
+        //save product
+        $("#submit-product").click(function (e) {
+            e.preventDefault();
+            let obj = {
+                ProductName: "demo123",
+                ProductGroupId: $("#groups").val(),
+                DefaultSaleAmount: $("#product-sale-amount").val(),
+                DefaultBuyAmount: $("#product-buy-amount").val(),
+                DefaultCostAmount: $("#product-cost-amount").val(),
+                Values: [],
+                DefaultPublishDate: $("#publish-date").val(),
+                Barcode: $("#barcode").val(),
+                Description: $("#description").val(),
+                Title: $("#product-title").val(),
+                CategoryId: $("#categories").val(),
+                
+            };
+
+            obj.Values = Number($("#product-id").val()) == 0 ? TakeSpecificationValues() : TakeChangedSpecValues();
+            if (categoryChangedSpecValues != null || categoryChangedSpecValues != undefined) {
+                for (var spec of categoryChangedSpecValues) {
+                    obj.Values.push(spec);
+                }
+            }
+
+            let formData = toFormData(obj);
+            if ($("#product-id").val() != 0) {
+                formData.append("productId", $("#product-id").val());
+            }
+            var ajax = new AJAX();
+
+            ajax._constructor("/admin/product/process", "post",
+                (res, loader) => { loader.remove(); window.location.href = `/admin/product/process/?productId=${res.data}` },
+                (res, loader) => {
+                    loader.remove();
+                    let showed = false;
+                    let formElements = $(".form-element");
+                    for (var element of formElements) {
+                        let key = $(element).attr("name");
+                        var error = res.errors[key];
+                        if (error != undefined) {
+                            ErrorModal(error);
+                            showed = true;
+                            break;
+                        }
+                    }
+                    if (!showed) {
+                        for (var error in res.errors) {
+                            ErrorModal(res.errors[error]);
+                            break;
+                        }
+                    }
+                });
+            ajax._postAsync(formData, true);
+            console.log(obj.Values);
+        });
+
+        //daxili beynelxalq barkod
+        $("#barcode-type").change(function () {
+
+            if ($(this).val() == "1") {
+                $("#barcode").attr("data-manual", "true")
+                var ajax = new AJAX();
+                ajax._constructor("/admin/product/getBarcode", "get", (res, loader) => {
+                    loader.remove();
+                    $("#barcode").val(res.data);
+                    $("#barcode").prop("disabled", true);
+
+                }, (loader, res) => {
+                    loader.remove();
+                    alert("xeta");
+                });
+                ajax._getAsync();
+
+            }
+            else {
+                $("#barcode").attr("data-manual", "false")
+                $("#barcode").val("");
+                $("#barcode").prop("disabled", false);
+            }
+
+        });
+
+        function TakeSpecificationValues(recreate=true) {
+            var values = [];
+            var groups = $(".group-wrapper");
+            for (var group of groups) {
+                var elements = $(group).find(".form-element");
+                for (var element of elements) {
+                    let data = {
+                        PropertyId: $(element).data("multi") == true ? Number($(element).val() == 0 ? Number(14) : $(element).val()) : $(element).data("property"),
+                        TableName: $(element).data("table"),
+                        MultiData: $(element).data("multi"),
+                        Value: $(element).val() == 0 ? 14 : $(element).val(),
+                        IsManual: $(element).data("manual"),
+                        OldValue: $(element).data("value"),
+                        Type: $(element).data("type"),
+                        ReCreate: recreate
+                    };
+                    console.log(data)
+                    console.log('TakeSpecificationValues')
+
+                    values.push(data);
+                }
+            }
+            return values;
+        }
+        function TakeChangedSpecValues() {
+            var values = [];
+            var groups = $(".group-wrapper");
+            for (var group of groups) {
+                var elements = $(group).find(".form-element");
+                for (var element of elements) {
+                    if (IsValueChanged($(element))) {
+                        let data = {
+                            PropertyId: $(element).data("property"),
+                            TableName: $(element).data("table"),
+                            MultiData: $(element).data("multi"),
+                            Value: $(element).val(),
+                            IsManual: $(element).data("manual"),
+                            OldValue: $(element).data("value"),
+                            ReCreate: true
+                        };
+                        console.log(data)
+                        console.log('if')
+
+
+                        values.push(data);
+                    }
+                    //else {
+                    //    let data = {
+                    //        PropertyId: 14,
+                    //        TableName: $(element).data("table"),
+                    //        MultiData: $(element).data("multi"),
+                    //        Value: $(element).val(),
+                    //        IsManual: $(element).data("manual"),
+                    //        OldValue: $(element).data("value"),
+                    //        ReCreate: true
+                    //    };
+                    //    console.log(data)
+                    //    console.log('else')
+
+                    //    values.push(data);
+                    //}
+                }
+            }
+
+            return values;
+        }
+        function MakeFormData(array, id) {
+            var formData = new FormData();
+            for (var data of array) {
+                formData.append(data.name, data.value);
+            }
+
+            if (id != null || id != undefined) {
+                formData.append("id", id);
+            }
+            return formData;
+        }
+        function FillCategories(categories, parent) {
+            for (var category of categories) {
+                var option;
+                if (category.isActive) {
+                    if (category.children.length > 0) {
+                        let line = CreateLine(recursiveCount);
+                        option = `<option disabled>${line}${category.name}${line}</option>`;
+                        recursiveCount++;
+                        parent.append(option);
+                        FillCategories(category.children, parent);
+                    }
+                    else {
+
+                        if (selectedCategory != 0 && selectedCategory == category.id) {
+                            option = `<option selected value='${category.id}'>${category.name}</option>`
+                        }
+                        else {
+                            option = `<option  value='${category.id}'>${category.name}</option>`
+                        }
+
+                        recursiveCount = 0;
+                        parent.append(option);
+                    }
+                }
+
+            }
+        }
+        function FillGroups(groups, parent) {
+            parent.find("option").remove();
+            parent.append($("<option value='0' selected>--</option>"));
+            if ($("#product-id").val() == 0) {
+                $(".group-create").css("display", "block");
+            }
+
+            for (var group of groups) {
+                let option = `<option value='${group.id}'>${group.name}</option>`
+                parent.append(option);
+            }
+        }
+        function CreateLine(count) {
+            var line = "";
+            for (var i = 0; i < count; i++) {
+                line += "-";
+            }
+            return line;
+        }
+        function ErrorModal(text) {
+            $(".error-msg-wrapper").css("display", "flex");
+            $(".success-msg-wrapper").css("display", "none");
+            $(".error-msg-wrapper").find(".msg-details").html(text);
+        }
+        function toFormData(obj, form, namespace) {
+            let fd = form || new FormData();
+            let formKey;
+
+            for (let property in obj) {
+                if (obj.hasOwnProperty(property) && obj[property]) {
+                    if (namespace && Array.isArray(obj)) {
+                        formKey = namespace + '[' + property + ']';
+                    }
+                    else if (namespace) {
+                        formKey = namespace + '.' + property;
+                    }
+                    else {
+                        formKey = property;
+                    }
+
+                    // if the property is an object, but not a File, use recursivity.
+                    if (obj[property] instanceof Date) {
+                        fd.append(formKey, obj[property].toISOString());
+                    }
+                    else if (typeof obj[property] === 'object' && !(obj[property] instanceof File)) {
+                        toFormData(obj[property], fd, formKey);
+                    } else { // if it's a string or a File object
+                        fd.append(formKey, obj[property]);
+                    }
+                }
+            }
+
+            return fd;
+        }
+
+        var SpecificationValues = [];
+        function SpecValueObject(key, value) {
+            return { Key: key, Value: value }
+        }
+        function IsValueChanged(element) {
+            var isChanged = false;
+            for (var v of SpecificationValues) {
+                if (Number(v.Key) == Number(element.data("specification"))) {
+                    if (v.Value != element.val()) {
+                        isChanged = true;
+                    }
+                    break;
+                }
+            }
+
+            return isChanged;
+        }
+        function FillProduct(productId) {
+            let ajax = new AJAX();
+            ajax._constructor(`/admin/product/getProduct/?productId=${productId}`, "get", (res, loader) => {
+
+                $("#product-sale-amount").val(res.data["defaultSaleAmount"]);
+                $("#product-buy-amount").val(res.data["defaultBuyAmount"]);
+                $("#product-cost-amount").val(res.data["defaultCostAmount"]);
+                $("#product-title").val(res.data["title"]);
+
+                var day = parseInt(res.data["defaultPublishDateDay"]) < 10 ? "0" + res.data["defaultPublishDateDay"] : res.data["defaultPublishDateDay"];
+                var month = parseInt(res.data["defaultPublishDateMonth"]) < 10 ? "0" + res.data["defaultPublishDateMonth"] : res.data["defaultPublishDateMonth"];
+                var year = res.data["defaultPublishDateYear"];
+
+                $("#publish-date-text").text(year + "-" + month + "-" + day);
+                document.getElementById("publish-date").value = document.getElementById("publish-date-text").innerText;
+
+                $("#description").val(res.data["description"]);
+
+                var a = res.data["categoryId"];
+                $(`#categories option[value="${a}"]`).prop("selected", true);
+
+                var categoryId = $(`#categories`).val();
+                ajax._constructor(`/admin/product/getGroupsByCategoryId/?categoryId=${categoryId}`, "get", (r, loader) => {
+
+                    FillGroups(r.data, $("#groups"));
+                    $("#groups").val(res.data["productGroupId"]);
+
+                    var specification = new Specification($("#categories").val());
+                    specification.getFullDto(() => {
+                        for (var specVal of res.data.values) {
+                            SpecificationValues.push(new SpecValueObject(specVal.specificationId, specVal.value));
+                            $(`[data-table='${specVal.tableName}'][data-specification='${specVal.specificationId}']`).val(specVal.value);
+                            if (specVal.value != null) {
+                                $(`[data-table='${specVal.tableName}'][data-specification='${specVal.specificationId}']`).attr("data-value", specVal.value);
+                            }
+                            else {
+                                $(`[data-table='${specVal.tableName}'][data-specification='${specVal.specificationId}']`).attr("data-property", specVal.propertyId);
+                            }
+                        }
+
+                        $("#barcode").prop("disabled", true);
+
+                        var groups = $(".group-wrapper");
+                        for (var group of groups) {
+                            var formElements = $(group).find(".form-element");
+                            for (var formElement of formElements) {
+                                console.log($(formElement))
+                                if ($(formElement).val() == "" || $(formElement).val() == null || $(formElement).val() == undefined || $(formElement).val() == 0) {
+                                    SpecificationValues.push(new SpecValueObject($(formElement).data("specification"), ""));
+                                }
+                            }
+                        }
+
+                        //$(".form-element[data-process='multilang']").attr('disabled', 'disabled');
+                    });
+
+                    loader.remove();
+                    FillProductLang(productId);
+                }, (res, loader) => { loader.remove(); alert("xeta bas verdi"); });
+                ajax._getAsync();
+
+                loader.remove();
+            }, (res, loader) => {
+                loader.remove();
+                for (var error in res.errors) {
+                    ErrorModal(res.errors[error]);
+                    break;
+                }
+            });
+            ajax._getAsync();
+        }
+
+        $(document).on("click", ".save-productlang-button", function (e) {
+            e.preventDefault();
+            var productLangId = $(this).data("id");
+            let ajax = new AJAX();
+            var formData = new FormData();
+            formData.append("Description", $(this).parents(".personal-info-fields-wrapper").find(".product-lang-description").val());
+            formData.append("Name", $(this).parents(".personal-info-fields-wrapper").find(".product-lang-name").val());
+            var button = $(this);
+            ajax._constructor("/admin/product/updateProductLang/?id=" + productLangId, "post",
+                (res, loader) => {
+                    loader.remove();
+                    let specAjax = new AJAX();
+                    var obj = {
+                        Values: []
+                    };
+                    for (var s of button.parents(".personal-info-fields-wrapper").find(".spec-lang")) {
+                        let sModel = {
+                            PropertyId: $(s).data("property"),
+                            Value: $(s).val(),
+                            Id: $(s).data("id")
+                        };
+
+                        obj.Values.push(sModel);
+                    }
+                    if (obj.Values.length != 0) {
+                        let specFormData = toFormData(obj);
+                        specAjax._constructor("/admin/product/updateProductSpecLang/?langName=" + button.parents(".info-content").data("name"), "post",
+                            (res, loader) => {
+                                loader.remove();
+                                SuccessModal();
+                            }
+                            , (res, loader) => {
+                                alert("Xeta");
+                            });
+
+                        specAjax._postAsync(specFormData, true);
+                    }
+                    else {
+                        SuccessModal();
+                    }
+                },
+                (res, loader) => {
+                    loader.remove();
+                    alert("Xeta!");
+                });
+
+            ajax._postAsync(formData, true);
+        });
+
+        function FillProductLang(productId) {
+            let ajax = new AJAX();
+            ajax._constructor("/admin/product/getProductLangs/?productId=" + productId, "get",
+                (res, loader) => {
+                    for (var productLang of res.data) {
+                        let element = `<div class="info-tab" data-name="${productLang.langName}">
+                                                                                                                                                          <p class="info-tab-txt">${productLang.langName}</p>
+                                                                                                                                                   </div>`;
+                        $(".info-tabs-wrapper").append(element);
+
+                        let infoContent = `<div class="info-content form-element-wrapper product-lang-update" data-name="${productLang.langName}">
+                                                                                                                                                        <div class="personal-info-fields-wrapper">
+                                                                                                                                                            <div class="personal-info-field">
+                                                                                                                                                                <p class="info-field-title">Ad</p>
+                                                                                                                                                                <span class="text-danger d-block"></span>
+                                                                                                                                                                <input type="text" value='${productLang.name}' class="product-lang-name form-element info-field-input full-name-input">
+                                                                                                                                                            </div>
+                                                                                                                                                            <div class="personal-info-field">
+                                                                                                                                                                 <p class="info-field-title">Təsvir</p>
+                                                                                                                                                                 <textarea name="Description"  rows="5" cols="10" class="form-element product-lang-description info-field-input father-name-input">${productLang.description}</textarea>
+                                                                                                                                                                 <span class="text-danger d-block"></span>
+                                                                                                                                                             </div>
+                                                                                                                                                            <div class="specifications">
+                                                                                                                                                             <h3>Xüsusiyyətlər</h3>
+                                                                                                                                                            </div>
+                                                                                                                                                            <div class="personal-info-field">
+                                                                                                                                                                <button data-id='${productLang.id}' class="save-productlang-button mt-3 search-btn">Yadda saxla</button>
+                                                                                                                                                            </div>
+                                                                                                                                                        </div>
+                                                                                                                                                     </div>`;
+
+                        $("form > .row").append(infoContent);
+
+                    }
+                    FillProductLangSpecs(productId);
+                    loader.remove();
+                    FillPhotos(productId);
+
+
+                },
+                (res, loader) => {
+                    loader.remove();
+                    alert("xeta");
+                });
+
+            ajax._getAsync();
+        }
+
+        function FillProductLangSpecs(productId) {
+            let ajax = new AJAX();
+            ajax._constructor("/admin/product/GetProductSpecLangs/?productId=" + productId, "get",
+                (res, loader) => {
+                    for (var specLang of res.data) {
+                        for (var specLangValue of specLang.values) {
+                            let element = `  <div class="personal-info-field">
+                                                                                   <p class="info-field-title">${specLang.name}</p>
+                                                                                   <span class="text-danger d-block"></span>
+                                                                                   <input type="text" data-property="${specLang.propertyId}" data-id="${specLang.id}"  value='${specLangValue.value}' class="spec-lang product-lang-name form-element info-field-input full-name-input">
+                                                                                  </div>`;
+                            $(`.product-lang-update[data-name="${specLangValue.langName}"] .specifications`).append(element);
+                        }
+                    }
+                    loader.remove();
+                }, (res, loader) => {
+                    loader.remove();
+                    alert("xeta bas verdi!");
+                });
+
+            ajax._getAsync();
+        }
+
+        function FillPhotos(productId) {
+            var ajax = new AJAX();
+            ajax._constructor(`/admin/product/getPhotos/?productId=${productId}`, "get",
+                (res, loader) => {
+                    loader.remove();
+                    for (var photo of res.data) {
+                        if (!photo.isMain) {
+                            let element = `<div class="uploaded-item-wrapper">
+                                                                                                            <div class="uploaded-item">
+                                                                                                            <div class="uploaded-item-img-wrapper" style="background-image:url('${photo.path}')">
+                                                                                                            <div class="main-img-hover visible" style="display: none;">
+                                                                                                            <img src="/admin/img/delete-upload.png" class="edit-upload-btn">
+                                                                                                            <div class="rotate-buttons">
+                                                                                                            <img src="/admin/img/upload-rotate-left.png" class="rotate-left-btn">
+                                                                                                            <img class="rotate-right-btn" src="/admin/img/upload-rotate-right.png">
+                                                                                                            </div>
+                                                                                                            </div>
+                                                                                                            </div>
+                                                                                                            <div class="main-upload-details-uploading other-upload-details-uploading">
+                                                                                                            <p class="upload-details-file-name" data-old="true">${photo.name}</p><div class="file-size-wrapper">
+                                                                                                            <p class="file-size">0.057MB of 0.057MB</p>
+                                                                                                            <button class="cancel-upload-btn"><p>+</p></button>
+                                                                                                            <img class="delete-upload-btn" src="/admin/img/delete-upload.png">
+                                                                                                            </div><progress value="100" max="100" class="upload-progress"></progress></div>
+                                                                                                            </div></div>`
+                            $(".other-uploaded-images-container").append(element);
+                        }
+                        else {
+                            $(".main-img-upload.main-photo").css("background-image", `url('${photo.path}')`);
+                            $(".main-img-upload-label span").attr("data-old", "true");
+                            $(".main-img-upload-label span").text(photo.name);
+                            clearContainer(".main-img-upload");
+                        }
+                    }
+
+                    let element = ` <div class="info-tab" data-name="şəkillər">
+                                                                      <p class="info-tab-txt">Məhsul Şəkilləri</p>
+                                                                  </div>`;
+
+                    $(".info-tabs-wrapper").append(element);
+
+                    handleTabsChange();
+
+                },
+                (res, loader) => {
+                    loader.remove();
+                    for (var error in res.errors) {
+                        ErrorModal(res.errors[error]);
+                        break;
+                    }
+                });
+
+            ajax._getAsync();
+        }
+
+
+    </script>
+}

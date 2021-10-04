@@ -1,0 +1,99 @@
+﻿@using ILoveBaku.Application.CQRS.Category.Queries.GetCategoryChildrenList
+@using ILoveBaku.MVC.Areas.Admin.Logics.Category
+@model CategoryListVm
+<button class="add-user-btn"><a style="color:white;" href="@Url.Action("Process","Category",new { parentId = ViewBag.CategoryId})">Əlavə et</a></button>
+<form action="#" class="user-search">
+    <fieldset class="search-inputs-wrapper">
+        <div class="single-input-wrapper">
+            <p class="input-title">Kateqoriya adı</p>
+            <input type="text" class="input-field">
+        </div>
+        <div class="single-input-wrapper">
+            <p class="input-title">Status</p>
+            <select class="custom-select input-field status-select">
+                <option selected disabled>Seçin</option>
+                <option value="1">Aktiv</option>
+                <option value="2">Deaktiv</option>
+            </select>
+        </div>
+    </fieldset>
+    <div class="user-search-buttons">
+        <button type="button" class="clear-btn">Təmizlə</button>
+        <button type="button" class="search-btn">Axtar</button>
+    </div>
+</form>
+<div class="categories-wrapper">
+    <a href="#" class="expand-all-btn">
+        Expand All
+    </a>
+    <div class="categories-content">
+        <div class="categories-content-headers">
+            <p class="header-categories">Kateqoriyalar</p>
+            <p class="header-comments">Status</p>
+            <p class="header-comments">Öncəlik</p>
+            <p class="header-edit">Düzəliş</p>
+        </div>
+        <div class="clothes-categories-wrapper">
+            @foreach (var categoryLang in Model.Categories)
+            {
+                <div class="clothes-category">
+                    <div class="clothes-category-main">
+                        @if (categoryLang.Children.Count > 0)
+                        {
+                            <div class="collapse-btn"><span>+</span></div>
+                        }
+                        <a href="#" class="clothes-title">@categoryLang.Name</a>
+                        <p><span class="badge @(categoryLang.IsActive?"badge-success":"badge-danger")">@(categoryLang.IsActive?"Aktiv":"Deaktiv")</span></p>
+                        <p>@categoryLang.Priority</p>
+                        <a href="@Url.Action("Process","Category",new { categoryId = categoryLang.Id})"><i class="far fa-edit"></i></a>
+                        <div class="select-category-btn"><a href="@Url.Action("List","Category",new { id = categoryLang.Id})">→</a></div>
+                    </div>
+                    <div class="category-subitems invisible">
+                        @foreach (var categoryChild in categoryLang.Children)
+                        {
+                            if (categoryChild.Children.Count > 0)
+                            {
+                                <div class="category-inner" style="padding-left:15px">
+                                    @(await Html.PartialAsync("_CategoryListPartial", categoryChild))
+                                </div>
+                            }
+
+                            @if (categoryChild.Children.Count == 0)
+                            {
+                                <div class="single-subitem child">
+                                    <p class="subitem-name">@categoryChild.Name</p>
+                                    <p><span class="badge @(categoryChild.IsActive?"badge-success":"badge-danger")">@(categoryChild.IsActive?"Aktiv":"Deaktiv")</span></p>
+                                    <p>@categoryChild.Priority</p>
+                                    <a href="@Url.Action("Process","Category",new { categoryId = categoryChild.Id})"><i class="far fa-edit"></i></a>
+                                    <p class="subitem-detail"><div class="select-category-btn"><a href="@Url.Action("List","Category",new { id = categoryChild.Id})">→</a></div></p>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<div class="pagination-container">
+    @if (Model.Total != 1)
+    {
+        for (int i = 1; i <= Model.Total; i++)
+        {
+            <a class="pagination-btn @(i==Model.Current?"active":"")" href="@Url.Action("List","Category",new { id = Model.ParentId,page=i})">@i</a>
+        }
+    }
+
+</div>
+@section Scripts{
+    <script src="~/admin/js/categories.js"></script>
+    <script src="~/admin/js/custom/ajax.js"></script>
+    <script src="~/admin/js/custom/filter.js"></script>
+    <script>
+        var filter = new Filter();
+        console.log(filter);
+    </script>
+}
+@section Styles{
+    <link rel="stylesheet" href="~/admin/css/categories.css">
+}

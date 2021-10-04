@@ -1,0 +1,81 @@
+﻿@using ILoveBaku.Application.CQRS.Product.Models
+@model ProductStocksVM
+@*<a href="@Url.Action("Process","Product")"><button class="add-user-btn">Məhsul əlavə et</button></a>*@
+
+@*<form action="" class="user-search">
+        <fieldset class="search-inputs-wrapper">
+            <div class="single-input-wrapper">
+                <p class="input-title">Full Name</p>
+                <input type="text" class="input-field">
+            </div>
+            <div class="single-input-wrapper">
+                <p class="input-title">Father's Name</p>
+                <input type="text" class="input-field">
+            </div>
+            <div class="single-input-wrapper">
+                <p class="input-title">Status List</p>
+                <select class="custom-select input-field status-select">
+                    <option selected disabled>Please Select</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+            </div>
+            <div class="single-input-wrapper">
+                <p class="input-title">Date</p>
+                <input type="text" name="birthday" value="01/01/2020" class="input-field " />
+            </div>
+        </fieldset>
+        <div class="user-search-buttons">
+            <button class="clear-btn">Clear</button>
+            <button class="search-btn">Search</button>
+        </div>
+    </form>*@
+<div class="users-table-wrapper">
+    <table class="users-table">
+        <tr class="header-row">
+            <th class="column-header">Id</th>
+            <th class="column-header">Kateqoriya</th>
+            <th class="column-header">Istehsalçı şirkət</th>
+            <th class="column-header">Ad</th>
+            <th class="column-header">Barkod</th>
+            <th class="column-header">Satış</th>
+            <th class="column-header">Say</th>
+            <th class="column-header">Status</th>
+        </tr>
+        @foreach (var productDto in Model.Products)
+        {
+            <tr class="users-row">
+                <td class="row-item">@productDto.ProductId</td>
+                <td class="row-item">@productDto.CategoryName</td>
+                <td class="row-item">@productDto.BranchName</td>
+                <td class="row-item">@productDto.Name</td>
+                <td class="row-item">
+                    @foreach (var item in productDto.Barcodes)
+                    {
+                        <p>@item</p>
+                    }
+                </td>
+                <td class="row-item">@productDto.Price</td>
+                <td class="row-item">@Convert.ToInt32(productDto.Count)</td>
+                <td class="row-item"><span class="badge @(productDto.Status?"badge-success":"badge-danger")">@(productDto.Status?"Aktiv":"Deaktiv")</span></td>
+                <td class="row-item">
+                    <div class="select-category-btn">
+                        <a href="@Url.Action("Process","ProductStock",new { productStockId=productDto.Id})">→</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+
+<div class="pagination-container">
+    @if (Model.Total != 1)
+    {
+        for (int i = 1; i <= Model.Total; i++)
+        {
+            <a class="pagination-btn @(i==Model.Page?"active":"")" href="@Url.Action("List","ProductStock",new { area="Admin",page=i})">@i</a>
+        }
+    }
+</div>
