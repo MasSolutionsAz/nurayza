@@ -1,0 +1,14 @@
+/ILoveBaku.API/bin
+/ILoveBaku.API/obj
+
+/ILoveBaku.Application/bin
+/ILoveBaku.Application/obj
+
+/ILoveBaku.Domain/bin
+/ILoveBaku.Domain/obj
+
+/ILoveBaku.Infrastructure/bin
+/ILoveBaku.Infrastructure/obj
+
+/ILoveBaku.MVC/bin
+/ILoveBaku.MVC/obj
