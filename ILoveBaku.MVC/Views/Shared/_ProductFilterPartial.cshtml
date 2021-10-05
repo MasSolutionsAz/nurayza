@@ -1,0 +1,93 @@
+﻿@model ProductFiltersDto
+
+@if (Model.IsNull()) { return; }
+
+@if (Model.SpecificationFilters.Any(c => c.RouteName == "gender"))
+{
+    var gender = Model.SpecificationFilters.FirstOrDefault(c => c.RouteName == "gender");
+    <div class="gender-clothing d-flex align-items-center mb-4 filter-checkbox" data-route-name="@gender.RouteName">
+        @foreach (var value in gender.Values)
+        {
+            <label class="gender mr-2" for="@value.Value">
+                <input id="@value.Value" data-route-name="@gender.RouteName" data-route-value="@value.RouteValue" type="checkbox">
+                <span class="btn-gender">@value.Value</span>
+            </label>
+        }
+    </div>
+
+}
+@if (Model.CategoryFilters.Count > 0)
+{
+    <div id="categoryFilter" class="filter-checkbox">
+        <div class="head-checkbox d-flex align-items-center justify-content-between">
+            <span>@Localizer["Kateqoriyalar"]</span>
+            <img src="~/static/img/arrow-filter.png" alt="">
+        </div>
+        <div class="checkbox-all">
+            @foreach (var categoryFilter in Model.CategoryFilters)
+            {
+                string routeName = categoryFilter.RouteName;
+                <div class="checkbox-items">
+                    <input type="checkbox" id="@routeName" data-name="@categoryFilter.Name" data-route-name="@routeName">
+                    <label for="@routeName">@categoryFilter.Name</label>
+                </div>
+            }
+        </div>
+    </div>
+}
+@foreach (SpecificationFilterDto specificationFilter in Model.SpecificationFilters)
+{
+    if (specificationFilter.RouteName != "gender")
+    {
+        <div class="filter-checkbox" data-route-name="@specificationFilter.RouteName">
+            <div class="head-checkbox d-flex align-items-center justify-content-between">
+                <span>@specificationFilter.Name</span>
+                <img src="~/static/img/arrow-filter.png" alt="">
+            </div>
+            <div class="checkbox-all">
+                @foreach (var value in specificationFilter.Values)
+                {
+                    string routeValue = value.RouteValue;
+
+                    if (specificationFilter.Id == Convert.ToInt32(Configuration["Specifications:Color"]))
+                    {
+                        <div class="checkbox-items">
+                            <input type="checkbox" id="@routeValue" data-route-value="@routeValue">
+                            <label for="@routeValue">
+                                <span style="display:inline-block;width:25px;height:25px;cursor:pointer;background-color:@value.Value"></span>
+                            </label>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="checkbox-items">
+                            <input type="checkbox" id="@routeValue" data-route-value="@routeValue">
+                            <label for="@routeValue">@value.Value</label>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    }
+
+}
+@{ int min = Model.PriceFilter.Min; int max = Model.PriceFilter.Max; }
+@if (max > min)
+{
+    <div id="priceFilter" class="filter-checkbox">
+        <div class="head-checkbox d-flex align-items-center justify-content-between">
+            <span>@Localizer["Qiymət"]</span>
+            <img src="~/static/img/arrow-filter.png" alt="">
+        </div>
+        <div class="filter-price d-flex flex-column align-items-center">
+            <div class="d-flex align-items-center">
+                <input type="text" class="min-price" value="@min" data-min="@min">
+                <span>-</span>
+                <input type="text" class="max-price" value="@max" data-max="@max">
+                <span><i class="azn">M</i></span>
+            </div>
+            <div id="slider-range" class="ml-1 mt-4"></div>
+        </div>
+    </div>
+}
+

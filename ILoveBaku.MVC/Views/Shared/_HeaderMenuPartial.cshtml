@@ -1,0 +1,100 @@
+﻿@model ILoveBaku.Application.CQRS.Menus.Queries.GetMenus.MenuItemDto
+@if (Model.Banners.Count > 0)
+{
+    <li class="nav-item side-nav-item  with-sub-menu" style="overflow:hidden">
+        <a class="nav-link nav-link-main" href="@Model.Link">@Model.Name</a>
+        @{
+            var counter = 0;
+            var wrapperCount = (int)Math.Ceiling((decimal)Model.Children.Count / (decimal)8);
+        }
+        <div class="aaa row" data-height="@(((int)Math.Ceiling(wrapperCount/(decimal)2)*350))" style="width:@(Model.Banners!=null&&Model.Banners.Count!=2?(wrapperCount*200).ToString()+"px":(wrapperCount*300+200).ToString()+"px");">
+            <div class="col-6 d-flex pl-0">
+                @for (var i = 0; i < wrapperCount; i++)
+                {
+                    <div class="item mb-3">
+                        <ul>
+                            @{
+                                var loop = Model.Children.Count - (i * 8);
+                                loop = loop > 8 ? 8 : loop;
+                            }
+                            @for (int j = 0; j < loop; j++)
+                            {
+                                <li style="margin-bottom: 0.3em"><a href="@Model.Children[counter].Link">@Model.Children[counter].Name</a></li>
+                                counter++;
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+            <div style="justify-content: space-evenly;padding-top: 3px !important;" class="col-6 pt-3 d-flex align-items-start">
+                @foreach (var item in Model.Banners)
+                {
+                    <img src="@item.Path" alt="">
+                }
+            </div>
+        </div>
+
+        <div class="nav-item-submenu">
+            <div class="nav-item-submenu-top">
+                <div class="nav-item-submenu-back-btn">
+                    <span>@Localizer["Geri"]</span>
+                </div>
+            </div>
+            <div class="nav-item-submenu-items-wrapper">
+                @foreach (var item in Model.Children)
+                {
+                    <a href="@item.Link" class="nav-menu-submenu-item">
+                        @item.Name
+                    </a>
+                }
+            </div>
+        </div>
+    </li>
+}
+else
+{
+    <li class="nav-item side-nav-item with-sub-menu">
+        @if (Model.Children.Count > 0)
+        {
+            <a class="nav-link nav-link-main" href="@Model.Link">@Model.Name</a>
+            <ul>
+                @foreach (var item in Model.Children)
+                {
+                    if (item.Children.Count > 0)
+                    {
+                        @await Html.PartialAsync("_HeaderMenuPartial", item)
+                    }
+                    else
+                    {
+                        <li>
+                            <a href="@item.Link">@item.Name</a>
+                        </li>
+                    }
+
+                }
+            </ul>
+        }
+        else
+        {
+            <a href="@Model.Link" class="nav-link nav-link-main">@Model.Name</a>
+        }
+
+        <div class="nav-item-submenu">
+            <div class="nav-item-submenu-top">
+                <div class="nav-item-submenu-back-btn">
+                    <span>@Localizer["Geri"]</span>
+                </div>
+            </div>
+            <div class="nav-item-submenu-items-wrapper">
+                @foreach (var item in Model.Children)
+                {
+                    <a href="@item.Link" class="nav-menu-submenu-item">
+                        @item.Name
+                    </a>
+                }
+            </div>
+        </div>
+    </li>
+
+
+}

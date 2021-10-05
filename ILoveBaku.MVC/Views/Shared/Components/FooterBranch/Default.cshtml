@@ -1,0 +1,40 @@
+﻿@model ILoveBaku.Application.CQRS.Branches.Queries.GetBranches.BranchesDto
+<div class="col-lg-3 col-md-6">
+    <div class="row">
+        <div class="col-lg-12 pl-lg-0 col-md-6">
+            <div class="footer-texts">
+                <label for="contact">@Localizer["Əlaqə"]</label>
+                <ul style="list-style-type:disc;color:#fff;padding-left:17px;">
+
+                    @foreach (var item in Model.Addresses)
+                    {
+                        <li>
+                            @item
+                        </li>
+                    }
+                </ul>
+
+            </div>
+            <div class="footer-texts">
+                <label for="email">@Localizer["E-mail"]</label>
+                <a href="mailto:info@ilovebaku.com">@Model.ContactEmail</a>
+            </div>
+        </div>
+        <div class="col-lg-12 p-lg-0  col-md-6">
+            <div class="footer-texts">
+                <label for="phone">@Localizer["Telefon"]</label>
+                <a href="tel:+994127654321">@Model.Phone</a>
+            </div>
+            <div class="footer-texts">
+                <label for="contact">@Localizer["Bizimlə əlaqə saxlayın"]</label>
+                <div class="form-group form-contact-group">
+                    <input type="text" class="form-control form-contact" placeholder="@Localizer["E-mail"]">
+                    <button class="btn btn-contact">
+                        <img src="~/static/img/arrow-next.png"
+                             alt="icon">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

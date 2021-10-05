@@ -1,0 +1,35 @@
+﻿@model WishlistVM
+<!--Favorite-->
+
+<section class="section PageTitle">
+    <div class="container-fluid container-custom">
+        <div class="row">
+            <div class="col-12">
+                <h1>@Localizer["Favori"]</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="clothing">
+    <div class="container-fluid container-custom">
+        <div class="row">
+            <partial name="_ProductStockListPartial" model="Model.Wishlist">
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <nav>
+                    <vc:pagination type="@PaginationType.Symmetric"
+                                   total-item-count="@Model.WishlistCount"
+                                   shown-item-count="@ViewBag.ShownItemCount"
+                                   current-page="@ViewBag.CurrentPage"
+                                   category-id="0"></vc:pagination>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/main/js/wishlist.js"></script>
+}

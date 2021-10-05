@@ -1,0 +1,94 @@
+﻿@model ProductListVM
+<!--start PageTitle -->
+<section class="section PageTitle">
+    <div class="container-fluid container-custom">
+        <div class="row">
+            <div class="col-12">
+                <h1 id="categoryName" data-route-name="@(Model.Category?.RouteName ?? "")">@(Model.Category?.Name ?? Localizer["Bütün Məhsullar"].Value)</h1>
+            </div>
+        </div>
+    </div>
+</section>
+<!--./end PageTitle -->
+
+<section class="clothing">
+    <div class="container-fluid container-custom">
+        <div class="pl-3 row" style="position: relative;">
+            <div class="filter-clothing-top">
+                <div class="filter-clothing-top-container">
+                    <div class="filter-clothing-top-title">
+                        <img src="static/img/filterr.svg" alt="" class="filter-clothing-top-title-icon">
+                        <span class="filter-clothing-top-title-txt">
+                            @Localizer["Kataloq"]
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="filter-clothing active" style="overflow-y: auto;">
+                <div class="filter-box">
+                    <h4 class="filter-title mb-4">@Localizer["Kataloq"]</h4>
+                    <button class="toggle-filter active">←</button>
+                    <partial name="_ProductFilterPartial" model="Model.ProductFilters" />
+                </div>
+            </div>
+            <div class="col-12 result-clothing" style="min-height: 500px">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="filter-search">
+                            <input id="searchFilter" type="search" placeholder="@Localizer["Axtarış"]">
+                        </div>
+                        <div class="sort-by d-flex align-items-center">
+                            <label for="sort">@Localizer["Sırala"]:</label>
+                            <a class="active" href="#">@Localizer["Yeni"]</a>
+                            <a href="#">@Localizer["Populyar"]</a>
+                            <a href="#">@Localizer["Ucuzdan bahaya"]</a>
+                            <a href="#">@Localizer["Bahadan ucuza"]</a>
+                        </div>
+                    </div>
+                </div>
+                <div id="products" class="row">
+                    <partial name="_ProductStockListPartial" model="Model.ProductList.Products" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <nav id="pagination-container">
+                    @*<vc:pagination type="@PaginationType.Classic"
+                        total-item-count="@Model.ProductList.ProductCount"
+                        shown-item-count="@Model.ShownItemCount"
+                        current-page="@Model.CurrentPage"
+                        category-id="@(Model.Category?.Id ?? 0)"></vc:pagination>*@
+                    @{
+                        var categoryId = Model.Category?.Id ?? 0;
+                        var total = Model.ProductList.ProductCount;
+                    }
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@section Styles{
+    <style>
+        .paginationjs-pages ul {
+            display: flex;
+        }
+
+            .paginationjs-pages ul li {
+                list-style-type: none;
+            }
+    </style>
+}
+
+@section Scripts {
+    <script src="~/main/js/wishlist.js"></script>
+    <script   src="~/static/js/pagination.js"></script>
+    <script   src="~/main/js/productList.js"></script>
+    <script>
+        MakePagination(@total, 1);
+    </script>
+   
+}

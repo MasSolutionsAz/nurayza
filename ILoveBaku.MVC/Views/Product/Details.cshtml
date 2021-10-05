@@ -1,0 +1,432 @@
+﻿@model ProductDetailsVM
+<!--product-->
+@{ ProductStockDetailDto product = Model.Product.Product; }
+<section class="product">
+    <div class="container-fluid container-custom">
+        <div class="row">
+            <div class="col-xl-5 col-md-6">
+                <div class="product-slider">
+                    <div id="carouselProduct" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner magnificCarousel">
+                            @{ int counter = 0; }
+                            @foreach (string image in product.Images)
+                            {
+                                <div class="carousel-item@(counter.IsZore() ? " active" : string.Empty)">
+                                    <a href="@image">
+                                        <img src="@image" class="d-block w-100" alt="love baku">
+                                    </a>
+                                </div>
+                                counter++;
+                            }
+                        </div>
+                        <ol class="carousel-indicators w-100 justify-content-start">
+                            @{ counter = 0; }
+                            @foreach (string image in product.Images)
+                            {
+                                <li data-target="#carouselProduct" data-slide-to="@(counter++)" class="@(counter == 1 ? "active" : string.Empty)">
+                                    <img src="@image" class="d-block w-100" alt="love baku">
+                                </li>
+                            }
+                        </ol>
+                        <a class="carousel-control-prev" href="#carouselProduct" role="button"
+                           data-slide="prev">
+                            <img src="~/static/img/right-arrow.png" alt="icon">
+                        </a>
+                        <a class="carousel-control-next" href="#carouselProduct" role="button"
+                           data-slide="next">
+                            <img src="~/static/img/right-arrow.png" alt="icon">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <ul class="breadcrump d-flex align-items-center p-0">
+                    @{
+                        counter = 1;
+                        int nestedCategoriesCount = Model.Product.NestedCategories.Count;
+                    }
+                    @foreach (NestedCategory nestedCategory in Model.Product.NestedCategories)
+                    {
+                        <li class="active">
+                            <a asp-controller="Product" asp-action="List" asp-route-categoryName="@nestedCategory.Title">@nestedCategory.Name @(counter != nestedCategoriesCount ? ">" : string.Empty)</a>
+                        </li>
+                        counter++;
+                    }
+                </ul>
+                <h2 class="product-title">
+                    @product.Name
+                </h2>
+                <div class="product-price-wrapper">
+                    @{
+                        decimal price = product.Price;
+                        decimal discountedPrice = product.DiscountedPrice;
+                    }
+                    @if (price == discountedPrice)
+                    {
+                        <p class="product-price">
+                            @price.ToString("#.##")<img src="~/static/img/M.png" alt="">
+                        </p>
+                    }
+                    else
+                    {
+                        <div class="product-price-original-wrapper">
+                            <p class="product-price product-price-original">
+                                @price.ToString("#.##")<img src="~/static/img/M_g.png" alt="">
+                            </p>
+                        </div>
+                        <p class="product-price">
+                            @discountedPrice<img src="~/static/img/M.png" alt="">
+                        </p>
+                        <div class="sale-tag">
+                            <p class="sale-tag-percent">
+                                50%
+                            </p>
+                        </div>
+                    }
+                </div>
+                @*@if (Model.Product.Product.StockCount != 0)
+                {
+                    <div class="stock-info active have">
+                        <i class="fas fa-check"></i>
+                        <span>@Localizer["Məhsul mövcuddur"]</span>
+                    </div>
+                }
+                else
+                {
+                    <div class="stock-info active  finish">
+                        <i class="fas fa-times"></i>
+                        <span>@Localizer["Məhsul tükənib"]</span>
+                    </div>
+                }*@
+                <div class="shipping-price-wrapper">
+                    <p class="shipping-price">@Localizer["Çatdırılma"] - <span class="shipping-price-num">5</span> &#x20BC</p>
+                </div>
+                <div class="form-group form-group-size">
+                    @{
+                        var specName = Model.Colors?.FirstOrDefault()?.Name;
+                        var propertyId = 0;
+                        var selectedColor = Model.Colors.Where(c => c.ProductId == product.ProductId).FirstOrDefault();
+                        var selectedColorAdded = false;
+                    }
+                    @if (specName != null)
+                    {
+                        <div class="color-pick">
+                            <p class="color-pick-title">@specName</p>
+                            <div class="color-radiobuttons-wrapper">
+
+                                @foreach (var color in Model.Colors)
+                                {
+                                    if (color.Value == selectedColor.Value && color.ProductId == product.ProductId)
+                                    {
+                                        selectedColorAdded = true;
+                                        propertyId = color.PropertyId;
+                                        <label class="color-radiobutton">
+                                            <input class="color-input" type="radio" name="color">
+                                            <span class="color-checkmark"><a class="product-color-specification selected-color" style="background-color:@color.Value" asp-action="Details" asp-controller="Product" asp-route-productName="@color.ProductName"></a></span>
+                                        </label>
+                                    }
+
+                                    if (propertyId == 0)
+                                    {
+                                        propertyId = color.PropertyId;
+                                        <label class="color-radiobutton">
+                                            <input class="color-input" type="radio" name="color">
+                                            <span class="color-checkmark"><a class="product-color-specification" style="background-color:@color.Value" asp-action="Details" asp-controller="Product" asp-route-productName="@color.ProductName"></a></span>
+                                        </label>
+                                    }
+                                    else
+                                    {
+                                        if (propertyId != color.PropertyId && selectedColorAdded)
+                                        {
+                                            propertyId = color.PropertyId;
+                                            <label class="color-radiobutton">
+                                                <input class="color-input" type="radio" name="color">
+                                                <span class="color-checkmark"><a class="product-color-specification" style="background-color:@color.Value" asp-action="Details" asp-controller="Product" asp-route-productName="@color.ProductName"></a></span>
+                                            </label>
+                                        }
+                                    }
+                                }
+                            </div>
+                        </div>
+                    }
+
+
+                    @{
+                        bool isSizeExist = Model.Colors.Where(c => c.Sizes.Count != 0).FirstOrDefault() != null;
+                    }
+                    @if (isSizeExist)
+                    {
+                        <label for="size">@Model.Colors.Where(c => c.Sizes.Count != 0).Select(c => c.Sizes.FirstOrDefault()?.Name).FirstOrDefault()</label>
+                        <div class="d-flex align-items-center">
+                            @{
+                                var color = Model.Colors.Where(c => c.ProductId == product.ProductId).FirstOrDefault();
+                            }
+                            @if (color != null)
+                            {
+                                @foreach (var size in color.Sizes)
+                                {
+                                    <div class="size-radiobox">
+                                        <input @(size.ProductCount == 0 ? "disabled" : "") type="radio" id="@size.Value" data-id="@size.ProductId" name="size">
+                                        <label class="@(size.ProductCount == 0 ? "disabled" : "")" style="@(size.ProductCount == 0 ? "background:#efefef" : "")" for="@size.Value">@size.Value</label>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    }
+                </div>
+                <div class="form-group form-group-count">
+                    <label for="count">@Localizer["Say"]</label>
+                    <div class="d-flex">
+                        <form id="addToCartForm" class="d-flex">
+                            <input type="hidden" name="productId" value="@product.ProductId" />
+                            <div class="count-box mr-4 d-flex align-items-center">
+                                <button class="decrease">-</button>
+                                <input id="productCount" type="text" name="count" class="count-input" max="@product.StockCount" value="1">
+                                <button class="increase">+</button>
+                            </div>
+                            <button id="addToCart" type="submit" class="addToCart btn btn-add-card">@Localizer["Səbətə at"]</button>
+                        </form>
+                    </div>
+                </div>
+                <button class="wishlist add-favourite" data-productstockid="@product.Id">
+                    <span>@Localizer["Yadda Saxla"]</span> <img src="~/static/img/@(product.IsWishlist ? "heart-red.png" : "heart.png")" alt="">
+                </button>
+            </div>
+        </div>
+        <div class="col-12 p-0">
+            <div class="product-details-section">
+                <div class="product-desc-wrapper">
+                    <h4 class="title-part">@Localizer["Təsvir"]</h4>
+                    <p class="product-desc">
+                        @product.Description
+                    </p>
+                </div>
+                <div class="product-details-wrapper">
+                    <p class="title-part prod-details-title">
+                        @Localizer["Məhsulun xüsusiyyətləri"]
+                    </p>
+                    <div class="details-panel">
+                        @foreach (var item in Model.ProductSpecifications)
+                        {
+                            if (!item.MultiData && (item.Value != null || item.Value != ""))
+                            {
+                                <div class="prod-detail-item">
+                                    <p class="detail-title">@item.SpecificationName</p>
+                                    <p class="prod-detail-context">@item.Value</p>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-5">
+                <h4 class="title-part">@Localizer["Rəylər"]</h4>
+                <div class="customers-review">
+                    @foreach (var review in Model.Reviews)
+                    {
+                        <!--customer-review item -->
+                        <div class="review-item">
+                            <h4 class="reviewer">@review.Name @review.Surname</h4>
+                            <p class="review-text">
+                                @review.Text
+                            </p>
+                            <time>@review.CreatedDate.ToString("dd.MM.yyyy HH:mm")</time>
+                        </div>
+                        <!--./customer-review item -->
+                    }
+                </div>
+            </div>
+            <div class="col-lg-6 offset-lg-1">
+                <!-- review comment box -->
+                <div class="gray-box review-comment-box">
+                    <label>
+                        @Localizer["Rəy əlavə et"]
+                    </label>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group form-group-custom">
+                                <textarea id="review-text" class="form-control form-control-custom" cols="30" placeholder="@Localizer["Rəyiniz"]*" rows="10"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group form-group-custom clearfix">
+                                <button data-name="@Model.ProductRootName" id="send-review" class="btn btn-add-card float-right">@Localizer["Göndər"]</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ./review comment box -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10">
+                <div class="SectionTitle">
+                    <h3>@Localizer["Əlaqəli məhsullar"]</h3>
+                    <a asp-controller="Product" asp-action="List" asp-route-categoryId="@Model.CategoryId" class="btn btn-category btn-b">@Localizer["Daha çox məhsula baxın"]</a>
+                </div>
+            </div>
+            <div class="col-md-12 p-0">
+                <div class="popular-product-slider owl-carousel">
+                    @foreach (ProductStockDto relatedProduct in Model.RelatedProducts.Where(rp => rp.ProductId != Model.Product.Product.ProductId))
+                    {
+                        <!--slider item -->
+                        <div class="slider-item">
+                            <a asp-controller="Product" asp-action="Details" asp-route-productName="@relatedProduct.RouteName">
+                                <div class="img-scale">
+                                    <img src="@relatedProduct.Image" alt="love baku products">
+                                </div>
+                            </a>
+                            <div class="clothing-item-detail pt-2 d-flex align-items-center justify-content-between">
+                                <p class="clothing-name">@relatedProduct.Name</p>
+                                <div class="clothing-price d-flex">
+                                    @if (relatedProduct.Price == relatedProduct.DiscountedPrice)
+                                    {
+                                        <p>@relatedProduct.Price<i class="azn">M</i></p>
+                                    }
+                                    else
+                                    {
+                                        <span class="discount">@relatedProduct.Price <i class="azn">M</i></span>
+                                        <p>@relatedProduct.DiscountedPrice <i class="azn">M</i></p>
+                                    }
+                                </div>
+                            </div>
+                            <div class="buy-item d-md-flex align-items-center">
+                                <button class="buy-btn p-0 mr-2 mr-md-4">
+                                    <span>@Localizer["Al"]</span> <img src="~/static/img/basket.png">
+                                </button>
+                                <button class="wishlist add-favourite m-0" data-productstockid="@relatedProduct.Id">
+                                    <span>@Localizer["Yadda Saxla"]</span> <img src="~/static/img/@(relatedProduct.IsWishlist ? "heart-red.png" : "heart.png")" alt="">
+                                </button>
+                            </div>
+                        </div>
+                        <!--./slider item -->
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--./product-->
+<!-- Modal -->
+<div class="modal fade" id="addToCard" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content p-0">
+            <div class="modal-header text-white">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn bg-danger btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles{
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
+    <style>
+        .size-radiobox .disabled::after {
+            content: "";
+            width: 2px;
+            height: 95%;
+            position: absolute;
+            top: -9%;
+            left: 24%;
+            background: #580000;
+            transform: rotate(45deg);
+        }
+        .size-radiobox {
+            position: relative;
+        }
+
+        .product-color-specification.selected-color {
+            border: 1px solid red;
+        }
+
+        .product-color-specification {
+            width: 27px;
+            height: 27px;
+            display: flex;
+        }
+
+        .stock-info {
+            width: 162px;
+            display: none;
+            padding: 10px 0px;
+            margin:20px 0px;
+        }
+
+        .stock-info.active {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            font-size:15px;
+        }
+            .stock-info.finish {
+                background-color: #FFE5E5;
+            }
+            .stock-info.have{
+                background-color: #EEF7E3;
+                color:#79C329;
+            }
+
+            .stock-info.finish i {
+                color: red;
+            }
+
+            .stock-info.finish span {
+                color: red;
+            }
+    </style>
+}
+@section Scripts{
+    <script src="~/main/js/addToCart.js"></script>
+    <script src="~/main/js/wishlist.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $(".size-radiobox input").change(function () {
+                var productId = $(this).data("id");
+                $(`input[name="productId"]`).val(productId);
+            })
+            $("#send-review").click(function (e) {
+
+                e.preventDefault();
+                var formData = new FormData();
+
+                formData.append("Text", $("#review-text").val());
+                formData.append("ProductName", $(this).data("name"));
+
+                if ($("#review-text").val() != "") {
+                    $.ajax({
+                        url: "/product/addReview",
+                        type: "post",
+                        dataType: "json",
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        cache: false,
+                        success: function (res) {
+                            $("#review-text").val("");
+                            var element = `<div class="review-item">
+                                                                            <h4 class="reviewer">${res.data.name} ${res.data.surname}</h4>
+                                                                            <p class="review-text">
+
+                                                                            </p>
+                                                                            <time>${res.data.date}</time>
+                                                                        </div>`
+                            var text = res.data.text;
+                            var jqueryElement = $(element);
+                            jqueryElement.find(".review-text").text(text);
+                            $(".customers-review").append(jqueryElement);
+                        }
+                    })
+                }
+            })
+        });
+    </script>
+}

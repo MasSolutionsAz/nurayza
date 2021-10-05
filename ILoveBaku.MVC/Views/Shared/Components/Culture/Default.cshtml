@@ -1,0 +1,45 @@
+﻿@model CultureVCM
+<li class="nav-item dropdown site-version">
+    <form asp-controller="Language" asp-action="Change" asp-route-returnUrl="@Model.ReturnUrl">
+        <select id="language" onchange="this.form.submit();" name="culture">
+            @foreach (var culture in Model.Cultures)
+            {
+                if (culture.Name == Model.CurrentCulture || culture.ShortName == Model.CurrentCulture)
+                {
+                    <option selected value="@culture.Name">@culture.ShortName</option>
+                }
+                else
+                {
+                    <option value="@culture.Name">@culture.ShortName</option>
+                }
+            }
+        </select>
+    </form>
+</li>
+
+<li class="nav-item side-nav-item language-menu with-sub-menu">
+    @{ 
+        var current = Model.Cultures.FirstOrDefault(c => c.Name == Model.CurrentCulture);
+    }
+    <a class="nav-link nav-link-main">
+        <img src="static/img/@current.File" class="lang-flag" alt="">
+        @current.ShortName
+    </a>
+    <div class="nav-item-submenu">
+        <div class="nav-item-submenu-top">
+            <div class="nav-item-submenu-back-btn">
+                <span>@Localizer["Geri"]</span>
+            </div>
+        </div>
+        <div class="nav-item-submenu-items-wrapper">
+            @foreach (var item in Model.Cultures)
+            {
+                <a asp-controller="Language" asp-action="Change" asp-route-culture="@item.Name" asp-route-returnUrl="@Model.ReturnUrl" class="nav-menu-submenu-item submenu-lang-item">
+                    <img src="~/static/img/@item.File" class="lang-flag" alt="">
+                    @item.ShortName
+                </a>
+            }
+        </div>
+    </div>
+
+</li>

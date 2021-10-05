@@ -1,0 +1,596 @@
+﻿@model UserProfileVm
+@using ILoveBaku.Domain.Enums 
+<!--start PageTitle -->
+<section class="section PageTitle">
+    <div class="container-fluid container-custom">
+        <div class="row">
+            <div class="col-12">
+                <h1>
+                    @Localizer["Hesabım"]
+                </h1>
+            </div>
+        </div>
+    </div>
+</section>
+<!--./end PageTitle -->
+
+<section class="account tab-account">
+    <div class="container-fluid container-custom">
+        <div class="row">
+            <div class="col-lg-3">
+                <nav style="padding-bottom:80px;">
+                    <button class="d-sm-none btn btn-secondary dropdown-toggle" id="custom-dropdown-button">
+                        Dropdown button
+                    </button>
+                    <h2 class="d-none d-lg-block aside-title">@Localizer["Hesabım"]</h2>
+                    <div class="nav custom-dropdown-menu nav-tabs nav-account flex-column" id="nav-tab"
+                         role="tablist">
+                        <a class="nav-item nav-link" id="orders-section" data-toggle="tab" href="#orders"
+                           role="tab" aria-controls="orders" aria-selected="true">@Localizer["Sifarişlərim"]</a>
+                        <a class="nav-item nav-link active show" id="user-info-tab" data-toggle="tab" href="#userInfo"
+                           role="tab" aria-controls="user-info" aria-selected="false">@Localizer["İstifadəçi məlumatları"]</a>
+                        <a class="nav-item nav-link" id="address-info-tab" data-toggle="tab"
+                           href="#addresses" role="tab" aria-controls="address-info"
+                           aria-selected="false">@Localizer["Ünvanlarım"]</a>
+                    </div>
+                </nav>
+            </div>
+            <div class="col-lg-9">
+                <div class="tab-content tab-content-account py-3 px-3 px-sm-0">
+                    <div class="tab-pane fade" id="orders" role="tabpanel"
+                         aria-labelledby="orders-tab">
+                        <div class="tab-account-header">
+                            <div class="left-text">
+                                <h4>@Localizer["Sifarişlərim"]</h4>
+                            </div>
+                            <div class="right-text">
+                                <div class=" form-group form-group-custom m-0">
+                                    <select name="" class="form-control form-control-custom"
+                                            style="height: 42px;">
+                                        <option value="" selected>@Localizer["Bütün sifarişlərim"]</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        @foreach (var item in Model.ProductCashOutDto)
+                        {
+                            <table class="table table-orders">
+                                <thead>
+                                    <tr>
+                                        <th style="width:50%;">
+                                            @Localizer["Sifariş olunma tarixi"] <br>
+                                            <b>@item.CreatedDate</b>
+                                        </th>
+                                        <th style="width:10%;">@Localizer["Ödənişin növü"]</th>
+                                        <th style="width:15%;">@Localizer["Status"]</th>
+                                        <th style="width:15%;">
+                                            @Localizer["Sifariş edən"]
+                                            <b>@item.Name @item.Surname</b>
+                                        </th>
+                                        <th class="p-0" style="width:10%;">
+                                            @Localizer["Cəmi"]
+                                            <b>@item.Details.Sum(c => c.Count * c.SaleAmount).ToString("#.##")<sup><i class="azn">M</i></sup></b>
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @{
+                                        var productId = 0;
+                                        var count = 0;
+
+                                    }
+                                    @foreach (var product in item.Details)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <div class="orders-product-detail clearfix">
+                                                    <img src="@product.Image">
+                                                    <p class="orders-product-name">
+                                                        @product.ProductName
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td><i>@(item.PaymentType==(int)PaymentType.WithCard?Localizer["Plastik kart"]:Localizer["Nağd"])</i></td>
+                                            <td><i>@Localizer[item.Status]</i></td>
+                                            <td class="text-gray">
+                                                @product.Count.ToString("#.##")
+                                            </td>
+                                            <td class="text-dark">
+                                                <b>@((product.SaleAmount*product.Count).ToString("#.##"))<sup><i class="azn">M</i></sup></b>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                    </div>
+                    <div class="tab-pane active" id="userInfo" role="tabpanel" aria-labelledby="user-info-tab">
+                        <div class="tab-account-header">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h4>@Localizer["İstifadəçi məlumatları"]</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row px-0 py-3 p-md-5">
+                            <div class="col-md-6">
+                                <div class="form-group form-group-custom">
+                                    <input asp-for="UserDto.Name" type="text" id="name" required class="form-control form-control-custom" placeholder="@Localizer["Ad"]*">
+                                </div>
+                                <div class="form-group form-group-custom">
+                                    <input asp-for="UserDto.Surname" type="text" id="surname" required class="form-control form-control-custom" placeholder="@Localizer["Soyad"]*">
+                                </div>
+                                <div class="form-group form-group-custom">
+                                    <input asp-for="UserDto.Email" type="email" id="email" required class="form-control form-control-custom" placeholder="@Localizer["E-mail"]*">
+                                </div>
+                                <div class="form-group form-group-custom">
+                                    <input asp-for="UserDto.Phone" type="text" id="phone" required class="form-control form-control-custom" placeholder="@Localizer["Telefon"]*">
+                                </div>
+                                <div class="form-group form-group-custom">
+                                    <div class="row">
+                                        <div class="col-3 d-flex align-items-center pr-0">
+                                            <label for="birthdate">@Localizer["Doğum tarixi"]*</label>
+                                        </div>
+                                        <div class="col-9 d-flex align-items-center justify-content-between pl-2">
+                                            <input hidden type="number" id="dayValue" value="@Convert.ToInt32(Model.UserDto.Day)" />
+                                            <input hidden type="number" id="monthValue" value="@Convert.ToInt32(Model.UserDto.Month)" />
+                                            <input hidden type="number" id="yearValue" value="@Convert.ToInt32(Model.UserDto.Year)" />
+
+
+                                            <select id="year" class="form-control form-control-custom">
+                                            </select>
+
+                                            <select id="month" class="form-control form-control-custom mr-1">
+                                            </select>
+
+                                            <select id="day" class="form-control form-control-custom mr-1">
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group form-group-custom">
+                                    <div class="row align-items-center">
+                                        <div class="col-2 d-flex align-items-center">
+                                            <label for="birthdate">@Localizer["Cins"]*</label>
+                                            <input hidden type="text" id="genderValue" value="@Model.UserDto.Gender.ToString()" />
+                                        </div>
+
+                                        <div class="col-10 d-flex align-items-center justify-content-between pl-4">
+                                            <div class="checkbox-theme">
+                                                <input type="radio" checked name="gender" for="male"
+                                                       id="male">
+                                                <label for="male">@Localizer["Kişi"]</label>
+                                            </div>
+                                            <div class="checkbox-theme">
+                                                <input type="radio" name="gender" for="female" id="female">
+                                                <label for="female">@Localizer["Qadın"]</label>
+                                            </div>
+                                            <div class=" pb-sm-3 pb-1">
+                                                <button id="updateUserInfo" class="btn btn-add-card float-right">@Localizer["Yadda Saxla"]</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <partial name="_ChangePasswordPartial" model="new ChangePasswordVM()" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="addresses" role="tabpanel"
+                         aria-labelledby="address-info-tab">
+                        <div class="tab-account-header">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h4>@Localizer["Ünvanlarım"]</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="address-form" style="display: none;">
+                            <div class="row px-0 py-3 p-md-5">
+                                <div class="col-lg-6">
+                                    <input type="text" hidden id="address-id" value="0" />
+                                    <div class="form-group form-group-custom">
+                                        <input id="address-name" type="text" class="form-control form-control-custom"
+                                               placeholder="@Localizer["Ad"]*">
+                                    </div>
+
+                                    <div class="form-group form-group-custom">
+                                        <input id="address-surname" type="text" class="form-control form-control-custom"
+                                               placeholder="@Localizer["Soyad"]*">
+                                    </div>
+
+                                    <div class="form-group form-group-custom">
+                                        <input id="address-zipcode" type="text" class="form-control form-control-custom"
+                                               placeholder="@Localizer["ZIP kod"]*">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="form-group form-group-custom">
+                                        <select id="countries" class="form-control form-control-custom mr-1">
+                                            <option value="0" selected disabled>@Localizer["Ölkə"]*</option>
+                                            @foreach (var item in Model.Countries)
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group form-group-custom">
+                                        <select id="cities" class="form-control form-control-custom mr-1">
+                                            <option value="" selected disabled>@Localizer["Şəhər"]*</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group form-group-custom">
+                                        <textarea id="address-address" name="" class="form-control form-control-custom resize"
+                                                  cols="30" placeholder="@Localizer["Ünvan"]*" rows="10"></textarea>
+                                    </div>
+
+                                    <div class="form-group form-group-custom clearfix">
+                                        <button id="address-save-button" class="btn btn-add-card float-right">@Localizer["Yadda saxla"]</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="add-address">
+                            <div class="row p-1 p-lg-5">
+                                <div class="col-xl-4 col-md-6">
+                                    <div class="address-info-box ">
+                                        <a href="#"
+                                           class="d-flex justify-content-center align-items-center flex-column show-address-form w-100 h-100">
+                                            <img class="mb-3" src="~/static/img/add.png" alt="">
+                                            <h5>
+                                                @Localizer["Ünvan əlavə et"]
+                                            </h5>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                @foreach (var item in Model.Addresses)
+                                {
+                                    <div class="col-xl-4 col-md-6">
+                                        <div id="1" class="address-info-box">
+                                            <p><b>@item.Name @item.Surname </b></p>
+                                            <p>
+                                                @item.Country <br>
+                                                @item.Region <br>
+                                                @item.Phone <br>
+                                                @item.ZipCode <br>
+                                                @item.Address
+                                            </p>
+                                            <div class="manage-address">
+                                                <!-- <a href="#">Edit</a>&nbsp;<span>|</span>&nbsp;<a href="#">Delete</a> -->
+                                                <button data-id="@item.AddressId" class="btn-add-card address-edit show-address-form mr-3">
+                                                    @Localizer["Düzəliş"]
+                                                </button><button data-id="@item.AddressId" class="btn-add-card address-delete btn-delete-address mr-3" data-toggle="modal"
+                                                                 data-target="#delete-address">
+                                                    @Localizer["Sil"]
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@*<div class="modal fade" id="delete-address" tabindex="-1" role="dialog" aria-labelledby="delete-addressLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content p-0">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="exampleModalLabel">Warning</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Do you want to delete address?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger">Sil</button>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+@*<div class="modal fade" id="info-delete-address" tabindex="-1" role="dialog" aria-labelledby="info-delete-addressLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content p-0">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="exampleModalLabel"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+@section Scripts {
+    <script src="~/main/js/profile.js"></script>
+    <script src="~/admin/custom/js/ajax.js"></script>
+    <script>
+        $(document).ready(function () {
+            var url = window.location.href;
+            var hasParam = url.includes("#");
+
+            if (hasParam) {
+                var sectionIndex = url.indexOf("#");
+                var section = url.substring(sectionIndex+1, url.length);
+                $(".tab-pane").removeClass("active");
+                $(".tab-pane").removeClass("show");
+                $(`.tab-pane[id='${section}']`).addClass("active");
+                $(`.tab-pane[id='${section}']`).addClass("show");
+
+                $(`.custom-dropdown-menu .nav-link`).removeClass("active");
+                $(`.custom-dropdown-menu .nav-link`).removeClass("show");
+                $(`.custom-dropdown-menu .nav-link[href='#${section}']`).addClass("active");
+                $(`.custom-dropdown-menu .nav-link[href='#${section}']`).addClass("show");
+            }
+            else {
+                var activeTab = $(".tab-pane.active").attr("id");
+                window.location.href = $(`.nav-link[href='#${activeTab}']`).attr("href");
+            }
+
+            var genderValue = $("#genderValue").val();
+            if (genderValue != "True") {
+                $("#male").prop("checked", true);
+            }
+            else {
+                $("#female").prop("checked", true);
+            }
+            const monthNames =
+                [
+                    'Yanvar', 'Fevral', 'Mart', 'Aprel',
+                    'May', 'İyun', 'İyul', 'Avqust',
+                    'Sentyabr', 'Oktyabr', 'Noyabr', 'Dekabr'
+                ];
+
+            var yearCount = 50;
+            let birthDay = $('#day');
+            let birthMonth = $('#month');
+            let birthYear = $('#year');
+            let currentYear = new Date().getFullYear() - 14;//minimum yas heddi
+
+            for (let m = 0; m < 12; m++) {
+                let option = document.createElement('option');
+                if ($("#monthValue").val() != 0) {
+                    if ($("#monthValue").val() == m + 1) {
+                        option.setAttribute("selected", "selected");
+                    }
+                }
+                option.value = m + 1;
+                option.textContent = monthNames[m];
+
+                birthMonth.append(option);
+            }
+
+            for (let y = 0; y < yearCount; y++) {
+                var option = document.createElement("option");
+                option.value = currentYear;
+                option.textContent = currentYear;
+
+                birthYear.append(option);
+                currentYear--;
+            }
+            if ($("#yearValue").val() != 0) {
+                var value = $("#yearValue").val();
+                $(`#year option[value='${value}'`).prop("selected", true);
+            }
+
+            //birthMonth.val(new Date().getMonth());
+            birthMonth.on('change', RefreshDays);
+            //birthYear.val(new Date().getFullYear() - 14);
+            birthYear.on('change', RefreshDays);
+
+            RefreshDays();
+            function RefreshDays() {
+                var year = birthYear.val();
+                var month = parseInt(birthMonth.val());
+                birthDay.html('<option value="0" >Day</option>');
+
+                //get the last day, so the number of days in that month
+                var days = new Date(year, month, 0).getDate();
+
+                //lets create the days of that month
+                for (var d = 1; d <= days; d++) {
+                    let option = document.createElement('option');
+                    option.value = d;
+                    option.textContent = d;
+                    if ($("#dayValue").val() != 0) {
+                        if ($("#dayValue").val() == d) {
+                            option.setAttribute("selected", "selected");
+                        }
+                    }
+                    birthDay.append(option);
+                }
+            }
+
+
+            $("#updateUserInfo").click(function () {
+                let formData = MakeFormDataForUserProfileInfo();
+
+                $.ajax({
+                    url: '/account/updateProfileInfo',
+                    data: formData,
+                    type: 'post',
+                    dataType: 'json',
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function (res) {
+                        if (res.status == 200) {
+                            alert("success");
+                        }
+                        else {
+                            alert("xeta");
+                        }
+                    }
+                })
+
+            });
+
+            $("#countries").change(function () {
+                var countryId = $(this).val();
+                $.ajax({
+                    url: "/account/getCities/?countryId=" + countryId,
+                    dataType: "json",
+                    type: "get",
+                    success: function (res) {
+                        if (res.status == 200) {
+                            $("#cities option").remove();
+                            for (var d of res.data) {
+                                let option = `<option value="${d.id}">${d.name}</option>`;
+                                $("#cities").append(option);
+                            }
+
+                        }
+                        else {
+                            alert("xeta");
+                        }
+                    }
+
+                })
+            });
+
+
+            $("#address-save-button").click(function (e) {
+                e.preventDefault();
+                var name = $("#address-name").val();
+                var surname = $("#address-surname").val();
+                var zipCode = $("#address-zipcode").val();
+                var regionId = $("#cities").val();
+                var address = $("#address-address").val();
+
+                var obj = {
+                    Name: name,
+                    Surname: surname,
+                    ZipCode: zipCode,
+                    RegionId: regionId,
+                    Address: address,
+                    AddressId: $("#address-id").val()
+                };
+
+                var formData = new FormData();
+
+                for (var o in obj) {
+                    formData.append(o, obj[o]);
+                }
+
+                var url = $("#address-id").val() == 0 ? "/account/addAddress" : "/account/editAddress"
+                $.ajax({
+                    url: url,
+                    data: formData,
+                    dataType: "json",
+                    type: "post",
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (res) {
+                        if (res.status == 200) {
+                            window.location.reload();
+                        }
+                        else {
+                            alert("xeta");
+                        }
+                    }
+                })
+            });
+
+            $(".address-delete").click(function () {
+                var id = $(this).attr("data-id");
+
+                $.ajax({
+                    url: "/account/deleteAddress/?addressId=" + id,
+                    type: "get",
+                    dataType: "json",
+                    success: function (res) {
+                        if (res.status == 200) {
+                            window.location.reload();
+                        }
+                        else {
+                            alert("xeta");
+                        }
+                    }
+                })
+            })
+
+            $(".address-edit").click(function () {
+                var addressId = $(this).attr("data-id");
+                $.ajax({
+                    url: "/account/getAddress/?addressId=" + addressId,
+                    type: 'get',
+                    dataType: 'json',
+                    success: function (res) {
+                        if (res.status == 200) {
+                            $("#address-name").val(res.data.name);
+                            $("#address-surname").val(res.data.surname);
+                            $("#address-zipcode").val(res.data.zipCode);
+                            $("#countries").val(res.data.countryId);
+                            $("#countries").trigger("change");
+                            $("#cities").val(res.data.regionId);
+                            $("#address-address").val(res.data.address);
+
+                            $("#address-id").val(res.data.addressId);
+
+                        } else {
+                            alert("xeta");
+                        }
+                    }
+                })
+            })
+
+            function MakeFormDataForUserProfileInfo() {
+                var obj = {
+                    Name: $("#name").val(),
+                    Surname: $("#surname").val(),
+                    Email: $("#email").val(),
+                    Phone: $("#phone").val(),
+                    Day: $("#day").val(),
+                    Month: $("#month").val(),
+                    Year: $("#year").val(),
+                    Gender: false
+                }
+
+                //parseInt($("#day").val()) <= 9 ? "0" + $("#day").val() : $("#day").val(),
+                var gender = false;
+                if ($("#male").prop("checked") && !$("#female").prop("checked")) {
+                    gender = false;
+                }
+                else if (!$("#male").prop("checked") && $("#female").prop("checked")) {
+                    gender = true;
+                }
+                else {
+                    gender = null;
+                }
+
+                obj.Gender = gender;
+                var formData = new FormData();
+                for (var o in obj) {
+                    formData.append(o, obj[o]);
+                }
+                return formData;
+            }
+        })
+    </script>
+}

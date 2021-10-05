@@ -1,0 +1,90 @@
+﻿@model ContactVM
+<!--start PageTitle -->
+<section class="section PageTitle">
+    <div class="container-fluid container-custom">
+        <div class="row">
+            <div class="col-12">
+                <h1>
+                    @Localizer["Əlaqə"]
+                </h1>
+            </div>
+        </div>
+    </div>
+</section>
+<!--./end PageTitle -->
+<!--start Contact -->
+<section class="account tab-account">
+    <div class="container-fluid container-custom">
+        <div class="row pt-3">
+            <div class="col-md-12">
+                <ul class="list-theme">
+                    @foreach (var item in Model.Branches)
+                    {
+                        <li>@item.Address</li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <div class="row py-4">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-lg-8 p-0">
+                        <div id="location-box"></div>
+                    </div>
+                    <div class="col-lg-4 p-0">
+                        <div class="location-details">
+                            <address>
+                                @Model.Branches.Where(c=>c.IsOnlineBranch).FirstOrDefault()?.Address
+                            </address>
+                            <a href="mailto:@Model.Branches.Where(c => c.IsOnlineBranch).FirstOrDefault()?.ContactEmail">@Model.Branches.Where(c => c.IsOnlineBranch).FirstOrDefault()?.ContactEmail</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="py-lg-5 py-2">
+            <div class="col-md-12">
+                <h4 class="aside-title">@Localizer["Bizə yazın"]</h4>
+            </div>
+            <form id="contactSendForm" class="row">
+                <div class="col-md-6">
+                    <div class="form-group-custom form-group-contact">
+                        <label for="name">@Localizer["Ad"]</label>
+                        <input asp-for="Name" class="form-control form-control-contact">
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group-custom form-group-contact">
+                        <label for="email">@Localizer["E-mail"]</label>
+                        <input asp-for="Email" class="form-control form-control-contact">
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group-custom form-group-contact">
+                        <label for="phone">@Localizer["Phone"]</label>
+                        <input asp-for="Phone" class="form-control form-control-contact phone-number">
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group-custom form-group-contact">
+                        <label for="message">@Localizer["Mesaj"]</label>
+                        <textarea asp-for="Message" class="resize form-control form-control-contact">
+                        </textarea>
+                        <span asp-validation-for="Message" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-12 clearfix">
+                    <button type="submit" class="btn btn-send float-right">
+                        @Localizer["Göndər"] <img style="height: 8px" src="~/static/img/arrow-next-b.png">
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<!--./end Contact -->
+
+@section Scripts {
+    <script src="~/main/js/contact.js"></script>
+}

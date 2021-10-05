@@ -1,0 +1,46 @@
+﻿@model List<ProductStockDto>
+@{
+    var productGroupId = 0;
+
+}
+@foreach (ProductStockDto product in Model)
+{
+    //if (productGroupId == 0 || productGroupId != product.ProductGroupId)
+    //{
+    //    productGroupId = product.ProductGroupId;
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 single-clothing-item">
+            <div class="clothing-item mb-4">
+                <div class="clothing-item-img">
+                    <a asp-controller="Product" asp-action="Details" asp-route-productName="@product.RouteName">
+                        <div class="img-product-scale">
+                            <img src="@product.Image" alt="clothing">
+                        </div>
+                    </a>
+                </div>
+                <div class="clothing-item-detail pt-2 px-2 d-flex align-items-center justify-content-between">
+                    <p class="clothing-name">@product.Name</p>
+                    <div class="clothing-price d-flex">
+                        @if (product.Price == product.DiscountedPrice)
+                        {
+                            <p>@product.Price.ToString("#.##")<span class="azn">M</span></p>
+                        }
+                        else
+                        {
+                            <span class="discount">@product.Price.ToString("#.##") <span class="azn">M</span></span>
+                            <p>@product.DiscountedPrice <span class="azn">M</span></p>
+                        }
+                    </div>
+                </div>
+                <div class="buy-item d-flex align-items-center">
+                    <button class="buy-btn mr-2 mr-md-4 addToBasket">
+                        <a style="color:#000" asp-controller="Product" asp-action="Details" asp-route-productName="@product.RouteName"><span>@Localizer["Al"] </span></a><img src="~/static/img/basket.png">
+                    </button>
+                    <button class="wishlist add-favourite m-0" data-productstockid="@product.Id">
+                        <span>@Localizer["Yadda Saxla"]</span> <img src="~/static/img/@(product.IsWishlist ? "heart-red.png" : "heart.png")" alt="">
+                    </button>
+                </div>
+            </div>
+        </div>
+    //}
+
+}

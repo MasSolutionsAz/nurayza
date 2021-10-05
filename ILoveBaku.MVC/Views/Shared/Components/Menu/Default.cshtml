@@ -1,0 +1,17 @@
+﻿@model List<ILoveBaku.Application.CQRS.Menus.Queries.GetMenus.MenuItemDto>
+<ul class="navbar-nav ml-auto">
+    @foreach (var menu in Model)
+    {
+        if (menu.Children.Count == 0)
+        {
+            <li class="nav-item side-nav-item">
+                <a href="@menu.Link" class="nav-link nav-link-main">@menu.Name</a>
+            </li>
+        }
+        else
+        {
+            @await Html.PartialAsync("_HeaderMenuPartial", menu)
+        }
+    }
+</ul>
+

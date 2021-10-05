@@ -1,0 +1,48 @@
+﻿@model ContentDto
+
+    <!--start PageTitle -->
+<section class="section PageTitle">
+    <div class="container-fluid container-custom">
+        <div class="row">
+            <div class="col-12">
+                <h1>@Model.Title</h1>
+            </div>
+        </div>
+    </div>
+</section>
+<!--./end PageTitle -->
+<section class="about">
+    <div class="container-fluid container-custom">
+        <div class="about-hero">
+            <div class="row">
+                <div class="col-xl-4 col-md-5 col-sm-6 p-0"><p>@Html.Raw(Model.Content)</p></div>
+                <div class="col-xl-8 col-md-7 col-sm-6 p-0">
+                    <div class="about-hero-img">
+                        <img src="@Model.Image" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="gray-box video-section">
+        <div class="container-fluid container-custom">
+            <div class="row">
+                <div class="col-md-4 d-flex align-items-center justify-content-center">
+                    <div>
+                        <h4>Nurayza Concept</h4>
+                        @*<p>
+                            Is the first official souvenir brand <br>
+                            of Azerbaijan.
+                        </p>*@
+                        <p style="max-width: 70%;">@Localizer["Nurayza Concept"]</p>
+                    </div>
+                </div>
+                <div class="col-md-8 clearfix">
+                    <div class="video float-right">
+                        <img class="img-fluid" src="~/static/img/kiosk.jpeg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

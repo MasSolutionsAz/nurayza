@@ -1,0 +1,84 @@
+﻿@model AllNewsVM
+ <!--start PageTitle -->
+<section class="section PageTitle">
+    <div class="container-fluid container-custom">
+        <div class="row">
+            <div class="col-12">
+                <h1>@Localizer["Portfel"]</h1>
+            </div>
+        </div>
+    </div>
+</section>
+<!--./end PageTitle -->
+<!--portfolio-->
+<section class="portfolio">
+    <div class="container-fluid container-custom">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="sort-by d-flex align-items-center">
+                    <label for="sort">@Localizer["Sırala"]:</label>
+                    <a class="active" href="#">@Localizer["Tarix"]</a>
+                    <a href="#">@Localizer["Populyar"]</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            @{
+                NewsDto firstNews = Model.AllNews.FirstOrDefault();
+                Model.AllNews.Remove(firstNews);
+            }
+            @if (!firstNews.IsNull())
+            {
+                <div class="col-md-12">
+                    <div class="portfolio-main overflow-hidden">
+                        <img src="@firstNews.Image" alt="Nurayza Concept portfolio">
+                        <div class="portfolio-main-caption">
+                            <span class="date">@firstNews.ShowDate.ToString("MMM dd, yyyy, HH:mm", (CultureInfo)ViewBag.CultureInfo).ToCapitalize((CultureInfo)ViewBag.CultureInfo)</span>
+                            <h4>@firstNews.Title</h4>
+                            <a asp-controller="Portfolio" asp-action="Details" asp-route-id="@firstNews.Id" class="btn btn-category btn-w">@Localizer["Daha ətraflı"]</a>
+                        </div>
+                    </div>
+                </div>
+            }
+            @foreach (NewsDto news in Model.AllNews)
+            {
+                <div class="col-md-6">
+                    <div class="portfolio-item">
+                        <div class="portfolio-img">
+                            <a asp-controller="Portfolio" asp-action="Details" asp-route-id="@news.Id">
+                                <div class="img-scale">
+                                    <img src="@news.Image" alt="portfolio">
+                                </div>
+                            </a>
+                        </div>
+                        <a asp-controller="Portfolio" asp-action="Details" asp-route-id="@news.Id" class="text-none">
+                            <h4>@news.Title</h4>
+                        </a>
+                        <a asp-controller="Portfolio" asp-action="Details" asp-route-id="@news.Id" class="text-none">
+                            <p>@news.Description</p>
+                        </a>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <a asp-controller="Portfolio" asp-action="Details" asp-route-id="@news.Id" class="btn btn-category btn-b">Read more</a>
+                            <time>@news.ShowDate.ToString("MMM dd, yyyy, HH:mm", (CultureInfo)ViewBag.CultureInfo).ToCapitalize((CultureInfo)ViewBag.CultureInfo)</time>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <nav>
+                    <vc:pagination type="@PaginationType.Symmetric"
+                                   total-item-count="@Model.NewsCount"
+                                   shown-item-count="@ViewBag.ShownItemCount"
+                                   current-page="@ViewBag.CurrentPage"
+                                   shown-page-count="5"
+                                   categoryİd="0"></vc:pagination>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!--./portfolio-->

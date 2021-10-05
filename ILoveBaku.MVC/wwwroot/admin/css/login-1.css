@@ -1,0 +1,140 @@
+@import "../fonts/helvetica/stylesheet.css";
+
+body{
+    font-family: 'Helvetica',serif;
+}
+.login-page-container{
+    display: flex;
+}
+.login-page-img{
+    width: 50%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo{
+    align-self: center;
+}
+.login-page-main{
+    width: 50%;
+    height: 100vh;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.page-right-header{
+    font-size: 28px;
+    margin-bottom: 40px;
+}
+.field-title{
+    font-size: 15px;
+    color: #74798c;
+    margin-bottom: 15px;
+}
+
+.input-field{
+    background-color: white;
+    border: 1px solid #dfe2e6;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    width: 494px;
+    margin-bottom: 20px;
+}
+
+.input-field input{
+    border: none;
+    width: 100%;
+    font-size: 25px;
+    padding: 15px 0px;
+    margin-right: 2px;
+    outline: none;
+}
+
+.input-field input::placeholder{
+    font-size: 15px;
+    color: #dfe2e6;
+    font-weight: bold;
+}
+.field-icon{
+    padding: 0px 20px;
+}
+
+.show-password-btn{
+    padding-right: 20px;
+}
+
+.login-panel{
+    display: flex;
+    flex-direction: column;
+}
+
+.sign-in-btn{
+    padding: 20px 0px;
+    font-size: 17px;
+    border: none;
+    border-radius: 5px;
+    background-color:#ff0100;
+    color: white;
+    margin-top: 15px;
+}
+.additional-options{
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+.checkbox-container{
+    position: relative;
+    padding: 0px 30px;
+    color: #74798c;
+    font-size: 15px;
+}
+#remember{
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+.checkmark{
+    position: absolute;
+    top: -2px;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: transparent;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+}
+
+#remember:checked ~ .checkmark {
+    background-color: #ff0100;
+}
+
+.checkmark:after{
+    content: "";
+    position: absolute;
+    display: none;
+    left: 7px;
+    top: 3px;
+    width: 4px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+#remember:checked ~ .checkmark:after{
+    display: block;
+}
+.forgot-pass{
+    color: #ff0100;
+    text-decoration: none;
+    font-size: 15px;
+}

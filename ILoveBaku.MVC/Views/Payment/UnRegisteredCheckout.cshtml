@@ -1,0 +1,175 @@
+﻿@model CheckoutVM
+<!--start PageTitle -->
+<section class="section PageTitle">
+    <div class="container-fluid container-custom">
+        <div class="row">
+            <div class="col-12">
+                <h1>
+                    @Localizer["Ödəniş"]
+                </h1>
+            </div>
+        </div>
+    </div>
+</section>
+<!--./end PageTitle -->
+<!--start Checkout -->
+<section class="checkout py-sm-5 py-3">
+    <div class="container-fluid container-custom">
+        <div class="row justify-content-between">
+            <div class="col-xl-5 col-lg-4">
+                <h4 class="aside-title pl-0">
+                    @Localizer["Çatdırılma və Ödəniş"]
+                </h4>
+                <div class="row">
+                    <div class="col-lg-12 col-sm-4 form-group form-group-custom">
+                        <input id="name" type="text" class="form-control form-control-custom" value="" placeholder="@Localizer["Ad"]*">
+                    </div>
+                    <div class="col-lg-12 col-sm-4 form-group form-group-custom">
+                        <input id="surname" type="text" class="form-control form-control-custom" value="" placeholder="@Localizer["Soyad"]*">
+                    </div>
+                    <div class="col-lg-12 col-sm-4 form-group form-group-custom">
+                        <input id="phoneNumber" type="text" class="form-control form-control-custom" value="" placeholder="@Localizer["Telefon"]*">
+                    </div>
+                    <div class="col-lg-12 col-sm-4 form-group form-group-custom">
+                        <input id="email" type="email" class="form-control form-control-custom" value="" placeholder="@Localizer["E-mail"]*">
+                    </div>
+                    <div class="col-lg-6 col-sm-4 form-group form-group-custom">
+                        <select id="countries" class="form-control form-control-custom mr-1">
+                            <option value="0" selected disabled>@Localizer["Ölkə"]*</option>
+                            @foreach (var item in Model.Countries)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-lg-6 col-sm-4 form-group form-group-custom">
+                        <select id="cities" class="form-control form-control-custom mr-1">
+                            <option value="" selected disabled>@Localizer["Şəhər"]*</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-12 col-sm-4 form-group form-group-custom">
+                        <input id="zipcode" type="text" class="form-control form-control-custom" value="" placeholder="@Localizer["Poçt indeks"]">
+                    </div>
+                    <div class="col-lg-12 col-sm-4 form-group form-group-custom">
+                        <textarea id="address-address" name="" class="form-control form-control-custom resize"
+                                  cols="30" placeholder="@Localizer["Ünvan"]*" rows="10"></textarea>
+                    </div>
+                </div>
+
+                <div class="row" style="padding: 15px">
+                    <h4 class="aside-title pl-0 shipping-options-title">
+                        @Localizer["Ödəniş seçimləri"]
+                    </h4>
+                    <div class="shipping-options-wrapper">
+                        @foreach (var item in Model.PaymentTypes)
+                        {
+                            //if (item.Id != (int)ILoveBaku.Domain.Enums.PaymentType.WithCard)
+                            //{
+                                <div class="shipping-option-item">
+                                    <div class="shipping-option-item-box">
+                                        <label for="payment-option-@(item.Id)" class="payment-option-label">
+                                            @item.Name
+                                            <input id="payment-option-@(item.Id)" type="radio" name="payment-option" data-id="@item.Id" class="payment-option-btn payment-type">
+                                            <span class="payment-option-checkmark payment-type-checkmark"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            @*  }*@
+                        }
+                    </div>
+                </div>
+
+                <div class="row" style="padding: 15px">
+                    <div class="d-flex">
+                        <h4 class="aside-title pl-0 shipping-options-title d-flex align-items-center">
+                            @Localizer["Çatdırılma"]
+                            <div class="shipping-price">(100 AZN-dən yuxarı sifarişlərin çatdırılması ödənişsizdir)</div>
+                        </h4>
+
+                    </div>
+                    <div class="shipping-options-wrapper">
+                        <div class="shipping-option-item">
+                            <div class="shipping-option-item-box">
+                                <label for="today" class="payment-option-label">
+                                    @Localizer["Bu gün"]
+                                    <input id="today" type="radio" name="shipment-option" data-id="10" class="payment-option-btn">
+                                    <span class="payment-option-checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="shipping-price">(@ViewBag.Shipping AZN)</div>
+                        </div>
+                        <div class="shipping-option-item">
+                            <div class="shipping-option-item-box">
+                                <label for="tomorrow" class="payment-option-label">
+                                    @Localizer["Sabah"]
+                                    <input id="tomorrow" type="radio" name="shipment-option" data-id="20" class="payment-option-btn">
+                                    <span class="payment-option-checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="shipping-price">(@ViewBag.Shipping AZN)</div>
+                        </div>
+                        <div class="shipping-option-item">
+                            <div class="shipping-option-item-box shipping-option-item-select">
+                                <label for="any-day" class="payment-option-label">
+                                    @Localizer["Bir neçə gün"]
+                                    <input id="any-day" type="radio" name="shipment-option" data-id="30" class="payment-option-btn">
+                                    <span class="payment-option-checkmark"></span>
+                                </label>
+                                <input style="font-size:14px;" class="shipping-option-item-date" min="2021-01-06" type="date">
+                            </div>
+                            <div class="shipping-price">(@ViewBag.Shipping AZN)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-8 p-0 p-sm-3">
+                <div class="gray-box">
+                    <table class="table table-orders">
+                        <tbody>
+                            @foreach (CartDetailDto cartDetail in Model.Carts)
+                            {
+                                <tr>
+                                    <td>
+                                        <a asp-controller="Product" asp-action="Details" asp-route-productName="@cartDetail.RootName">
+                                            <div class="orders-product-detail clearfix">
+                                                <img src="@cartDetail.Image">
+                                                <p class="orders-product-name">@cartDetail.Name</p>
+                                            </div>
+                                        </a>
+                                    </td>
+                                    <td class="text-gray">@cartDetail.Count</td>
+                                    <td class="text-dark text-right">
+                                        @(cartDetail.Price * cartDetail.Count)<sup><i class="azn">M</i></sup>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <hr> @{ decimal totalPrice = Model.Carts.Sum(c => c.Price * c.Count); }
+                    <div class="total-amount d-flex align-items-center justify-content-between">
+                        <label for="total">@Localizer["Cəmi"]:</label>
+                        <span>@totalPrice <sup><i class="azn">M</i></sup> </span>
+                    </div>
+                    @if (Model.Carts.Count == 0)
+                    {
+                        <button type="submit" class="btn btn-add-card w-100 mt-4">@Localizer["Ödəniş et"]</button>
+                    }
+                    else
+                    {
+                        <form asp-controller="Payment" asp-action="PayUnRegistered" method="post">
+                            <button type="submit" id="submit-payment" class="btn btn-add-card w-100 mt-4">@Localizer["Ödəniş et"]</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--./end Checkout -->
+
+@section Scripts{
+    <script>
+    const today = @ViewBag.Shipping;
+    </script>
+    <script src="~/static/js/unRegisteredCheckout.js"></script>
+}

@@ -1,0 +1,144 @@
+@font-face {
+    font-family: 'Helvetica Neue Condensed';
+    src: url('HelveticaNeueCondensed-Heavy.woff2') format('woff2'),
+        url('HelveticaNeueCondensed-Heavy.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Helvetica Neue';
+    src: url('HelveticaNeue-Medium.woff2') format('woff2'),
+        url('HelveticaNeue-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Helvetica Neue Condensed';
+    src: url('HelveticaNeueCondensed-Light.woff2') format('woff2'),
+        url('HelveticaNeueCondensed-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Helvetica Neue Condensed';
+    src: url('HelveticaNeueCondensed-Medium.woff2') format('woff2'),
+        url('HelveticaNeueCondensed-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Helvetica Neue';
+    src: url('HelveticaNeue-Thin.woff2') format('woff2'),
+        url('HelveticaNeue-Thin.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Helvetica Neue';
+    src: url('HelveticaNeue.woff2') format('woff2'),
+        url('HelveticaNeue.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Helvetica Neue';
+    src: url('HelveticaNeue-BoldItalic.woff2') format('woff2'),
+        url('HelveticaNeue-BoldItalic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Helvetica Neue';
+    src: url('HelveticaNeue-Black.woff2') format('woff2'),
+        url('HelveticaNeue-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Helvetica Neue';
+    src: url('HelveticaNeue-LightItalic.woff2') format('woff2'),
+        url('HelveticaNeue-LightItalic.woff') format('woff');
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Helvetica Neue Condensed';
+    src: url('HelveticaNeueCondensed-Bold.woff2') format('woff2'),
+        url('HelveticaNeueCondensed-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Helvetica Neue Condensed';
+    src: url('HelveticaNeueCondensed-Thin.woff2') format('woff2'),
+        url('HelveticaNeueCondensed-Thin.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Helvetica Neue';
+    src: url('HelveticaNeue-ThinItalic.woff2') format('woff2'),
+        url('HelveticaNeue-ThinItalic.woff') format('woff');
+    font-weight: 100;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Helvetica Neue Condensed';
+    src: url('HelveticaNeueCondensed.woff2') format('woff2'),
+        url('HelveticaNeueCondensed.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Helvetica Neue';
+    src: url('HelveticaNeue-UltraLight.woff2') format('woff2'),
+        url('HelveticaNeue-UltraLight.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Helvetica Neue';
+    src: url('HelveticaNeue-Bold.woff2') format('woff2'),
+        url('HelveticaNeue-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Helvetica Neue';
+    src: url('HelveticaNeue-Light.woff2') format('woff2'),
+        url('HelveticaNeue-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Helvetica Neue';
+    src: url('HelveticaNeue-UltraLightItalic.woff2') format('woff2'),
+        url('HelveticaNeue-UltraLightItalic.woff') format('woff');
+    font-weight: 100;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Helvetica Neue';
+    src: url('HelveticaNeue-Italic.woff2') format('woff2'),
+        url('HelveticaNeue-Italic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+}
+

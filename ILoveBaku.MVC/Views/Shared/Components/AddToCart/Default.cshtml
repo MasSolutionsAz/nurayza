@@ -1,0 +1,63 @@
+﻿@model List<CartDetailDto>
+
+<div class="black-box basket-box py-5" style="height: 463px;">
+    <div class="container-custom min-vh-100">
+        <div class="row">
+            <div class="col-6">
+                <h4 class="aside-title">@Localizer["Səbət"]</h4>
+            </div>
+            <div class="col-6 text-right align-items-center d-flex justify-content-end">
+                <a class="hide-basket-box d-block mr-5"><img src="~/static/img/cancel.png" alt="icon"></a>
+            </div>
+        </div>
+        <div class="row p-0" style="overflow: auto;">
+            <div class="col-lg-12">
+                <table id="carts" class="table table-orders mt-2">
+                    <tbody>
+                        @foreach (CartDetailDto cartDetail in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="orders-product-detail align-items-center clearfix d-flex">
+                                        <img src="@cartDetail.Image">
+                                        <p class="orders-product-name">@cartDetail.Name</p>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div class="form-group mb-0 form-group-count d-inline-block">
+                                        <div class="d-flex">
+                                            <div class="count-box mr-lg-4 d-flex align-items-center">
+                                                <button class="decrease">-</button>
+                                                <input type="text" class="count-input" data-cartid="@cartDetail.Id" data-price="@cartDetail.Price" max="@cartDetail.StockCount" value="@cartDetail.Count">
+                                                <button class="increase">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="orders-product-price">
+                                    <small>@(cartDetail.Price * cartDetail.Count) </small><sup><i class="azn">M</i></sup>
+                                </td>
+                                <td>
+                                    <a class="delete-product" data-cartid="@cartDetail.Id"><img src="~/static/img/cross.png" alt="icon"></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row px-4">
+            <div class="col-lg-12">
+                <div class="total-amount px-4 d-flex align-items-center justify-content-between">
+                    <label for="total">@Localizer["Cəmi"]:</label>
+                    <span><small id="totalAmount">@Model.Sum(c => c.Price * c.Count)</small> <sup><i class="azn">M</i></sup> </span>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4 px-4">
+            <div class="col-md-12 clearfix">
+                <a id="checkout" asp-controller="Payment" asp-action="Checkout" class="btn btn-add-card float-right h-100">@Localizer["Ödəniş"]</a>
+            </div>
+        </div>
+    </div>
+</div>

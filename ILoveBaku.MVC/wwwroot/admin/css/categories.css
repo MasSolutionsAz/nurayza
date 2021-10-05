@@ -1,0 +1,145 @@
+@import "users.css";
+
+.categories-wrapper{
+    width: 100%;
+    background-color: white;
+    padding: 20px 30px;
+    margin-top: 20px;
+    height: 60vh;
+    overflow-y: scroll;
+}
+
+.categories-wrapper::-webkit-scrollbar{
+    width: 5px;
+}
+.categories-wrapper::-webkit-scrollbar-track{
+    border-radius: 5px;
+}
+.categories-wrapper::-webkit-scrollbar-thumb{
+    background-color: #d7d8df;
+    border-radius: 5px;
+}
+
+.expand-all-btn{
+    color: #fd6968;
+    text-decoration: underline;
+    font-size: 14px;
+}
+
+.categories-content{
+    padding: 17px 40px;
+}
+
+.categories-content-headers{
+    display: flex;
+    font-size: 11px;
+    font-weight: bold;
+    color: #74798c;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ececec;
+}
+.header-categories{
+    width: 100%;
+}
+
+.header-comments{
+    width: 8%;
+}
+
+.header-status{
+    width: 13%;
+}
+.header-edit{
+    width: 13%;
+}
+
+.clothes-category{
+
+}
+.clothes-category-main{
+    display: flex;
+    position: relative;
+    padding: 20px 0px;
+    border-bottom: 1px solid #ececec;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.category-subitems{
+    /*transition: ease-in 0.3s;*/
+}
+
+.single-subitem{
+    display: flex;
+    color: #bbbec7;
+    padding: 15px 0px;
+    border-bottom: 1px solid #ececec;
+}
+.subitem-name{
+    width: 85%;
+}
+/*.subitem-comment{
+    width: 40%;
+}
+
+.subitem-status{
+    width: 13%;
+}*/
+.subitem-edit-btn{
+    width: 12%;
+    color: #ff0100;
+    text-decoration: underline;
+}
+.collapse-btn{
+    position: absolute;
+    width:27px;
+    height:27px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid lightgrey;
+    border-radius: 100%;
+    left: -40px;
+}
+
+.invisible{
+    display: none;
+}
+
+.collapse-btn span{
+    margin-bottom: 4px;
+    color: #74798c;
+    margin-right: 1px;
+    font-size: 25px;
+}
+
+.collapse-minus{
+    margin-bottom: 3px;
+    margin-right: 0;
+}
+.clothes-title{
+    width: 74%;
+    font-weight: bold;
+        color: #000;
+}
+.select-category-btn{
+    width: 5%;
+}
+.categories-content i{
+    color:red;
+}
+/*Custom*/
+.select-category-btn a {
+    width: 27px;
+    height: 27px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #ff0100;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.single-subitem.child p{
+    margin-right:3%;
+}

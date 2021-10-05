@@ -1,0 +1,51 @@
+﻿@model LoginVM
+
+@if (!User.Identity.IsAuthenticated)
+{
+    <div class="modal fade" id="signInModal" tabindex="-1" role="dialog" aria-labelledby="signInModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center align-items-center flex-column">
+                    <h4 class="modal-title aside-title" id="signInModalLabel">@Localizer["Daxil ol"]</h4>
+                    @*<div class="d-flex align-items-center login-by-social">
+                        <a href="@Url.Action("ExternalLogin","Account",new { provider = "Facebook" })" class="external-login m-2">
+                            <img src="~/static/img/facebook-logo.png" alt="login facebook">
+                        </a>
+                        <span class="d-block m-2">/</span>
+                        <a href="@Url.Action("ExternalLogin","Account",new { provider = "Google" })" class="external-login m-2">
+                            <img src="~/static/img/google-logo.png" alt="login google">
+                        </a>
+                    </div>*@
+                </div>
+                @*<div class="or">
+                    <span>@Localizer["və ya"]</span>
+                </div>*@
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div id="loginFormValidation" class="text-danger"></div>
+                        <input type="hidden" name="captcha" id="captchaInput" />
+                        <div class="form-group form-group-custom">
+                            <input asp-for="Email" class="form-control form-control-custom" placeholder="E-mail">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group form-group-custom">
+                            <input asp-for="Password" class="form-control form-control-custom" placeholder="@Localizer["Şifrə"]">
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="form-group form-group-custom">
+                                <a modalname="#forgetModal">@Localizer["Şifrəni unutmusunuz?"]</a>
+                            </div>
+                            <div class="form-group form-group-custom">
+                                <button type="submit" class="btn btn-add-card">@Localizer["Daxil ol"]</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <p>@Localizer["Hesabınız yoxdur?"] <a modalname="#signUpModal">@Localizer["Qeydiyyat"]</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+}

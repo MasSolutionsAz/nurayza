@@ -1,0 +1,92 @@
+﻿@model RegisterVM
+
+@if (!User.Identity.IsAuthenticated)
+{
+    <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog" aria-labelledby="signUpModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center align-items-center flex-column">
+                    <h4 class="modal-title aside-title" id="signUpModalLabel">@Localizer["Qeydiyyat"]</h4>
+                    @*<div class="d-flex align-items-center login-by-social">
+                        <a href="#" class="m-2">
+                            <img src="~/static/img/facebook-logo.png" alt="login facebook">
+                        </a>
+                        <span class="d-block m-2">/</span>
+                        <a href="#" class="m-2">
+                            <img src="~/static/img/google-logo.png" alt="login google">
+                        </a>
+                    </div>*@
+                </div>
+                @*<div class="or">
+                    <span>or</span>
+                </div>*@
+                <div class="modal-body">
+                    <form id="registerForm">
+                        <div id="registerFormValidation" class="text-danger"></div>
+                        <input type="hidden" name="captchaRegister" id="captchaInputRegister" />
+                        <div class="form-group form-group-custom">
+                            <input asp-for="Name" class="form-control form-control-custom" placeholder="@Localizer["Ad"]">
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group form-group-custom">
+                            <input asp-for="Surname" class="form-control form-control-custom" placeholder="@Localizer["Soyad"]">
+                            <span asp-validation-for="Surname" class="text-danger"></span>
+                        </div>
+                        <div class="form-group form-group-custom">
+                            <input asp-for="RegisterEmail" class="form-control form-control-custom" placeholder="@Localizer["E-mail"]">
+                            <span asp-validation-for="RegisterEmail" class="text-danger"></span>
+                        </div>
+                        <div class="form-group form-group-custom">
+                            <input asp-for="RegisterPassword" class="form-control form-control-custom" placeholder="@Localizer["Şifrə"]">
+                            <span asp-validation-for="RegisterPassword" class="text-danger"></span>
+                        </div>
+                        <div class="form-group form-group-custom">
+                            <input asp-for="ConfirmPassword" class="form-control form-control-custom" placeholder="@Localizer["Təkrar şifrə"]">
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                        @*<div class="d-flex align-items-center justify-content-between">
+            <div class="form-group form-group-custom min-width mr-1">
+                <select id="birthDay" asp-for="BirthDate.Day" class="form-control form-control-custom">
+                    <option value="0" selected>Day</option>
+                </select>
+                <span asp-validation-for="BirthDate.Day" class="text-danger"></span>
+            </div>
+            <div class="form-group form-group-custom min-width mr-1">
+                <select id="birthMonth" asp-for="BirthDate.Month" class="form-control form-control-custom">
+                    <option value="0" selected>Month</option>
+                </select>
+                <span asp-validation-for="BirthDate.Month" class="text-danger"></span>
+            </div>
+            <div class="form-group form-group-custom min-width">
+                <select id="birthYear" asp-for="BirthDate.Year" class="form-control form-control-custom">
+                    <option value="0" selected>Year</option>
+                </select>
+                <span asp-validation-for="BirthDate.Year" class="text-danger"></span>
+            </div>
+        </div>*@
+                        @*<div class="form-group form-group-custom min-width">
+            <select name="GenderId" class="form-control form-control-custom">
+                <option value="">Male</option>
+                <option value="">Female</option>
+            </select>
+            <span name="GenderId" class="text-danger"></span>
+        </div>*@
+                        <div class="modal-footer justify-content-center">
+                            <p>
+                                @Localizer["Qeydiyyatdan keçərkən"] <br> <a href="#">@Localizer["İstifadəçi qaydaları"] </a> @Localizer["və"] <a href="#">@Localizer["Gizlilik şərtlərini qəbul edirəm"].</a>
+                            </p>
+                        </div>
+                        <div class="form-group form-group-custom text-center">
+                            <button type="submit" class="btn btn-add-card">@Localizer["Qeydiyyat"]</button>
+                        </div>
+                        <div class="form-group form-group-custom">
+                            <div class="modal-footer justify-content-center">
+                                <p>@Localizer["Hesabınız var?"]<a modalname="#signInModal">@Localizer["Daxil ol"]</a></p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,40 @@
+﻿@model Pagination
+@if (Model is ClassicPagination)
+{
+    ClassicPagination pagination = (ClassicPagination)Model;
+    @if (pagination.TotalPageCount > 1)
+    {
+        <ul class="pagination pagination-custom d-flex justify-content-center">
+            @for (int i = 1; i <= pagination.TotalPageCount; i++)
+            {
+                string active = (i == pagination.CurrentPage) ? "page-item disabled active" : "page-item";
+                <li class="@active"><a asp-controller="Product" asp-action="List" asp-route-categoryId="@ViewBag.CategoryId" asp-route-page="@i" class="page-link">@i</a></li>
+            }
+        </ul>
+    }
+}
+else if (Model is SymmetricPagination)
+{
+    SymmetricPagination pagination = (SymmetricPagination)Model;
+
+    @if (pagination.TotalPageCount > 1)
+    {
+        <ul class="pagination pagination-custom d-flex justify-content-center">
+            @if (pagination.CurrentPage >= pagination.ShownPageCount)
+            {
+                <li class="page-item"><a asp-controller="Product" asp-action="List" asp-route-categoryId="@ViewBag.CategoryId" asp-route-page="1" class="page-link">1</a></li>
+                <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+            }
+            @for (int i = pagination.StartPage; i <= pagination.EndPage; i++)
+            {
+                string active = (i == pagination.CurrentPage) ? "page-item disabled active" : "page-item";
+                <li class="@active"><a asp-controller="Product" asp-action="List" asp-route-categoryId="@ViewBag.CategoryId" asp-route-page="@i" class="page-link">@i</a></li>
+            }
+            @if (pagination.CurrentPage <= pagination.TotalPageCount - pagination.ShownPageCount + 1)
+            {
+                <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
+                <li class="page-item"><a asp-controller="Product" asp-action="List" asp-route-categoryId="@ViewBag.CategoryId" asp-route-page="@pagination.TotalPageCount" class="page-link">@pagination.TotalPageCount</a></li>
+            }
+        </ul>
+    }
+}

@@ -1,0 +1,12 @@
+﻿<div class="dropdown-menu p-0" aria-labelledby="signInDropdown">
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <a class="dropdown-item" data-toggle="modal" data-target="#signInModal" href="#">@Localizer["Daxil ol"]</a>
+        <a class="dropdown-item" data-toggle="modal" data-target="#signUpModal" href="#">@Localizer["Qeydiyyat"]</a>
+    }
+    else
+    {
+        <a asp-controller="Account" asp-action="Profile" class="dropdown-item">@Localizer["Hesab"]</a>
+        <a asp-controller="Account" asp-action="Logout" class="dropdown-item">@Localizer["Çıxış"]</a>
+    }
+</div>

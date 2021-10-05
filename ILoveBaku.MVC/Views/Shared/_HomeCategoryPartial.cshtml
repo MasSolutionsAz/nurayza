@@ -1,0 +1,16 @@
+﻿@model ILoveBaku.Application.CQRS.Category.Queries.GetCategoryChildrenList.CategoryChildrenDto
+<div class="col-md-8 main-page-category-item">
+    <div class="category-item">
+        <a asp-controller="Product" asp-action="List" asp-route-categoryName="@Model.Title.ToParameterizingRoute()">
+            <div class="img-scale">
+                <img class="category-img" src="@Model.Image" alt="category">
+            </div>
+        </a>
+        <div class="category-body">
+            <h4 class="category-name">
+                @Model.Name
+            </h4>
+            <a asp-controller="Product" asp-action="List" asp-route-categoryName="@Model.Title.ToParameterizingRoute()" class="btn btn-category btn-b">@Localizer["Kateqoriyanı aç"]</a>
+        </div>
+    </div>
+</div>

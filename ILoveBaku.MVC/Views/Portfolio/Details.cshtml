@@ -1,0 +1,87 @@
+﻿@model NewsDetailsVM
+<!--portfolio-->
+<section class="portfolio-inner">
+    <div class="container-fluid container-custom">
+        <div class="row">
+            <div class="col-xl-8 col-lg-9 col-md-9">
+                <h3>@Model.News.Title</h3>
+                <time><img src="~/static/img/calendar.png" alt="icon">@Model.News.ShowDate.ToString("MMM dd, yyyy, HH:mm", (CultureInfo)ViewBag.CultureInfo).ToCapitalize((CultureInfo)ViewBag.CultureInfo)</time>
+                @Html.Raw(Model.News.ContentHTML)
+                <div class="d-none">
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+                        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+                        anim id est laborum.
+                    </p>
+                    <img src="~/static/img/slider3.png" alt="" class="img-fluid w-100 mb-2">
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+                        ut
+                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                        laboris nisi
+                        ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                        velit esse
+                        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+                        in culpa
+                        qui officia deserunt mollit
+                    </p>
+                    <img src="~/static/img/port1.png" alt="" class="img-fluid w-100 mb-2">
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+                        ut labore et dolore magna aliqua.
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                        commodo consequat. Duis aute irure
+                        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                        Excepteur sint occaecat cupidatat non
+                        proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis
+                        unde omnis iste natus error sit
+                        voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo
+                        inventore veritatis et quasi architecto
+                        beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur
+                        aut odit aut fugit, sed quia consequuntur
+                        magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui
+                        dolorem ipsum quia dolor sit amet,
+                        consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et
+                        dolore magnam aliquam quaerat voluptatem.
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+                        ut labore et dolore magna aliqua. Ut enim ad
+                        minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                        consequat. Duis aute irure dolor in reprehenderit in
+                        voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                        cupidatat non proident, sunt in culpa qui officia deserunt
+                        mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+                        accusantium doloremque
+                    </p>
+                </div>
+                <ul class="socials d-flex p-0 align-items-center">
+                    <li class="mr-3"><a href="#"><img src="~/static/img/facebook.png" alt="facebook"></a></li>
+                    <li class="mr-3"><a href="#"><img src="~/static/img/twitter.png" alt="facebook"></a></li>
+                    <li class="mr-3"><a href="#"><img src="~/static/img/google-plus.png" alt="facebook"></a></li>
+                </ul>
+            </div>
+
+            <div class="col-xl-4 col-lg-3 col-md-3 p-1 p-md-3">
+                <div class="similar-posts">
+                    <p class="title"><i>@Localizer["Oxşar postlar"]</i> @Localizer["xoşunuza"] <br> @Localizer["gələ bilər"]</p>
+
+                    <ul class="posts-list p-0">
+                        @foreach (NewsDto news in Model.RelatedNews.Where(n=>n.Id != Model.News.Id))
+                        {
+                            <li class="clearfix">
+                                <a asp-controller="Portfolio" asp-action="Details" asp-route-id="@news.Id" class="d-xl-block d-block d-sm-flex flex-wrap">
+                                    <img src="@news.Image" alt="post">
+                                    <p>@news.Title</p>
+                                    <time>@news.ShowDate.ToString("MMM dd, yyyy, HH:mm", (CultureInfo)ViewBag.CultureInfo).ToCapitalize((CultureInfo)ViewBag.CultureInfo)</time>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--./portfolio-->

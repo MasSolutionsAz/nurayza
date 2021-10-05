@@ -1,0 +1,121 @@
+@import "user-info.css";
+
+.user-info-content{
+    display: flex;
+}
+.burger-button{
+    height: 100%;
+}
+.user-info-title{
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 30px;
+}
+.address-wrapper{
+    margin-left: 80px;
+}
+.user-info-items-wrapper{
+    margin-bottom: 30px;
+}
+.users-table-wrapper{
+    margin-top: 0;
+}
+.products-table-wrapper{
+    width: 100%;
+    background-color: white;
+    padding: 20px 30px;
+    margin-top: 20px;
+    height: 35vh;
+    overflow-y: scroll;
+}
+.products-table{
+    width: 100%;
+}
+.main-body {
+    display: block;
+}
+.select-pack-wrapper{
+    display: inline-block;
+}
+.choose-package-buttons-wrapper{
+    margin-top: 20px;
+}
+.select-pack-input-wrapper{
+    position: relative;
+
+
+}
+.select-pack-input{
+    width: 195px;
+    padding: 12px 19px;
+    border: 1px solid lightgrey;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #20253a;
+    outline: none;
+}
+.select-pack-input-wrapper:after{
+    content: '';
+    border-top: 5px solid #74798c;
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+}
+.pack-select-dropdown-menu{
+    width: 195px;
+    background-color: #fff;
+    border: 1px solid lightgrey;
+    border-radius: 10px;
+    display: none;
+}
+.pack-select-dropdown-item{
+    padding: 12px 19px;
+    color: #20253a;
+    cursor: pointer;
+}
+.pack-select-dropdown-item:hover{
+    background-color: lightgrey;
+}
+.select-pack{
+    width: 195px;
+    padding: 12px 19px;
+    border: 1px solid lightgrey;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #20253a;
+    outline: none;
+}
+.add-news-btn {
+    background-color: #ff0100;
+    text-align: center;
+    padding: 15px 0px;
+    width: 195px;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    position: relative;
+    font-size: 14px;
+    align-self: flex-start;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.add-news-btn:after {
+    content: '+';
+    position: absolute;
+    font-size: 30px;
+    top: 6px;
+    left: 23px;
+}
+.total-price-container{
+    display: inline-block;
+    margin-left: 50px;
+    font-weight: bold;
+}
+.total{
+    margin-right: 5px;
+}
